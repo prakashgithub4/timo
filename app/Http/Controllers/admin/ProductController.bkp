@@ -1,0 +1,139 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+
+use App\Models\Product;
+use App\Imports\ProductsImport;
+
+use Maatwebsite\Excel\Facades\Excel;
+use App\Repositories\ProductRepository;
+use App\Exports\ProductsExport;
+
+
+class ProductController extends Controller
+{
+  //
+  public $product = null;
+  public function __construct(ProductRepository $product)
+  {
+    $this->middleware('admin');
+    $this->product = $product;
+  }
+
+  public function add()
+  {
+
+    return view('admin.products.add');
+  }
+  public function save(Request $request)
+  {
+    $request->validate([
+      //'file' => ['required', 'mimes:csv,xls', 'max:2048'],
+    ]);
+    Excel::import(new ProductsImport, $request->file('file'));
+    \DB::select('call removenull()');
+    return redirect()->back()->with('success', 'Products Uploaded Successfully');
+  }
+  public function download()
+  {
+    return Excel::download(new ProductsExport, date('Y-m-d').'_mdjInventory_Retail.xlsx');
+  }
+  public function products()
+  {
+    $products = $this->product->_getProducts();
+    return view('admin.products.products', compact('products'));
+  }
+  public function allproducts(Request $request)
+  {
+    $columns = array(
+      0 => 'id',
+      1 =>'Handle',
+      2 =>'Code',
+      3 =>'Title',
+      4 =>'Vendor',
+      5 =>'Type',
+      6=> 'Tags',
+      7=>'Published',
+      8=>'Gender',
+      9=>'Image',
+      10=>'Action'
+    );
+
+    $totalData = Product::count();
+
+    $totalFiltered = $totalData;
+
+    $limit = $request->input('length');
+    $start = $request->input('start');
+    $order = $columns[$request->input('order.0.column')];
+    $dir = $request->input('order.0.dir');
+
+    if (empty($request->input('search.value'))) {
+      $products = Product::offset($start)
+        ->limit($limit)
+        ->orderBy($order, $dir)
+        ->get();
+    } else {
+      $search = $request->input('search.value');
+
+      $products =  Product::where('id', 'LIKE', "%{$search}%")
+        ->orWhere('title', 'LIKE', "%{$search}%")
+        ->offset($start)
+        ->limit($limit)
+        ->orderBy($order, $dir)
+        ->get();
+
+      $totalFiltered = Product::where('id', 'LIKE', "%{$search}%")
+        ->orWhere('title', 'LIKE', "%{$search}%")
+        ->count();
+    }
+
+    $data = array();
+    if (!empty($products)) {
+      foreach ($products as $key=>$product) {
+       // $show =  route('posts.show', $post->id);
+       // $edit =  route('posts.edit', $post->id);
+        $publish_status = ($product->published == 'TRUE')?1:0;
+        $nestedData['id'] =  $key+1;
+        $nestedData['handle'] = $product->handle;
+        $nestedData['code'] = $product->variant_SKU;
+        $nestedData['title'] = $product->title;
+        $nestedData['vendor'] = $product->vendor;
+        $nestedData['type'] = $product->type;
+        $nestedData['tags'] = $product->tags;
+        $nestedData['published'] = "<button class='btn btn-info' id='published_".$product->id."' onclick='ispublished(".$product->id.",".$publish_status.")'>".$product->published."</button>";
+        $nestedData['gender'] = $product->gender;
+        $nestedData['image_src'] ="<img src='".$product->image_src."' height='100' width='100'>";
+        $nestedData['options'] = "&nbsp;";
+        $data[] = $nestedData;
+      }
+    }
+
+    $json_data = array(
+      "draw"            => intval($request->input('draw')),
+      "recordsTotal"    => intval($totalData),
+      "recordsFiltered" => intval($totalFiltered),
+      "data"            => $data
+    );
+
+    echo json_encode($json_data);
+  }
+
+  public function changepublishedstatus($id,$status)
+  {
+   
+    if($status  == 1)
+    {
+      $ispublishd = 'FALSE';
+    }
+    else
+    {
+      $ispublishd = 'TRUE';
+    }
+    $status = $this->product->_publish_status($id,$ispublishd);
+    echo $ispublishd; 
+  }
+}
