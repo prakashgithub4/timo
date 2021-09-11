@@ -212,6 +212,31 @@ if(!function_exists('price_rang'))
     }
 }
 
+if(!function_exists('count_compares'))
+{
+    function count_compares($product_id)
+    {
+        $userdata = \Auth::user();
+        if(!empty($userdata))
+        {
+          $compare = \App\Models\Compair::where('user_id',$userdata->id)->where('product_id',$product_id)->count();
+            if($compare > 0)
+            {
+              return 1;
+            }
+            else
+            {
+              return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+       
+    }
+}
+
 
 
 ?>

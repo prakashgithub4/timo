@@ -204,6 +204,11 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
    Route::post('cart/remove','CartController@removecart')->name('remove.cart');
    Route::post('cart/upadate','CartController@updatecart')->name('update.cart');
    Route::post('cart/user/update','CartController@updateuseridintocart')->name('update.user.cart');
+   /** coupon code**/
+   Route::post('coupon/apply','CartController@cuponcode_apply')->name('coupon.apply');
+   Route::post('coupon/update','CartController@checkexpiration')->name('coupon.auto');
+   Route::post('coupon/remove','CartController@removecoupon')->name('coupon.remove');
+
    /** My accounts*/
    Route::get('account/settings/{slug?}','ProfileController@myaccount')->name('user.account');
    Route::post('account/update','ProfileController@updateprofile')->name('account.update');
@@ -216,11 +221,5 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
    Route::get('compair/','CompairController@index')->middleware('customer')->name('compair');
    Route::post('compair/add','CompairController@addtocmpair')->name('compair.add');
    Route::post('compair/remove','CompairController@remove_compare')->name('compair.remove');
-
-   /** coupon code**/
-   Route::post('coupon/apply','CartController@cuponcode_apply')->name('coupon.apply');
-   
-
-
 
 });

@@ -220,7 +220,7 @@
                                    let calwish = Number(wishcount) + 1;
                                     $("#wiscount").val(calwish);
                                    $("#wishlistcount").text(calwish);
-                                   $("#wish_"+product_id).addClass("addwish");
+                                   $("#wish_"+product_id).addClass("added_btn");
                                    $("#wish_"+product_id).attr("title","Added to Wishlist");
                                }
                                else if(response == 3)
@@ -575,6 +575,8 @@
                     }
 
                     $("#cart").html(html);
+                    $("#cart_"+id).removeClass('added_btn');
+                    $("#cart_"+id).attr("title",'Add to Cart');
                     
                 }
 
@@ -661,6 +663,8 @@
 
                         $("#cart").html(html);
                         $('.mini_cart').addClass("active");
+                        $("#cart_"+p_id).addClass('added_btn');
+                        $("#cart_"+p_id).attr("title",'Go to Cart');
                     }
 
                 }
@@ -687,6 +691,8 @@
                         icon: 'success',
                         position: 'top-right'
                     });
+                    $("#compare_"+product_id).addClass('added_btn');
+                    $("#compare_"+product_id).attr('title','Compared');
                }
                else
                {

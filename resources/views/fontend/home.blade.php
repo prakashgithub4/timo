@@ -134,11 +134,11 @@ Home
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>
-                                                        <li><a href="javascript:addwishlist({{$item->id}})" id="wish_{{$item->id}}" title="{{($item->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($item->product_wish_list_count > 0) ? 'addwish':''}}"><span
+                                                        <li><a href="javascript:addwishlist({{$item->id}})" id="wish_{{$item->id}}" title="{{($item->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($item->product_wish_list_count > 0) ? 'added_btn':''}}"><span
                                                                     class="icon icon-Heart"></span></a></li>
-                                                        <li  class="add_to_cart {{($item->isCart > 0) ? 'addcart' : ''}}"><a class="added_btn" href="javascript:add_to_cart({{$item->id}})" id="cart_{{$item->id}}" title="{{($item->isCart > 0) ?'Go to Cart':'Add to cart'}}">add to 
+                                                        <li  class="add_to_cart "><a  class="{{($item->isCart > 0) ? 'added_btn' : ''}}" href="javascript:add_to_cart({{$item->id}})" id="cart_{{$item->id}}" title="{{($item->isCart > 0) ? 'Go to Cart':'Add to cart'}}">add to 
                                                                 cart</a></li>
-                                                        <li><a href="javascript:compair({{$item->id}})" title="compare"><i
+                                                        <li><a href="javascript:compair({{$item->id}})" id="compare_{{$item->id}}" title="{{($item->isCompare > 0) ? 'Compared' :'Compare'}}" class="{{($item->isCompare > 0) ? 'added_btn' :''}}"><i
                                                                     class="ion-ios-settings-strong"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -258,11 +258,11 @@ Home
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>
-                                                        <li><a href="javascript:addwishlist({{$item->id}})" id="wish_{{$item->id}}" class="{{($item->product_wish_list_count > 0) ? 'addwish':''}}" title="{{($item->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}"><span
+                                                        <li><a href="javascript:addwishlist({{$item->id}})" id="wish_{{$item->id}}" title="{{($item->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($item->product_wish_list_count > 0) ? 'added_btn':''}}"><span
                                                                     class="icon icon-Heart"></span></a></li>
-                                                        <li class="add_to_cart {{($item->isCart == 1) ? 'addcart' : ''}}"><a href="javascript:add_to_cart({{$item->id}})" id="cart_{{$item->id}}" title="{{($item->isCart > 0) ?'Go to Cart':'Add to cart'}}">add to
+                                                        <li  class="add_to_cart "><a  class="{{($item->isCart > 0) ? 'added_btn' : ''}}" href="javascript:add_to_cart({{$item->id}})" id="cart_{{$item->id}}" title="{{($item->isCart > 0) ? 'Go to Cart':'Add to cart'}}">add to 
                                                                 cart</a></li>
-                                                        <li><a href="#" title="compare"><i
+                                                        <li><a href="javascript:compair({{$item->id}})" id="compare_{{$item->id}}" title="{{($item->isCompare > 0) ? 'Compared' :'Compare'}}" class="{{($item->isCompare > 0) ? 'added_btn' :''}}"><i
                                                                     class="ion-ios-settings-strong"></i></a></li>
                                                     </ul>
                                                 </div>

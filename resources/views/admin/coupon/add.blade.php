@@ -42,7 +42,7 @@
                                         <!-- your steps content here -->
                                         <div id="logins-part" class="content" role="tabpanel"
                                             aria-labelledby="logins-part-trigger">
-                                            <div class="form-group">
+                                            {{-- <div class="form-group">
                                                 <label for="name">{{ __('Product') }} 
                                                     <!-- <span style='color:red'>*</span> -->
                                                     </label>
@@ -56,7 +56,7 @@
                                                 @error('product')
                                                     <small style="color:red">{{ $message }}</small>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
                                              <div class="form-group">
                                                 <label for="name">{{ __('User') }} 
@@ -131,8 +131,8 @@
                                                     <select name="status" class="form-control" required>
                                                         
                                                         <option selected value="pending">Pending</option>
-                                                        <option {{@$coupon->status == 'apply' ? 'selected':''}} value="inactive">Apply</option>
-                                                        <option {{@$coupon->status == 'expired' ? 'selected':''}} value="inactive">Expired</option>
+                                                        <option {{@$coupon->status == 'apply' ? 'selected':''}} value="apply">Apply</option>
+                                                        <option {{@$coupon->status == 'expired' ? 'selected':''}} value="expired">Expired</option>
                                                     </select>
                                                 @error('status')
                                                     <small style="color:red">{{ $message }}</small>
