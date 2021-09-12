@@ -83,6 +83,7 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::post('product/all','ProductController@allproducts')->name('admin.product.all');
    Route::get('products/export','ProductController@download')->name('admin.products.export');
    Route::get('product/published/status/{id}/{status}','ProductController@changepublishedstatus');
+   Route::get('product/ispurchased','ProductController@changeispurchasestatus')->name('admin.ispurchase');
    /** CONTACT  */
    Route::get('contact','ContactController@index')->name('admin.contact');
    Route::post('contact/save','ContactController@save')->name('admin.contact.save');
@@ -129,6 +130,7 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::get('product/galleries/add/{product_id}','GalleryController@add')->name('admin.gallery.add');
    Route::post('product/galleries/save','GalleryController@save')->name('admin.gallery.save');
    Route::get('product/galleries/delete/{id}/{product_id}','GalleryController@delete')->name('admin.gallery.delete');
+   
    /** Gift **/
    Route::get('category/gifts/','CategoryController@gifts')->name('admin.gifts');
    Route::get('category/gifts/add','CategoryController@addgift')->name('admin.add.gifts');

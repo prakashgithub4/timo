@@ -36,19 +36,29 @@
                                         value="{{$product_id}}" />
                                     <div class="bs-stepper-content">
                                         <!-- your steps content here -->
-                                        <div id="logins-part" class="content" role="tabpanel"
+                                        <div id="logins-part" class="content addmore" role="tabpanel"
                                             aria-labelledby="logins-part-trigger">
-                                          
+                                            
                                             <div class="form-group">
-                                                <label for="name">{{ __('Image') }}
-                                                    <input type="file" name="image" class="form-control"
+                                               <div class="row">
+                                                    <div class="col-md-4">
+                                                        <button type="button" class="btn btn-success" onclick="addmore()">+</button>
+                                                    </div>
+                                                   <div class="col-md-4">
+                                                      <label for="name">{{ __('Image') }}</label>
+                                                    <input type="file" name="image[]" class="form-control"
                                                         id="exampleInputEmail1" onchange='openFile(event)' placeholder="Name"
                                                         value="{{ isset($getColorbyId) ? $getColorbyId->name : '' }}"
                                                         required />
-                                                        <img src='{{asset('public/uploads/category')}}/{{isset($getCategorybyid) ? $getCategorybyid->image : null }}' id='output' style="height:100px; width:100px; display:{{ isset($getCategorybyid->image) ? 'block' : 'none' }}">
-                                                    @error('image')
+                                                        {{-- <img src='{{asset('public/uploads/category')}}/{{isset($getCategorybyid) ? $getCategorybyid->image : null }}' class='output' style="height:100px; width:100px; display:{{ isset($getCategorybyid->image) ? 'block' : 'none' }}"> --}}
+                                                    {{-- @error('image')
                                                         <small style="color:red">{{ $message }}</small>
-                                                    @enderror
+                                                    @enderror --}}
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                    
+                                                </div>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -74,31 +84,22 @@
     <!-- /.content -->
 @endsection
 @section('script')
+    
     <script>
-        function createslug(value)
-        {
-            let getValue = value.toLowerCase().replace(/ /g,'-').replace(/[^\w-]+/g,'');
-            $("#slug").val(getValue);
-          // alert(getValue);
-        }
-    </script>
-    <script>
-        var openFile = function(file) {
-            var input = file.target;
-            var reader = new FileReader();
-            reader.onload = function() {
-                var dataURL = reader.result;
-                var output = document.getElementById('output');
-                output.src = dataURL;
-                $("#output").css("display","block");
-            };
-            reader.readAsDataURL(input.files[0]);
-        };
+        // var openFile = function(file) {
+        //     var input = file.target;
+        //     var reader = new FileReader();
+        //     reader.onload = function() {
+        //         var dataURL = reader.result;
+        //         var output = document.getElementsByClassName('output');
+        //         output.src = dataURL;
+        //         $(".output").css("display","block");
+        //     };
+        //     reader.readAsDataURL(input.files[0]);
+        // };
     </script>
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ckeditor').ckeditor();
-        });
+       
         $(function() {
 
             $('#myform').validate({
@@ -144,5 +145,47 @@
                 }
             });
         });
+    </script>
+    <script>
+        var count = 1;
+        function addmore()
+        {
+          if(count <= 5)
+          {
+            $('.addmore').append(`<div class="form-group" id="remove_${count}">
+                                               <div class="row">
+                                                    <div class="col-md-4">
+                                                        
+                                                    </div>
+                                                   <div class="col-md-4">
+                                                      <label for="name">{{ __('Image') }}</label>
+                                                    <input type="file" name="image[]" class="form-control"
+                                                        id="exampleInputEmail1" onchange='openFile(event)' placeholder="Name"
+                                                        value=""
+                                                        required />
+                                                  </div>
+                                                  <div class="col-md-4">
+                                                    <button type="button" class="btn btn-danger" onclick="remove(${count})">-</button>
+                                                </div>
+                                                </div>
+                                            </div>`);
+          }
+          else
+          {
+            $.toast({
+                        heading: 'error',
+                        text: 'Cant add more image',
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+          }
+          
+                 count ++;
+
+        }
+        function remove(id)
+        {
+          $("#remove_"+id).remove();
+        }
     </script>
 @endsection

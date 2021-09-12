@@ -306,30 +306,30 @@ Home
                     <div class="product_area ">
                         <div class="product_container bottom">
                             <div class="custom-row product_row1">
+                                @foreach($purchased_product as $item)
+                                @php $price = price_rang($item->id); @endphp
                                 <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">
-                                            <a class="primary_img" href="#"><img
-                                                    src="{{ asset('assets/fontend/img/product/product6.jpg') }}"
+                                            <a class="primary_img" href="javscript:void(0)"><img
+                                                    src="{{ (empty($item->image_src)) ? asset('assets/fontend/img/product/product16.jpg') : $item->image_src }}"
                                                     alt=""></a>
-                                            <a class="secondary_img" href="#"><img
-                                                    src="{{ asset('assets/fontend/img/product/product7.jpg') }}"
+                                            <a class="secondary_img" href="{{route('product',$item->id)}}"><img
+                                                    src="{{(@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a>
                                             <div class="quick_button">
-                                                <a href="#" data-toggle="modal" data-target="#modal_box"
-                                                    data-placement="top" data-original-title="quick view"> quick view</a>
+                                                <a href="#"  onclick="showquickview({{$item->id}})"> quick view</a>
                                             </div>
                                         </div>
                                         <div class="product_content">
                                             <div class="tag_cate">
-                                                <a href="#">Clothing,</a>
-                                                <a href="#">Potato chips</a>
+                                                <a href="#">{{$item->type}}</a>
                                             </div>
-                                            <h3><a href="#">Aliquam furniture</a></h3>
-                                            <span class="old_price">$86.00</span>
-                                            <span class="current_price">$60.00</span>
+                                            <h3><a href="#">{{$item->seo_title}}</a></h3>
+                                            <span class="old_price">${{number_format($price['old_price'],2)}}</span>
+                                            <span class="current_price">${{number_format($price['current_price'],2)}}</span>
                                             <div class="product_hover">
-                                                <div class="product_ratings">
+                                                <!-- <div class="product_ratings">
                                                     <ul>
                                                         <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
                                                         <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
@@ -337,19 +337,17 @@ Home
                                                         <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
                                                         <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
                                                     </ul>
-                                                </div>
+                                                </div> -->
                                                 <div class="product_desc">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                                                        posuere metus vitae </p>
+                                                    <p>{{$item->seo_description}} </p>
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>
-                                                        <li><a href="#" data-placement="top" title="Add to Wishlist"
-                                                                data-toggle="tooltip"><span
+                                                        <li><a href="javascript:addwishlist({{$item->id}})" id="wish_{{$item->id}}" title="{{($item->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($item->product_wish_list_count > 0) ? 'added_btn':''}}"><span
                                                                     class="icon icon-Heart"></span></a></li>
-                                                        <li class="add_to_cart"><a href="#" title="add to cart">add to
+                                                        <li  class="add_to_cart "><a  class="{{($item->isCart > 0) ? 'added_btn' : ''}}" href="javascript:add_to_cart({{$item->id}})" id="cart_{{$item->id}}" title="{{($item->isCart > 0) ? 'Go to Cart':'Add to cart'}}">add to 
                                                                 cart</a></li>
-                                                        <li><a href="#" title="compare"><i
+                                                        <li><a href="javascript:compair({{$item->id}})" id="compare_{{$item->id}}" title="{{($item->isCompare > 0) ? 'Compared' :'Compare'}}" class="{{($item->isCompare > 0) ? 'added_btn' :''}}"><i
                                                                     class="ion-ios-settings-strong"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -357,7 +355,9 @@ Home
                                         </div>
                                     </div>
                                 </div>
-                                <div class="custom-col-5">
+                                @endforeach
+
+                                {{-- <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">
                                             <a class="primary_img" href="#"><img
@@ -896,7 +896,7 @@ Home
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>

@@ -144,14 +144,16 @@ class CartController extends Controller
   {
     $userdata = \Auth::user();
     if (!empty($userdata)) {
-      $device_id = $_COOKIE['device'];
-      $carts = Cart::where('device_id', $device_id)->get();
-      foreach ($carts as $cart) {
+      if (isset($_COOKIE['device'])) {
+        $device_id = $_COOKIE['device'];
+        $carts = Cart::where('device_id', $device_id)->get();
+        foreach ($carts as $cart) {
 
-        $updatecart = Cart::find($cart->id);
-        $updatecart->user_id = $userdata->id;
-        $updatecart->device_id = Null;
-        $updatecart->save();
+          $updatecart = Cart::find($cart->id);
+          $updatecart->user_id = $userdata->id;
+          $updatecart->device_id = Null;
+          $updatecart->save();
+        }
       }
       $cartswithuser = Cart::where('user_id', $userdata->id)->get();
       foreach ($cartswithuser as $key => $item) {

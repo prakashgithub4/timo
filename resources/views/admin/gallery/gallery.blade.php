@@ -37,7 +37,9 @@
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
+                        @if(count($galleries) == 0)
                         <label><a href="{{route('admin.gallery.add',$product_id) }}" class="btn btn-success">Add</a></label>
+                        @endif
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>

@@ -87,7 +87,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="name">{{ __('Discount %') }} <span
+                                                <label for="name">{{ __('Amount') }} <span
                                                         style='color:red'>*</span></label>
                                                 <input type="text" name="discount" class="form-control" id="differance"
                                                     placeholder="discount"

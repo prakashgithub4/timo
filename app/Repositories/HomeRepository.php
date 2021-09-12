@@ -38,8 +38,21 @@ class HomeRepository
         $category = Category::select('*')->orderBy('id','desc')->skip($offset)->take($limit)->get();
         return $category;
     }
-    public function publishedproducts($id = null)
+    public function publishedproducts($id = null,$is_purchases = null)
     {
+        if(!is_null($is_purchases))
+        {
+            $product = Product::select('id', 'seo_title', 'tags', 'seo_description', 'image_src', 'variant_image', 'cost_per_item', 'body', 'type')
+                ->orderBy('id', 'asc')
+                ->where('published', 'TRUE')
+                ->where('is_purchased', $is_purchases)
+                ->orderBy('id','asc')
+                ->skip(0)
+                ->take(15)
+                ->get();
+            return $product;
+        }
+
         if (is_null($id)) {
             $product = Product::select('id', 'seo_title', 'tags', 'seo_description', 'image_src', 'variant_image', 'cost_per_item', 'body', 'type')
                 ->orderBy('id', 'asc')
@@ -57,5 +70,6 @@ class HomeRepository
                 ->first();
             return $product;
         }
+        
     }
 }

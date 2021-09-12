@@ -26,15 +26,18 @@ class HomeController extends Controller
         $category = $this->home->getLatestCategory();
         $secondcategories = $this->home->getLatestCategory(3,3);
         $products = $this->home->publishedproducts();
+        $purchased = $this->home->publishedproducts(null,1);
         $shapes = Shape::all();  
         $gifts = Gift::all();
+
         return view('fontend.home')->with([
             'slider'=>$slider,
             'category'=>$category,
             'secondcategory'=>$secondcategories,
             'products'=>$products,
             'shapes'=>$shapes,
-            'gifts'=>$gifts
+            'gifts'=>$gifts,
+            'purchased_product'=>$purchased
         ]);
     }
 

@@ -62,6 +62,7 @@ class ProductController extends Controller
       5 =>'Type',
       6=> 'Tags',
       7=>'Published',
+      8=>'Is Purchased',
       8=>'Gender',
       9=>'Image',
       10=>'Action'
@@ -110,6 +111,7 @@ class ProductController extends Controller
         $nestedData['type'] = $product->type;
         $nestedData['tags'] = $product->tags;
         $nestedData['published'] = "<button class='btn btn-info' id='published_".$product->id."' onclick='ispublished(".$product->id.",".$publish_status.")'>".$product->published."</button>";
+        $nestedData['is Purchase'] = "<input type='button' class='btn btn-success' onclick='isPurchased(".$product->id.",".$product->is_purchased.",this)' value = ".(($product->is_purchased == 1) ? 'False' : 'True')." />";
         $nestedData['gender'] = $product->gender;
         $nestedData['image_src'] ="<img src='".$product->image_src."' height='100' width='100'>";
         $nestedData['options'] = "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>";
@@ -410,6 +412,15 @@ class ProductController extends Controller
         $product->attribute_values = json_encode($input_array);
         $product->save();
         return response()->json(['stat'=>true,'message'=>'attribute value has been updated successfully']);
+    }
+
+    public function changeispurchasestatus(Request $request)
+    {
+      $data = $request->query();
+      $product = Product::find($data['product_id']);
+      $product->is_purchased = ($data['status'] == 1) ? '0' : '1';
+      $product->save();
+      return response()->json(['stat'=>true,'message'=>'is purchesed stattus has been changed','data'=>$product->is_purchased]);
     }
 
 }

@@ -50,6 +50,7 @@
                                     <th>Type</th>
                                     <th>Tags</th>
                                     <th>Published</th>
+                                    <th>Is Purchased</th>
                                     <th>Gender</th>
                                     <th>Image</th>
                                     <th>Action</th>
@@ -134,6 +135,9 @@
                         "data": "published"
                     },
                     {
+                        "data": "is Purchase"
+                    },
+                    {
                         "data": "gender"
                     },
                     {
@@ -147,5 +151,29 @@
             });
         });
     });
+    
+   async function isPurchased(id,status,buttontex)
+    {
+      try
+      {
+        const result = await $.ajax({
+                url: "{{ route('admin.ispurchase') }}",
+                type: 'get',
+                data: {
+                    'product_id': id,
+                    'status' : status
+                }
+               });
+               //console.log(result)
+               location.reload();
+               //console.log(buttontex.value);
+      }
+      catch(error)
+      {
+          console.log(error)
+      }
+      
+     
+    }
 </script>
 @endsection
