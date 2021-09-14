@@ -13,8 +13,6 @@ use Auth;
 
 class CompairController extends Controller
 {
-  //
- 
   
   public function index()
   {
