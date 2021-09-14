@@ -173,6 +173,13 @@ $cms_titles = cms();
                             <p> Menu Sub Category</p>
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                      <a href="{{ route('admin.assign.menu') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Add Menu Products</p>
+                      </a>
+                  </li>
                  
 
                 </ul>

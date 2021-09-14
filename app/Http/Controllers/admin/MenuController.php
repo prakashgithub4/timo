@@ -5,6 +5,9 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\MenuRepository;
+use App\Models\Product;
+use App\Models\Menu;
+use App\Models\ProductSubCategory;
 
 class MenuController extends Controller
 {
@@ -94,4 +97,121 @@ class MenuController extends Controller
         //return $menu;
         return redirect('admin/menu')->with('success', 'Head Set has been updated successfully');
     }
+
+    public function product_list(Request $request)
+    {
+      $columns = array(
+        0 => 'id',
+        1 =>'Handle',
+        2 =>'Code',
+        3 =>'Title',
+        4 =>'Vendor',
+        5 =>'Type',
+        6=> 'Tags',
+        7=>'Published',
+        8=>'Is Purchased',
+        8=>'Gender',
+        9=>'Image',
+        10=>'Action'
+      );
+  
+      $totalData = Product::count();
+  
+      $totalFiltered = $totalData;
+  
+      $limit = $request->input('length');
+      $start = $request->input('start');
+      $order = $columns[$request->input('order.0.column')];
+      $dir = $request->input('order.0.dir');
+  
+      if (empty($request->input('search.value'))) {
+        $products = Product::offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+      } else {
+        $search = $request->input('search.value');
+  
+        $products =  Product::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('title', 'LIKE', "%{$search}%")
+          ->offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+  
+        $totalFiltered = Product::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('title', 'LIKE', "%{$search}%")
+          ->count();
+      }
+  
+      $data = array();
+      if (!empty($products)) {
+        foreach ($products as $key=>$product) {
+         // $show =  route('posts.show', $post->id);
+         // $edit =  route('posts.edit', $post->id);
+         
+          $nestedData['SL'] =  "<input  type='checkbox' class='menu_item' value='".$product->id."'/>  ".($key+1);
+          $nestedData['title'] = $product->seo_title; 
+          $nestedData['Image'] ="<img src='".$product->image_src."' height='100' width='100'>";
+          $nestedData['options'] = "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>";
+          $data[] = $nestedData;
+        }
+      }
+  
+      $json_data = array(
+        "draw"            => intval($request->input('draw')),
+        "recordsTotal"    => intval($totalData),
+        "recordsFiltered" => intval($totalFiltered),
+        "data"            => $data
+      );
+  
+      echo json_encode($json_data);
+    }
+    public function products_menu_assignview()
+    {
+        $menus = Menu::all();
+        return view('admin.assign_menu.products',compact('menus'));
+    }
+    
+    public function getsubmenus(Request $request)
+    {
+        $id = $request->query('id');
+        $subcategory = ProductSubCategory::where('menu_id',$id)->get();
+        return response()->json(['stat'=>true,'message'=>"get subCategory has been fetch successfully","data"=>$subcategory]);
+    }
+    public function updatemenu(Request $request)
+    {
+        $product_ids = is_null($request->product_ids) ?[] : $request->product_ids;
+        
+        $menu_id = $request->menu_id;
+        $sub_menu = $request->sub_menu;
+       
+        if(is_null($menu_id))
+        {
+            return response()->json(['stat'=>false,'message'=>'Please choose either menu','data'=>[]]);
+        }
+        
+        else
+        {
+            if(count($product_ids) > 0)
+            {
+                $i = 0;
+                while($i < count($product_ids))
+                {
+                    $product = Product::find($product_ids[$i]);
+                    $product->menu = $menu_id;
+                    $product->sub_menu = $sub_menu;
+                    $product->save();
+                    $i++;
+                }
+                return response()->json(['stat'=>true,'message'=>'menu added successfully','data'=>[]]);
+            }
+            else
+            {
+                return response()->json(['stat'=>false,'message'=>'Please choose each of these products','data'=>[]]);
+            }
+        
+        }
+    }
+
 }

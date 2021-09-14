@@ -65,7 +65,8 @@ class ProductController extends Controller
       8=>'Is Purchased',
       8=>'Gender',
       9=>'Image',
-      10=>'Action'
+      10=>'Action',
+      11=>'Shipping Cost'
     );
 
     $totalData = Product::count();
@@ -108,6 +109,7 @@ class ProductController extends Controller
         $nestedData['code'] = $product->variant_SKU;
         $nestedData['title'] = $product->title;
         $nestedData['vendor'] = $product->vendor;
+        $nestedData['Shipping'] = "<input type ='text' size =5 value=".$product->shipping_cost." onblur='changeshipping(".$product->id.",this.value)' />";
         $nestedData['type'] = $product->type;
         $nestedData['tags'] = $product->tags;
         $nestedData['published'] = "<button class='btn btn-info' id='published_".$product->id."' onclick='ispublished(".$product->id.",".$publish_status.")'>".$product->published."</button>";
@@ -421,6 +423,14 @@ class ProductController extends Controller
       $product->is_purchased = ($data['status'] == 1) ? '0' : '1';
       $product->save();
       return response()->json(['stat'=>true,'message'=>'is purchesed stattus has been changed','data'=>$product->is_purchased]);
+    }
+
+    public function productshippingcost(Request $request)
+    {
+       $product = Product::find($request->product_id);
+       $product->shipping_cost = $request->cost;
+       $product->save();
+       return response()->json(['stat'=>true,'message'=>'shipping cost has been updated in product table']);
     }
 
 }

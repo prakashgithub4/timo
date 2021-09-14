@@ -47,6 +47,7 @@
                                     <th>Code</th>
                                     <th>Title</th>
                                     <th>Vendor</th>
+                                    <th>Shipping Cost</th>
                                     <th>Type</th>
                                     <th>Tags</th>
                                     <th>Published</th>
@@ -126,6 +127,9 @@
                         "data": "vendor"
                     },
                     {
+                        "data": "Shipping"
+                    },
+                    {
                         "data": "type"
                     },
                     {
@@ -164,9 +168,8 @@
                     'status' : status
                 }
                });
-               //console.log(result)
                location.reload();
-               //console.log(buttontex.value);
+               
       }
       catch(error)
       {
@@ -174,6 +177,37 @@
       }
       
      
+    }
+
+    async function changeshipping(id,cost)
+    {
+        try
+      {
+        const result = await $.ajax({
+                url: "{{ route('admin.shipping.cost') }}",
+                type: 'post',
+                data: {
+                    "_token":"{{csrf_token()}}",
+                    'product_id':id,
+                    'cost':cost
+                }
+               });
+               if(result.stat == true)
+               {
+                $.toast({
+                        heading: 'success',
+                        text: result.message,
+                        icon: 'success',
+                        position: 'top-right'
+                    });
+               }
+              
+               
+      }
+      catch(error)
+      {
+          console.log(error)
+      }
     }
 </script>
 @endsection

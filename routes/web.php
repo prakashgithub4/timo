@@ -84,6 +84,7 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::get('products/export','ProductController@download')->name('admin.products.export');
    Route::get('product/published/status/{id}/{status}','ProductController@changepublishedstatus');
    Route::get('product/ispurchased','ProductController@changeispurchasestatus')->name('admin.ispurchase');
+   Route::post('product/shipping/cost','ProductController@productshippingcost')->name('admin.shipping.cost');
    /** CONTACT  */
    Route::get('contact','ContactController@index')->name('admin.contact');
    Route::post('contact/save','ContactController@save')->name('admin.contact.save');
@@ -104,6 +105,12 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::get('menu/status/{id}/{id2}','MenuController@status')->name('admin.menu.status');
    Route::get('menu/set-on-top/{id}/{id2}','MenuController@setOnTop')->name('admin.menu.top');
    Route::get('menu/set-on-head/{id}/{id2}','MenuController@setOnHead')->name('admin.menu.head');
+   /** menu assign*/
+   Route::get('admin/assign/menu','MenuController@products_menu_assignview')->name('admin.assign.menu');
+   Route::post('admin/assign/product/list','MenuController@product_list')->name('assign.product.menu.list');
+   Route::get('menu/submenus/','MenuController@getsubmenus')->name('assign.product.subcategory');
+   Route::post('menu/add/products','MenuController@updatemenu')->name('assign.menu.products');
+
    /** MENU CATEGORY */
    Route::get('menu-category','ProductCategoryController@index');
    Route::get('menu-category/add','ProductCategoryController@addOrEdit')->name('admin.productCategory.add');
