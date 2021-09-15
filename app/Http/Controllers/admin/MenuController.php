@@ -102,15 +102,15 @@ class MenuController extends Controller
     {
       $columns = array(
         0 => 'id',
-        1 =>'Handle',
-        2 =>'Code',
+       // 1 =>'Handle',
+       // 2 =>'Code',
         3 =>'Title',
-        4 =>'Vendor',
-        5 =>'Type',
-        6=> 'Tags',
-        7=>'Published',
-        8=>'Is Purchased',
-        8=>'Gender',
+       // 4 =>'Vendor',
+      //  5 =>'Type',
+       // 6=> 'Tags',
+      //  7=>'Published',
+      //  8=>'Is Purchased',
+      //  8=>'Gender',
         9=>'Image',
         10=>'Action'
       );
@@ -125,19 +125,28 @@ class MenuController extends Controller
       $dir = $request->input('order.0.dir');
   
       if (empty($request->input('search.value'))) {
-        $products = Product::offset($start)
-          ->limit($limit)
-          ->orderBy($order, $dir)
-          ->get();
-      } else {
-        $search = $request->input('search.value');
-  
-        $products =  Product::where('id', 'LIKE', "%{$search}%")
-          ->orWhere('title', 'LIKE', "%{$search}%")
+
+        $products = Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','product_sub_category.sub_category_name')
+          ->leftjoin('menus','menus.id','=','products.menu')
+          ->leftjoin('product_sub_category','product_sub_category.product_sub_category_id','=','products.sub_menu')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
+
+    
+      } else {
+        $search = $request->input('search.value');
+        $products =  Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','product_sub_category.sub_category_name')
+        ->leftjoin('menus','menus.id','=','products.menu')
+        ->leftjoin('product_sub_category','product_sub_category.product_sub_category_id','=','menus.id')
+        ->where('products.id', 'LIKE', "%{$search}%")
+        ->orWhere('products.seo_title', 'LIKE', "%{$search}%")
+        ->offset($start)
+        ->limit($limit)
+        ->orderBy($order, $dir)
+        ->get();
+
   
         $totalFiltered = Product::where('id', 'LIKE', "%{$search}%")
           ->orWhere('title', 'LIKE', "%{$search}%")
@@ -152,6 +161,8 @@ class MenuController extends Controller
          
           $nestedData['SL'] =  "<input  type='checkbox' class='menu_item' value='".$product->id."'/>  ".($key+1);
           $nestedData['title'] = $product->seo_title; 
+          $nestedData['menu'] =  (is_null($product->menu_name)) ? 'N/A' : $product->menu_name;
+          $nestedData['sub_menu'] =(is_null($product->sub_category_name)) ?'N/A' : $product->sub_category_name;
           $nestedData['Image'] ="<img src='".$product->image_src."' height='100' width='100'>";
           $nestedData['options'] = "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>";
           $data[] = $nestedData;

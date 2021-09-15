@@ -63,6 +63,8 @@
                                 <tr>
                                     <th>S.L</th>
                                     <th>Name</th>
+                                    <th>Menu</th>
+                                    <th>Sub Menu</th>
                                     <th>Image</th>
                                 </tr>
                             </thead>
@@ -147,6 +149,12 @@
                         "data": "title"
                     },
                     {
+                        "data": "menu"
+                    },
+                    {
+                        "data": "sub_menu"
+                    },
+                    {
                         "data": "Image"
                     },
                    
@@ -212,6 +220,7 @@
                     icon: 'success',
                     position: 'top-right'
                 });
+              location.reload();
           }
           else
           {
@@ -223,7 +232,7 @@
                 });
           }
         
-          console.log(result);
+        
     } 
     catch(error)
     {
