@@ -19,4 +19,22 @@ class CmsRepository implements CmsInterface
     {
         return Cms::where('status', $status)->first();
     }
+
+    public function _getCms(){
+        return Cms::all();
+    }
+
+    public function _add($data)
+    {
+        return Cms::create($data);
+    }
+    public function _edit($id)
+    {
+        return Cms::find($id);
+    }
+   
+    public function _delete($id)
+    {
+        return Cms::find($id)->delete();
+    }
 }

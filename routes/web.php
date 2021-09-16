@@ -177,7 +177,16 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
     Route::get('coupon/remove/{id}','CouponController@remove')->name('admin.product.coupon.remove');
 
 
+    /** CK EDITOR */
+      //Route::post('ckeditor/upload', 'CkeditorController@upload')->name('admin.ckeditor.upload');
+      Route::post('ckeditor/upload', 'CkeditorController@upload')->name('admin.upload');
 
+      /** CMS module */
+      Route::get('cms/{slug?}','CmsController@index');
+      Route::get('add/cms','CmsController@add')->name('admin.cms.add');
+      Route::post('cms/save','CmsController@save')->name('admin.cms.save');
+      Route::get('cms/edit/{id?}','CmsController@add')->name('admin.cms.edit');
+      Route::get('cms/delete/{id}','CmsController@delete')->name('admin.cms.deleted');
    
 });
 Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
