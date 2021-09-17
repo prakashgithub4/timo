@@ -225,24 +225,24 @@ $cms_titles = cms();
                 </ul>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-database"></i>
-                    <p>
-                        CMS
-                        <i class="fas fa-angle-left right"></i>
-                    </p>
-                </a>
-                <ul class="nav nav-treeview">
-                    @foreach ($cms_titles as $titles)
-                        <li class="nav-item">
-                            <a href="{{ url('admin/cms') }}/{{ $titles->status }}" class="nav-link">
-                                <i class="far fa-circle nav-icon"></i>
-                                <p>{{ $titles->title }}</p>
-                            </a>
-                        </li>
-                    @endforeach
+              <a href="{{ url('admin/cms') }}" class="nav-link">
+                <i class="nav-icon fas fa-database"></i>
+                <p>
+                    CMS
+                    {{-- <i class="fas fa-angle-left right"></i> --}}
+                </p>
+            </a>
+            {{-- <ul class="nav nav-treeview">
+                @foreach ($cms_titles as $titles)
+                    <li class="nav-item">
+                        <a href="{{ url('admin/cms') }}/{{ $titles->status }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>{{ $titles->title }}</p>
+                        </a>
+                    </li>
+                @endforeach
 
-                </ul>
+            </ul> --}}
             </li>
 
             <li class="nav-item">

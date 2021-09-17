@@ -1,137 +1,100 @@
 @extends('layouts.admin')
-@section('title')
-    {{ $cms_data->title }}
-@endsection
 @section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>{{ $cms_data->title }}</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                        <li class="breadcrumb-item active">{{ $cms_data->title }}</li>
-                    </ol>
-                </div>
+@section('title')
+    Cms
+@endsection
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Cms</h1>
             </div>
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-                <!-- left column -->
-                <div class="col-md-12">
-                    <!-- jquery validation -->
-                    <div class="card card-primary">
-                        {{--<div class="card-header">
-                             <h3 class="card-title">Quick Example <small>jQuery Validation</small></h3> 
-                        </div>--}}
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        @if ($message = Session::get('success'))
-                            <div class="alert alert-success alert-block">
-                                <button type="button" class="close" data-dismiss="alert">×</button>
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @endif
-                        <form method="post" action="{{ url('admin/cms/update') }}" id="myform">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $cms_data->id }}" />
-                            <input type="hidden" name="slug" value="{{ $cms_data->status }}" />
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Title</label>
-                                    <input type="text" name="title" class="form-control" id="title" placeholder="Title"
-                                        value="{{ $cms_data->title }}" required>
-                                    @error('title')
-                                        <span>{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea name="description" class="ckeditor form-control">
-                                                {{ $cms_data->description }}
-                                    </textarea>
-                                    @error('description')
-                                        <span>{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-success">Update</button>
-                            </div>
-                        </form>
-                    </div>
-                    <!-- /.card -->
-                </div>
-                <!--/.col (left) -->
-                <!-- right column -->
-                <div class="col-md-6">
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item active">Cms</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
 
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        {{-- <h3 class="card-title">DataTable with minimal features & hover style</h3> --}}
+                    </div>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{{ $message }}</strong>
+                        </div>
+                    @endif
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <label><a href="{{route('admin.cms.add') }}" class="btn btn-success">Add</a></label>
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>S.L</th>
+                                    <th>Title</th>
+                                    <th>Description</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                              @forelse($allcms as $key=>$item)
+                                <tr>
+                                    <td>{{$key+1}}</td>
+                                    <td>{{$item->title}}</td>
+                                    <td>  {!!  substr(strip_tags($item->description), 0, 150) !!}... </td>
+                                    <td><a href='{{route('admin.cms.edit',$item->id)}}' class="btn btn-info"><i
+                                                class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.cms.deleted',$item->id)}}"
+                                            class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </td>
+                                </tr>
+                                @endforeach
+                                </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
                 </div>
-                <!--/.col (right) -->
+                <!-- /.card -->
+
+
+                <!-- /.card -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
 @endsection
 @section('script')
+<script>
+    $(function() {
+        // $("#example1").DataTable({
+        //   "responsive": true, "lengthChange": false, "autoWidth": false,
+        //   //"buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        // }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+        $('#example2').DataTable({
+            "paging": true,
+            "lengthChange": true,
+            "searching": false,
+            "ordering": true,
+            "info": true,
+            "autoWidth": true,
+            "responsive": true,
+           
 
-<script type="text/javascript">
-    $(document).ready(function() {
-       $('.ckeditor').ckeditor();
+        });
     });
 </script>
-    <script>
-        $(function() {
-           
-            $('#myform').validate({
-                rules: {
-                    email: {
-                        required: true,
-                        email: true,
-                    },
-                    password: {
-                        // required: true,
-                        minlength: 5
-                    },
-                    password_confirmation: {
-                        minlength: 5,
-                        equalTo: '#password'
-
-                    },
-                    terms: {
-                        required: true
-                    },
-                },
-                messages: {
-                    email: {
-                        required: "Please enter a email address",
-                        email: "Please enter a vaild email address"
-                    },
-                    password: {
-                        required: "Please provide a password",
-                        minlength: "Your password must be at least 5 characters long"
-                    },
-                    terms: "Please accept our terms"
-                },
-                errorElement: 'span',
-                errorPlacement: function(error, element) {
-                    error.addClass('invalid-feedback');
-                    element.closest('.form-group').append(error);
-                },
-                highlight: function(element, errorClass, validClass) {
-                    $(element).addClass('is-invalid');
-                },
-                unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid');
-                }
-            });
-        });
-    </script>
 @endsection
