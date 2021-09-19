@@ -241,5 +241,8 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
    Route::post('compair/remove','CompairController@remove_compare')->name('compair.remove');
    /** Review  */
    Route::post('product/review','ReviewController@addreview')->name('product.review');
+   
+   /** Checkouts */
+   Route::get('checkouts/product','CheckoutController@index')->name('product.checkout');
 
 });

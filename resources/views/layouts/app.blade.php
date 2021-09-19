@@ -188,11 +188,6 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.min.js')}}"></script>
             <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.plugins.min.js')}}"></script>
-            
-
-           
-
-            
             @yield('script')
             <script>
    
@@ -495,7 +490,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -569,7 +564,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -657,7 +652,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;
