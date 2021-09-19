@@ -1,4 +1,7 @@
 <?php 
+
+use Illuminate\Support\Facades\Crypt;
+
 if(!function_exists('home_discount'))
 {
     function home_discount($price)
@@ -236,7 +239,32 @@ if(!function_exists('count_compares'))
        
     }
 }
+if(!function_exists('encryption_route'))
+  {
+      function encryption_route($id,$flag)
+      {
+          
+          if($flag==1){
+            $data = Crypt::encrypt($id);
+            return $data;
+          }
+          if($flag==2){
+            return $data = Crypt::decrypt($id);
+          }
+          //return $data;
+       
+      }
+  }
 
+  if(!function_exists('remove_space'))
+  {
+      function remove_space($data)
+      {
+            $data = str_replace("", "-", $data);
+            return $data;
+       
+      }
+  }
 
 
 ?>

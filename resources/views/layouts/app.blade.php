@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/plugins.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
-     <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
 
 </head>
 

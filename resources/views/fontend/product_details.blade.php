@@ -33,15 +33,15 @@ Product Details
 
                         <div id="img-1" class="zoomWrapper single-zoom">
                             <a href="#">
-                                <img id="zoom1" src="{{asset('assets/fontend/img/product/product1-big.jpg')}}" data-zoom-image="{{asset('assets/fontend/img/product/product1-big.jpg')}}" alt="big-1">
+                                <img id="zoom1" src="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" data-zoom-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" alt="big-1">
                             </a>
                         </div>
 
                         <div class="single-zoom-thumb">
                             <ul class="s-tab-zoom owl-carousel single-product-active" id="gallery_01">
                                 <li>
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{asset('assets/fontend/assets/img/product/product2-big.jpg')}}" data-zoom-image="{{asset('assets/fontend/img/product/product2-big.jpg')}}">
-                                        <img src="{{asset('assets/fontend/img/product/product2.jpg')}}" alt="zo-th-1"/>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" data-zoom-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}">
+                                        <img src="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" alt="zo-th-1"/>
                                     </a>
 
                                 </li>
@@ -71,7 +71,7 @@ Product Details
                     <div class="product_d_right">
                        <form action="#">
                            
-                            <h1>Donec eu furniture</h1>
+                            <h1>{{$product->title}}</h1>
                             <div class="product_nav">
                                 <ul>
                                     <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
@@ -89,17 +89,20 @@ Product Details
                                 </ul>
                             </div>
                             <div class="product_price">
-                                <span class="old_price">$80.00</span>
+                                <span class="old_price">${!!$product->cost_per_item!!}</span>
                                 <span class="current_price">$70.00</span>
                             </div>
                             <div class="product_desc">
-                                <p>eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in </p>
+                                {!!$product->body!!}
                             </div>
 
                             <div class="product_variant quantity">
                                 <label>quantity</label>
                                 <input min="1" max="100" value="1" type="number">
-                                <button class="button" type="submit">add to cart</button>  
+                                {{-- <button class="button" type="submit">add to cart</button>  --}}
+                                <a   href="javascript:add_to_cart({{$product->id}})" title="add to cart">
+                                    <button class="button" type="button">add to cart</button>
+                                </a> 
                                 
                             </div>
                             <div class=" product_d_action">
@@ -109,18 +112,15 @@ Product Details
                                </ul>
                             </div>
                             <div class="product_meta">
-                                <span>Category: <a href="#">Clothing</a></span>
+                                <span>Category: <a href="#">{!! $product->type!!}</a></span>
                             </div>
                             
                         </form>
                         <div class="priduct_social">
-                            <ul>
-                                <li><a href="#" title="facebook"><i class="fa fa-facebook"></i></a></li>           
-                                <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>           
-                                <li><a href="#" title="pinterest"><i class="fa fa-pinterest"></i></a></li>           
-                                <li><a href="#" title="google +"><i class="fa fa-google-plus"></i></a></li>        
-                                <li><a href="#" title="linkedin"><i class="fa fa-linkedin"></i></a></li>        
-                            </ul>      
+
+                            {{-- @php echo print_r(URL::current()); @endphp --}}
+
+                            {!! Share::page(URL::current())->facebook()->twitter()->whatsapp() !!}
                         </div>
 
                     </div>
@@ -149,8 +149,7 @@ Product Details
                             <div class="tab-content">
                                 <div class="tab-pane fade show active" id="info" role="tabpanel" >
                                     <div class="product_info_content">
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla.</p>
-                                        <p>Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis fermentum turpis eros eget velit. Donec ac tempus ante. Fusce ultricies massa massa. Fusce aliquam, purus eget sagittis vulputate, sapien libero hendrerit est, sed commodo augue nisi non neque. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed tempor, lorem et placerat vestibulum, metus nisi posuere nisl, in accumsan elit odio quis mi. Cras neque metus, consequat et blandit et, luctus a nunc. Etiam gravida vehicula tellus, in imperdiet ligula euismod eget.</p>
+                                        {!! $product-> long_description!!}
                                     </div>    
                                 </div>
     

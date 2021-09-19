@@ -132,6 +132,10 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::get('subscribers/edit/{id}','SubscriberController@edit')->name('admin.subscribers.edit');
    Route::post('subscriber/save','SubscriberController@save')->name('admin.save.subscriber');
 
+   Route::get('subscribers/share/{id}','SubscriberController@share')->name('admin.subscribers.share');
+   Route::post('subscriber/shareall', 'SubscriberController@shareAll')->name('admin.shareall.subscribers');
+
+
  /** Gallery  */
    Route::get('product/galleries/{product_id}','GalleryController@index')->name('admin.galleries');
    Route::get('product/galleries/add/{product_id}','GalleryController@add')->name('admin.gallery.add');
@@ -234,7 +238,9 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
    Route::get('country/getstate/{country_id}','ProfileController@getCountry');
    Route::post('account/address/save','ProfileController@saveaddress')->name('account.address.save');
    /** product details */
-   Route::get('product/{id}','ProductController@index')->name('product');
+   //Route::get('product/{id}','ProductController@index')->name('product');
+   Route::get('product/{id}/{slug}','ProductController@index')->name('product');
+
    /**compair **/
    Route::get('compair/','CompairController@index')->middleware('customer')->name('compair');
    Route::post('compair/add','CompairController@addtocmpair')->name('compair.add');

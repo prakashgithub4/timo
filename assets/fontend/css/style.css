@@ -11975,3 +11975,20 @@ line-height: 35px;
 .slider-thumb .slick-slide.slick-current {
 	background: green;
 } 
+
+
+/* Social Share SNT 18092021*/
+
+#social-links {
+  margin: 0 auto;
+  max-width: 500px;
+}
+ #social-links ul li {
+  display: inline-block;
+}          
+#social-links ul li a {
+  padding: 15px;
+  border: 1px solid #ccc;
+  margin: 1px;
+  font-size: 20px;
+}

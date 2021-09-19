@@ -98,6 +98,8 @@ Home
                         <div class="product_container bottom">
                             <div class="custom-row product_row1">
                                 @foreach ($products as $item)
+                                @php $prodID= encryption_route($item->id,1); @endphp
+                                @php $slug= encryption_route(strtolower(remove_space($item->handle)),1); @endphp
                                 @php $price = price_rang($item->id); @endphp
                                 <div class="custom-col-5">
                                     <div class="single_product">
@@ -105,7 +107,7 @@ Home
                                             <a class="primary_img" href="javascript:void(0)"><img
                                                     src="{{(empty($item->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $item->image_src }}"
                                                     alt=""></a>
-                                            <a class="secondary_img" href="{{route('product',$item->id)}}"><img
+                                            <a class="secondary_img" href="{{url('product/ ' . $prodID . '/' . $slug )}}"><img
                                                     src="{{ (@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a>
                                             <div class="quick_button">
@@ -223,13 +225,16 @@ Home
                                 
                                 @foreach ($products as $item)
                                 @php $price = price_rang($item->id); @endphp
+                                @php $prodID= encryption_route($item->id,1); @endphp
+                                @php $slug= encryption_route(strtolower(remove_space($item->handle)),1); @endphp
+
                                 <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">
                                             <a class="primary_img" href="javscript:void(0)"><img
                                                     src="{{ (empty($item->image_src)) ? asset('assets/fontend/img/product/product16.jpg') : $item->image_src }}"
                                                     alt=""></a>
-                                            <a class="secondary_img" href="{{route('product',$item->id)}}"><img
+                                            <a class="secondary_img" href="{{url('product/ ' . $prodID . '/' . $slug )}}"><img
                                                     src="{{(@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a>
                                             <div class="quick_button">
@@ -308,13 +313,16 @@ Home
                             <div class="custom-row product_row1">
                                 @foreach($purchased_product as $item)
                                 @php $price = price_rang($item->id); @endphp
+                                @php $prodID= encryption_route($item->id,1); @endphp
+                                @php $slug= encryption_route(strtolower(remove_space($item->handle)),1); @endphp
+
                                 <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">
                                             <a class="primary_img" href="javscript:void(0)"><img
                                                     src="{{ (empty($item->image_src)) ? asset('assets/fontend/img/product/product16.jpg') : $item->image_src }}"
                                                     alt=""></a>
-                                            <a class="secondary_img" href="{{route('product',$item->id)}}"><img
+                                            <a class="secondary_img" href="{{url('product/ ' . $prodID . '/' . $slug )}}"><img
                                                     src="{{(@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a>
                                             <div class="quick_button">

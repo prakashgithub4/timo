@@ -37,10 +37,12 @@
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
-                      
+                        <button style="margin-bottom: 10px" class="btn btn-primary delete_all" data-url="{{ route('admin.shareall.subscribers') }}">Share All</button>
+
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
+                                    <th><input type="checkbox" id="master"></th>
                                     <th>S.L</th>
                                     <th>Name</th>
                                     <th>email</th>
@@ -51,12 +53,13 @@
                             <tbody>
                               @forelse($subscriber as $key=>$item)
                                 <tr>
+                                    <td><input type="checkbox" class="sub_chk" data-id="{{$item->id}}"></td>
                                     <td>{{$key+1}}</td>
                                     <td>{{$item->name}}</td>
                                     <td>{{$item->email}}</td>
                                     <td><a href="{{$item->link}}">Link</a></td>
                                     <td><a href='{{route('admin.subscribers.edit',$item->id)}}' class="btn btn-info btn-sm"><i
-                                                class="fas fa-edit "></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="javascript:void(0);"
+                                                class="fas fa-edit "></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.subscribers.share', $item->id)}}"
                                             class="btn btn-info btn-sm"><i class="far fa-share-square"></i></a>
                                     </td>
                                 </tr>
@@ -99,5 +102,64 @@
 
         });
     });
+
+    $(document).ready(function () {
+
+
+$('#master').on('click', function(e) {
+ if($(this).is(':checked',true))  
+ {
+    $(".sub_chk").prop('checked', true);  
+ } else {  
+    $(".sub_chk").prop('checked',false);  
+ }  
+});
+
+
+$('.delete_all').on('click', function(e) {
+
+
+    var allVals = [];  
+    $(".sub_chk:checked").each(function() {  
+        allVals.push($(this).attr('data-id'));
+    });  
+
+
+    if(allVals.length <=0)  
+    {  
+        alert("Please select row.");  
+    }  else {  
+
+
+        var check = confirm("Are you sure?");  
+        if(check == true){  
+
+
+            var join_selected_values = allVals.join(","); 
+
+
+            $.ajax({
+                url: $(this).data('url'),
+                type: 'POST',
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                data: 'ids='+join_selected_values,
+                success: function (data) {
+                    if (data['success']) {
+                        alert(data['success']);
+                    } else if (data['error']) {
+                        alert(data['error']);
+                    } else {
+                        alert('Whoops Something went wrong!!');
+                    }
+                },
+                error: function (data) {
+                    alert(data.responseText);
+                }
+            });
+        }  
+    }  
+});
+
+});
 </script>
 @endsection
