@@ -14,5 +14,7 @@ class Gallery extends Model
     {
         $this->belongsTo('App\Models\Product');
     }
+
+    
    
 }

@@ -9,7 +9,6 @@ use App\Repositories\SliderRepository;
 use App\Models\Shape;
 use App\Models\Gift;
 
-
 class HomeController extends Controller
 {
     //

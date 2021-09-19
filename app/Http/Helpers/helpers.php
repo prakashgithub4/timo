@@ -1,4 +1,7 @@
-<?php 
+<?php
+
+use GuzzleHttp\Cookie\SetCookie;
+
 if(!function_exists('home_discount'))
 {
     function home_discount($price)
@@ -235,6 +238,47 @@ if(!function_exists('count_compares'))
         }
        
     }
+}
+
+if(!function_exists('recent_views'))
+{
+    function recent_views($product_id)
+    {
+    //unset($_COOKIE['recent_view']);
+   if(isset($_COOKIE['recent_view']))
+   {
+    $recent = unserialize($_COOKIE['recent_view']);
+    $serach_key = array_search($product_id,$recent,true);
+    if($serach_key)
+    {
+      unset($recent[$serach_key]);
+    }
+    else
+    {
+      $recent[] = $product_id;
+    }
+   
+    setcookie('recent_view',serialize($recent),time()+ 60*60*24*365,"/");
+    return array_unique($recent);
+   }
+   else
+   {
+      $recent = unserialize(@$_COOKIE['recent_view']);
+      $rect = !empty($recent) ? $recent : [];
+      $serach_key = array_search($product_id,$rect,true);
+      if($serach_key)
+      {
+        unset($recent[$serach_key]);
+      }
+      else
+      {
+        $recent[] = $product_id;
+      }
+      setcookie('recent_view',serialize($rect),time()+ 60*60*24*365,"/");
+     
+   }
+   return array_unique($recent);
+ }
 }
 
 

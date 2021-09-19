@@ -20,6 +20,7 @@ return array(
     'App\\Http\\Controllers\\admin\\AttributeController' => $baseDir . '/app/Http/Controllers/admin/AttributeController.php',
     'App\\Http\\Controllers\\admin\\AuthController' => $baseDir . '/app/Http/Controllers/admin/AuthController.php',
     'App\\Http\\Controllers\\admin\\CategoryController' => $baseDir . '/app/Http/Controllers/admin/CategoryController.php',
+    'App\\Http\\Controllers\\admin\\CkeditorController' => $baseDir . '/app/Http/Controllers/admin/CkeditorController.php',
     'App\\Http\\Controllers\\admin\\CmsController' => $baseDir . '/app/Http/Controllers/admin/CmsController.php',
     'App\\Http\\Controllers\\admin\\ColorController' => $baseDir . '/app/Http/Controllers/admin/ColorController.php',
     'App\\Http\\Controllers\\admin\\ContactController' => $baseDir . '/app/Http/Controllers/admin/ContactController.php',
