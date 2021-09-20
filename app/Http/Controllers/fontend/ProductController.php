@@ -54,6 +54,7 @@ class ProductController extends Controller
        $recent = implode(',',recent_views($product_id));
        
        $recent_view = Product::select('id','seo_description','seo_title','type','image_src')->whereIn('id',explode(',',$recent))->skip(0)->take(10)->get();
+      
        
       return view('fontend.product_details',compact('product','attribute_array','realted_products','product_image_array','recent_view'));
     }

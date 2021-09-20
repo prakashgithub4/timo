@@ -2,6 +2,7 @@
 
 use GuzzleHttp\Cookie\SetCookie;
 use App\Models\Product;
+use Illuminate\Support\Facades\URL;
 if(!function_exists('home_discount'))
 {
     function home_discount($price)
@@ -285,6 +286,7 @@ if(!function_exists('recent_products'))
 {
     function recentproducts()
     {
+         
       if(isset($_COOKIE['recent_view']))
       {
         $recent  = unserialize($_COOKIE['recent_view']);
@@ -292,8 +294,12 @@ if(!function_exists('recent_products'))
         $recent_view = Product::select('id','seo_description','seo_title','type','image_src')->orderBy('id','desc')->whereIn('id',explode(',',$recents))->skip(0)->take(10)->get();
         return $recent_view;
       }
+      else
+      {
+        return Null;
+      }
     }
-}
+  }
 
 
 

@@ -340,7 +340,7 @@ Product Details
             </div>    
         </div>
     </div>
-    <section class="product_section p_bottom p_section1 pt-5 retpro bg-white">
+    {{-- <section class="product_section p_bottom p_section1 pt-5 retpro bg-white">
         <div class="container">
             <div class="row">
                <div class="col-12">
@@ -407,7 +407,8 @@ Product Details
                 </div>
             </div>    
         </div>
-    </section>
+    </section> --}}
+    @include('parcials.recent')
 </div>
 @endsection
 @section('script')

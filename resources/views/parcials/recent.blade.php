@@ -1,3 +1,10 @@
+
+<?php 
+$segment = URL::current();
+$url = explode('/',$segment);
+
+?>
+@if(!isset($url[4]))
 <section class="newsletter_area">
     <div class="container">
         <div class="row">
@@ -22,7 +29,9 @@
         </div>
     </div>
 </section>
-
+@endif
+ @php  $recent = recentproducts();  @endphp
+ @if(!is_null($recent))
 <section class="product_section p_bottom p_section1 pt-5 retpro bg-white">
     <div class="container">
         <div class="row">
@@ -35,7 +44,8 @@
                 <div class="product_area ">
                      <div class="product_container bottom">
                         <div class="custom-row product_row1">
-                            @foreach ($recent_view as $recent_views )
+                           
+                            @foreach ($recent as $recent_views)
                             @php $price = price_rang($recent_views->id); @endphp
                             <div class="custom-col-5">
                                 <div class="single_product">
@@ -91,3 +101,4 @@
         </div>    
     </div>
 </section>
+@endif
