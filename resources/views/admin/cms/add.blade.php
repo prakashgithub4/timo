@@ -51,14 +51,14 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
                                     <input type="text" name="slug" class="form-control" id="slug" placeholder="Slug"
                                         value="{{ isset($cms_data) ? $cms_data->slug : '' }}" >
                                     @error('title')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                
                                 <div class="form-group">

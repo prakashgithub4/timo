@@ -46,7 +46,7 @@ class CmsController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'cid' =>$request->cms_category,
-            'slug' =>$request->slug,
+            'slug' =>clean($request->title),
            // 'id' => $userid
         );
 

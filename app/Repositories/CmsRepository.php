@@ -12,6 +12,8 @@ class CmsRepository implements CmsInterface
         $cms = Cms::find($id);
         $cms->title = $data['title'];
         $cms->description = $data['description'];
+        $cms->slug = $data['slug'];
+        $cms->cid = $data['cid'];
         $cms->save();
          return true;
     }
