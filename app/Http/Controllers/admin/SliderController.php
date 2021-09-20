@@ -55,9 +55,9 @@ class SliderController extends Controller
     {
         
         $request->validate([
-            'discount_title' => 'required',
+           // 'discount_title' => 'required',
             'title' => 'required',
-            'price' => 'required',
+           // 'price' => 'required',
             'image' => ['image', 'mimes:jpeg,png,jpg', 'max:2048'],
            
         ]);
@@ -65,24 +65,36 @@ class SliderController extends Controller
         if ($request->hasFile('image')) {
             $image = $this->Uploadfile($request->file('image'), 'uploads/slider');
         }
-
-        $input_array = array(
+        //print_r($image); exit;
+        if(isset($image))
+        {
+            $getImageByid = $this->slider->_edit($request->id);
+            if (File::exists(public_path('uploads/slider/' . $getImageByid->image))) {
+                File::delete(public_path('uploads/slider/' . $getImageByid->image));
+            }
+            $input_array = array(
             'discount_title' => $request->discount_title,
             'title' => $request->title,
-            'price' => $request->price,
             'image' => $image['file'],
-            'url' => $request->url,
-            
-        );
+            'url' => $request->url
+            );
+        }
+        else
+        {
+             $input_array = array(
+            'discount_title' => $request->discount_title,
+            'title' => $request->title,
+            //'image' => $image['file'],
+            'url' => $request->url
+            );
+        }
+       
         //return $input_array;
         if ($request->id == 0) {
             $this->slider->saveSlider($input_array);
             return redirect('admin/slider')->with('success', 'One Slider has been created successfully');
         } else {
-            $getImageByid = $this->slider->_edit($request->id);
-            if (File::exists(public_path('uploads/slider/' . $getImageByid->image))) {
-                File::delete(public_path('uploads/slider/' . $getImageByid->image));
-            }
+           
             $this->slider->_update($request->id, $input_array);
             return redirect('admin/slider')->with('success', 'Slider has been updated successfully');
         }

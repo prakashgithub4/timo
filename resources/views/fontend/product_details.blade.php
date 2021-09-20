@@ -314,15 +314,15 @@ Product Details
                                                     </ul>
                                                 </div>
                                                 <div class="product_desc">
-                                                    <p>{{$products->seo_description}} </p>
+                                                    <p>{{ Str::limit($products->seo_description, 50) }} </p>
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>
-                                                        <li><a href="javascript:addwishlist({{$products->id}})" id="wish_{{$products->id}}" title="{{($products->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($products->product_wish_list_count > 0) ? 'added_btn':''}}"><span
+                                                        <li><a href="javascript:addwishlist({{$products->id}})"  title="{{($products->product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}}" class="{{($products->product_wish_list_count > 0) ? 'added_btn':''}} wish_{{$products->id}}"><span
                                                                     class="icon icon-Heart"></span></a></li>
-                                                        <li  class="add_to_cart "><a  class="{{($products->isCart > 0) ? 'added_btn' : ''}}" href="javascript:add_to_cart({{$products->id}})" id="cart_{{$products->id}}" title="{{($products->isCart > 0) ? 'Go to Cart':'Add to cart'}}">add to 
+                                                        <li  class="add_to_cart "><a  class="{{($products->isCart > 0) ? 'added_btn' : ''}} cart_{{$products->id}}" href="javascript:add_to_cart({{$products->id}})"  title="{{($products->isCart > 0) ? 'Go to Cart':'Add to cart'}}">add to 
                                                                 cart</a></li>
-                                                        <li><a href="javascript:compair({{$products->id}})" id="compare_{{$products->id}}" title="{{($products->isCompare > 0) ? 'Compared' :'Compare'}}" class="{{($products->isCompare > 0) ? 'added_btn' :''}}"><i
+                                                        <li><a href="javascript:compair({{$products->id}})"  title="{{($products->isCompare > 0) ? 'Compared' :'Compare'}}" class="{{($products->isCompare > 0) ? 'added_btn' :''}} compare_{{$products->id}}"><i
                                                                     class="ion-ios-settings-strong"></i></a></li>
                                                     </ul>
                                                 </div>
@@ -382,7 +382,7 @@ Product Details
                                                     </ul>
                                                 </div>
                                                 <div class="product_desc">
-                                                    <p>{{$recent_views->seo_description}} </p>
+                                                    <p>{{ Str::limit($recent_views->seo_description, 50) }} </p>
                                                 </div>
                                                 <div class="action_links">
                                                     <ul>

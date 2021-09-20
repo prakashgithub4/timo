@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/plugins.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
-     <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
 
 </head>
 
-<body>
+<body class="clicked">
     <div class="off_canvars_overlay">
     </div>
     <div class="Offcanvas_menu Offcanvas_two offcanvas_three">
@@ -86,57 +86,7 @@
                                 </li>
                                 @endif
                                 @endforeach
-                               <!--  <li class="menu-item-has-children">
-                                    <a href="#">Engagement Rings</a>
-                                    <ul class="sub-menu">
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">blog details</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">blog fullwidth</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">blog left</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">no sidebar</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">blog right</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">blog sticky</a></li>
-                                    </ul>
-                                </li> -->
-                                <!-- <li class="menu-item-has-children">
-                                    <a href="#">Jewelry</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="#">Gifts</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="#"> Education</a>
-                                </li>
-                                <li class="menu-item-has-children">
-                                    <a href="#">Wedding Rings </a>
-                                    <ul class="sub-menu">
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">About Us</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">services</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">Frequently Questions</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">contact</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">login</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">Wishlist</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">Error 404</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">compare</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">privacy policy</a></li>
-                                        <li><a href="#"><img src="{{ asset('assets/fontend/img/nav-round.png') }}"
-                                                    alt="">coming soon</a></li>
-                                    </ul>
-                                </li> -->
+                               
                             </ul>
                         </div>
                         <!-- <div class="Offcanvas_footer">
@@ -188,8 +138,22 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.min.js')}}"></script>
             <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.plugins.min.js')}}"></script>
+
+           
+
+            
             @yield('script')
             <script>
+                function onchangeqty(qty)
+                {
+                    let current = $("#current_price").val();
+                    let oldprice = $("#old_price").val();
+                    let current_qty = parseFloat(current) * parseInt(qty);
+                    let old_qty =  parseFloat(oldprice) * parseInt(qty);
+                    $("#old").html(`$${old_qty.toFixed(2)}`);
+                    $("#new").html(`$${current_qty.toFixed(2)}`);
+                   
+                }
    
                 function addwishlist(product_id)
                 {
@@ -216,8 +180,8 @@
                                    let calwish = Number(wishcount) + 1;
                                     $("#wiscount").val(calwish);
                                    $("#wishlistcount").text(calwish);
-                                   $("#wish_"+product_id).addClass("added_btn");
-                                   $("#wish_"+product_id).attr("title","Added to Wishlist");
+                                   $(".wish_"+product_id).addClass("added_btn");
+                                   $(".wish_"+product_id).attr("title","Added to Wishlist");
                                }
                                else if(response == 3)
                                {
@@ -246,7 +210,7 @@
             <script>
 
                 function showquickview(id) {
-                    //alert(id)
+                    
                     $.ajax({
                         type: "POST",
                         data: {
@@ -257,25 +221,26 @@
                         success: function(response) {
                             console.log(response);
                             let galleries = response.data.gallery;
+                            console.log(response.data.gallery)
                             let modalBodyTop  = '';
                             let modalBodyDown  = '';
-                            $.each(galleries, function(index,value) {
-                                let active = index ? '' : 'active';
-                                let show = index ? '' : 'show';
+                           // $.each(galleries, function(index,value) {
+                              //  let active = index ? '' : 'active';
+                              //  let show = index ? '' : 'show';
                                 modalBodyTop += '<div class="popup-item">\
                                                     <div class="modal_tab_img">\
-                                                        <a href="#">\
-                                                            <img src="'+ value.image +'" alt="">\
+                                                        <a href="'+response.data.url+'">\
+                                                            <img src="'+ response.data.image_src +'" alt="">\
                                                         </a>\
                                                     </div>\
                                                 </div>';                
-                                modalBodyDown += '<li>\
-                                                    <a class="nav-link '+active+'" data-toggle="tab" href="#tab'+ index +'" role="tab" aria-controls="tab'+ index +'" aria-selected="false">\
-                                                        <img src="'+ value.image +'" alt="">\
-                                                    </a>\
-                                                </li>';                
+                                // modalBodyDown += '<li>\
+                                //                     <a class="nav-link '+active+'" data-toggle="tab" href="#tab'+ index +'" role="tab" aria-controls="tab'+ index +'" aria-selected="false">\
+                                //                         <img src="'+ value.image +'" alt="">\
+                                //                     </a>\
+                                //                 </li>';                
                             
-                            });
+                           // });
                             let modalBodyAll = '<div class="col-lg-5 col-md-5 col-sm-12">\
                                                 <div class="modal_tab">\
                                                     <div class="popup_wrap">';
@@ -284,43 +249,42 @@
                                             <div class="modal_tab_button">\
                                                 <ul class="nav product_navactive owl-carousel" role="tablist">';
                             modalBodyAll += modalBodyDown;
-                            modalBodyAll += '</ul>\
-                                        </div>\
-                                    </div>\
-                                </div>\
-                                <div class="col-lg-7 col-md-7 col-sm-12" id="quickview">\
-                                    <div class="modal_right">\
-                                        <div class="modal_title mb-10">\
-                                            <h2 id="title">' + response.data.seo_title + '</h2>\
-                                        </div>\
-                                        <div class="modal_price mb-10">\
-                                            <span class="new_price">' + response.data.home_discount + '</span>\
-                                            <span class="old_price">' + response.data.cost_per_item + '</span>\
-                                        </div>\
-                                        <div class="see_all">\
-                                            <a href="#">See all features</a>\
-                                        </div>\
-                                        <div class="modal_add_to_cart mb-15">\
-                                            <form action="#">\
-                                                <input min="0" max="100" step="2" value="1" type="number">\
-                                                <button type="submit">add to cart</button>\
-                                            </form>\
-                                        </div>\
-                                        <div class="modal_description mb-15">\
-                                            <p>' + response.data.seo_description + '</p>\
-                                        </div>\
-                                        <div class="modal_social">\
-                                            <h2>Share this product</h2>\
-                                            <ul>\
-                                                <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fproduct.com/"><i class="fa fa-facebook"></i></a></li>\
+                            modalBodyAll += `</ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-7 col-md-7 col-sm-12" id="quickview">
+                                    <div class="modal_right">
+                                        <div class="modal_title mb-10">
+                                            <h2 id="title"> ${response.data.seo_title} </h2>
+                                        </div>
+                                        <div class="modal_price mb-10">
+                                            <span class="new_price" id='old'>$${response.data.old_price.toFixed(2)} </span>
+                                            <span class="old_price" id='new'>$${response.data.current_price.toFixed(2)} </span>
+                                        </div>
+                                         <input type="hidden" id ="current_price" value="${response.data.current_price.toFixed(2)}"/>
+                                         <input type="hidden" id ="old_price" value="${response.data.old_price.toFixed(2)}"/>
+                                        <div class="modal_add_to_cart mb-15">
+                                            <form action="#">
+                                                <input min="1" max="100" step="1" value="1" type="number" onchange='onchangeqty(this.value)'>
+                                                <button type="button" onclick ='add_to_cart(${response.data.id})'>add to cart</button>
+                                            </form>
+                                        </div>
+                                        <div class="modal_description mb-15">
+                                            <p>${response.data.description}</p>
+                                        </div>
+                                        <div class="modal_social">
+                                            <h2>Share this product</h2>
+                                            <ul>
+                                                <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fproduct.com/"><i class="fa fa-facebook"></i></a></li>
                                                 <li><a href="#"><i class="fa fa-twitter"></i></a></li>\
                                                 <li><a href="#"><i class="fa fa-pinterest"></i></a></li>\
                                                 <li><a href="#"><i class="fa fa-google-plus"></i></a></li>\
                                                 <li><a href="#"><i class="fa fa-linkedin"></i></a></li>\
-                                            </ul>\
-                                        </div>\
-                                    </div>\
-                                </div>';
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>`;
                             
                             //console.log(modalBodyAll);
                             $("#modalBody").html(modalBodyAll);
@@ -490,7 +454,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
+                                        <a class="active" href="# ">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -564,15 +528,15 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
+                                        <a class="active" href="# ">Checkout</a>
                                     </div>
 
                                 </div>`;
                     }
 
                     $("#cart").html(html);
-                    $("#cart_"+id).removeClass('added_btn');
-                    $("#cart_"+id).attr("title",'Add to Cart');
+                    $(".cart_"+id).removeClass('added_btn');
+                    $(".cart_"+id).attr("title",'Add to Cart');
                     
                 }
 
@@ -652,15 +616,15 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="{{route('product.checkout')}}">Checkout</a>
+                                        <a class="active" href="# ">Checkout</a>
                                     </div>
 
                                 </div>`;
 
                         $("#cart").html(html);
                         $('.mini_cart').addClass("active");
-                        $("#cart_"+p_id).addClass('added_btn');
-                        $("#cart_"+p_id).attr("title",'Go to Cart');
+                        $(".cart_"+p_id).addClass('added_btn');
+                        $(".cart_"+p_id).attr("title",'Go to Cart');
                     }
 
                 }
@@ -681,14 +645,16 @@
                });
                if(result.stat == true)
                {
+                $(".compare_"+product_id).addClass('added_btn');
+                $(".compare_"+product_id).attr('title','Compared');
                    $.toast({
                         heading: 'success',
                         text: result.message,
                         icon: 'success',
                         position: 'top-right'
                     });
-                    $("#compare_"+product_id).addClass('added_btn');
-                    $("#compare_"+product_id).attr('title','Compared');
+
+                    
                }
                else
                {
