@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cms extends Model
+class CmsCategory extends Model
 {
     use HasFactory;
-    protected $table ='cms';
-    protected $fillable =['title', 'description', 'status', 'created_at', 'updated_at','cid'];
+    protected $table ='cms_category';
+    protected $fillable =['name','status', 'created_at', 'updated_at','slug'];
     
 }

@@ -8,11 +8,11 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Cms</h1>
+                <h1>Cms Category</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Cms</li>
+                    <li class="breadcrumb-item active">Cms Category</li>
                 </ol>
             </div>
         </div>
@@ -36,14 +36,12 @@
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <label><a href="{{route('admin.cms.add') }}" class="btn btn-success">Add</a></label>
+                        <label><a href="{{route('admin.cms_category.add') }}" class="btn btn-success">Add</a></label>
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>S.L</th>
                                     <th>Title</th>
-                                    <th>Slug</th>
-                                    <th>Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -51,10 +49,8 @@
                               @forelse($allcms as $key=>$item)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$item->title}}</td>
-                                    <td>{{$item->slug}}</td>
-                                    <td>  {!!  substr(strip_tags($item->description), 0, 150) !!}... </td>
-                                    <td><a href='{{route('admin.cms.edit',$item->id)}}' class="btn btn-info"><i
+                                    <td>{{$item->name}}</td>
+                                    <td><a href='{{route('admin.cms_category.edit',$item->id)}}' class="btn btn-info"><i
                                                 class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.cms.deleted',$item->id)}}"
                                             class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                     </td>

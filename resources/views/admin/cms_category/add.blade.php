@@ -37,7 +37,7 @@
                                 <strong>{{ $message }}</strong>
                             </div>
                         @endif
-                        <form method="post"  action='{{ route('admin.cms.save') }}' id="myform">
+                        <form method="post"  action='{{ route('admin.cms_category.save') }}' id="myform">
                             @csrf
                             <input type="hidden" name="id" value="{{ isset($cms_data) ? $cms_data->id : 0  }}" />
                             <input type="hidden" name="slug" value="{{ isset($cms_data) ? $cms_data->status : ''  }}" />
@@ -45,37 +45,8 @@
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Title</label>
                                     <input type="text" name="title" class="form-control" id="title" placeholder="Title"
-                                        value="{{ isset($cms_data) ? $cms_data->title : '' }}" required>
+                                        value="{{ isset($cms_data) ? $cms_data->name : '' }}" required>
                                     @error('title')
-                                        <span>{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="exampleInputEmail1">Slug</label>
-                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="Slug"
-                                        value="{{ isset($cms_data) ? $cms_data->slug : '' }}" >
-                                    @error('title')
-                                        <span>{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                               
-                                <div class="form-group">
-                                    <label for="cms_category">Category</label>
-                                        <select name="cms_category" id="cms_category"   class="form-control">
-                                            <option value="">--- Select Category ---</option>
-                                            @foreach($cms_category as $key => $value)
-                                            <option value="{{$value->id}}" {{ isset($cms_data) ? $cms_data->cid==$value->id ? 'selected' : '' : '' }}>{{$value->name}}</option>
-                                            @endforeach
-                                        </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea name="description" id="description"  class="form-control" required>
-                                                {{ isset($cms_data) ? $cms_data->description : '' }}
-                                    </textarea>
-                                    @error('description')
                                         <span>{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -102,27 +73,18 @@
 @endsection
 @section('script')
 
-<script type="text/javascript">
-    $(document).ready(function() {
-       //$('.ckeditor').ckeditor();
-       CKEDITOR.replace( 'description', {
-    filebrowserUploadUrl: "{{route('admin.upload', ['_token' => csrf_token() ])}}",
-    filebrowserUploadMethod: 'form'
-});
-    });
-</script>
     <script>
         $(function() {
            
             $('#myform').validate({
                 rules: {
-                    description: {
+                    title: {
                         required: true
                     },
                 },
                 messages: {
-                    description: {
-                        required: "Please enter a Description",
+                    title: {
+                        required: "Please enter a Title",
                     },
                 },
                 errorElement: 'span',

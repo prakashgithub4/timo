@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Repositories\CmsRepository;
+use Illuminate\Support\Facades\DB;
 class CmsController extends Controller
 {
     //
@@ -22,11 +23,13 @@ class CmsController extends Controller
 
     public function add($id = null)
     {
+        $cms_category = DB::table('cms_category')->get();
+
         if (is_null($id)) {
-            return view('admin.cms.add');
+            return view('admin.cms.add',compact('cms_category'));
         } else {
             $cms_data = $this->cms->_edit($id);
-            return view('admin.cms.add', compact('cms_data'));
+            return view('admin.cms.add', compact('cms_data','cms_category'));
         }
     }
 
@@ -42,6 +45,8 @@ class CmsController extends Controller
         $input_array = array(
             'title' => $request->title,
             'description' => $request->description,
+            'cid' =>$request->cms_category,
+            'slug' =>$request->slug,
            // 'id' => $userid
         );
 

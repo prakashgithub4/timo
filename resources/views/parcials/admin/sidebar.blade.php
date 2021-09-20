@@ -4,13 +4,16 @@ $cms_titles = cms();
 @endphp
 <div class="sidebar">
     <!-- Sidebar user panel (optional) -->
-<!--     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+    <!--     <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
             <img src="{{ asset('assets/dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
         </div>
-        <div class="info">
-            <a href="#" class="d-block">{{\Auth::user()->name}}</a>
-        </div>
+         @auth
+                <div class="info">
+                    <a href="#" class="d-block">{{ \Auth::user()->name }}</a>
+                </div>
+        @endauth
+
     </div> -->
 
     <!-- SidebarSearch Form -->
@@ -32,7 +35,11 @@ $cms_titles = cms();
              with font-awesome or any other icon font library -->
             <li class="nav-item menu-open">
                 <a href="{{ route('admin.dashbord') }}"
-                    class="nav-link {{ currenturllastitem(Route::getFacadeRoot()->current()->uri()) == 'dashbord'? 'active': '' }}">
+                    class="nav-link {{ currenturllastitem(
+    Route::getFacadeRoot()->current()->uri(),
+) == 'dashbord'
+    ? 'active'
+    : '' }}">
                     <i class="nav-icon fas fa-tachometer-alt"></i>
                     <p>
                         Dashboard
@@ -91,52 +98,52 @@ $cms_titles = cms();
                         </a>
                     </li>
                     <li class="nav-item">
-                      <a href="{{ route('admin.attribute') }}" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Attributes</p>
-                      </a>
-                  </li>
-                  <li class="nav-item">
-                    <a href="{{ route('admin.sizes') }}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Size</p>
-                    </a>
-                </li>
+                        <a href="{{ route('admin.attribute') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Attributes</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.sizes') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Size</p>
+                        </a>
+                    </li>
 
-                <li class="nav-item">
-                  <a href="{{ route('admin.products') }}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Products</p>
-                  </a>
-              </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.products') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Products</p>
+                        </a>
+                    </li>
 
-               <li class="nav-item">
-                  <a href="{{route('admin.price_range.all')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Price Range</p>
-                  </a>
-              </li>
-               <li class="nav-item">
-                  <a href="{{route('admin.product.coupon')}}" class="nav-link">
-                      <i class="far fa-circle nav-icon"></i>
-                      <p>Coupons</p>
-                  </a>
-              </li>
-                <!--  <li class="nav-item">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.price_range.all') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Price Range</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('admin.product.coupon') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Coupons</p>
+                        </a>
+                    </li>
+                    <!--  <li class="nav-item">
                     <a href="{{ route('admin.discount') }}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Purchase Discount</p>
                     </a>
                 </li>  -->
-                <li class="nav-item">
-                    <a href="{{route('admin.review')}}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Reviews</p>
-                    </a>
-                </li> 
+                    <li class="nav-item">
+                        <a href="{{ route('admin.review') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Reviews</p>
+                        </a>
+                    </li>
                 </ul>
             </li>
-              <li class="nav-item">
+            <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-clipboard"></i>
                     <p>
@@ -175,12 +182,12 @@ $cms_titles = cms();
                     </li>
 
                     <li class="nav-item">
-                      <a href="{{ route('admin.assign.menu') }}" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Add Menu Products</p>
-                      </a>
-                  </li>
-                 
+                        <a href="{{ route('admin.assign.menu') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Add Menu Products</p>
+                        </a>
+                    </li>
+
 
                 </ul>
             </li>
@@ -206,8 +213,8 @@ $cms_titles = cms();
                             <p>Gifts</p>
                         </a>
                     </li>
-                     <li class="nav-item">
-                        <a href="{{route('admin.assign.category')}}" class="nav-link">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.assign.category') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Assign Categories</p>
                         </a>
@@ -224,14 +231,14 @@ $cms_titles = cms();
 
                 </ul>
             </li>
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="{{ url('admin/cms') }}" class="nav-link">
                 <i class="nav-icon fas fa-database"></i>
                 <p>
                     CMS
                     {{-- <i class="fas fa-angle-left right"></i> --}}
                 </p>
-            </a>
+            </a>-->
             {{-- <ul class="nav nav-treeview">
                 @foreach ($cms_titles as $titles)
                     <li class="nav-item">
@@ -243,42 +250,66 @@ $cms_titles = cms();
                 @endforeach
 
             </ul> --}}
-            </li>
+            {{-- </li> --}}
 
             <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon far fa-id-card"></i>
-                  <p>
-                      Contact
-                      <i class="fas fa-angle-left right"></i>
-                  </p>
-              </a>
-              <ul class="nav nav-treeview">
-                      <li class="nav-item">
-                          <a href="{{route('admin.contact')}}" class="nav-link">
-                              <i class="far fa-circle nav-icon"></i>
-                              <p>Contact</p>
-                          </a>
-                      </li>
-              </ul>
-          </li>
-           <li class="nav-item">
-              <a href="#" class="nav-link">
-                  <i class="nav-icon fab fa-accessible-icon"></i>
-                  <p>
-                      Subscribers
-                      <i class="fas fa-angle-left right"></i>
-                  </p>
-              </a>
-              <ul class="nav nav-treeview">
-                  <li class="nav-item">
-                      <a href="{{ route('admin.subscribers') }}" class="nav-link">
-                          <i class="far fa-circle nav-icon"></i>
-                          <p>Subscribers</p>
-                      </a>
-                  </li>
-              </ul>
-          </li>
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-database"></i>
+                    <p>
+                        CMS
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ url('admin/cms') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Pages</p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url('admin/cms-category') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>CMS Category</p>
+                        </a>
+                    </li>
+
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon far fa-id-card"></i>
+                    <p>
+                        Contact
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.contact') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Contact</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link">
+                    <i class="nav-icon fab fa-accessible-icon"></i>
+                    <p>
+                        Subscribers
+                        <i class="fas fa-angle-left right"></i>
+                    </p>
+                </a>
+                <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                        <a href="{{ route('admin.subscribers') }}" class="nav-link">
+                            <i class="far fa-circle nav-icon"></i>
+                            <p>Subscribers</p>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             {{-- <ul class="nav nav-treeview">
             <li class="nav-item">
               <a href="./index.html" class="nav-link active">
