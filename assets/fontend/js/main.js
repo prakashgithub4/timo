@@ -1,6 +1,6 @@
 (function ($) {
     "use strict";
-
+  $('body').removeClass('clicked');
     new WOW().init();  
 
     /*---background image---*/
@@ -225,6 +225,31 @@
 				items:3,
 			},
 		  
+        }
+    });
+
+    $('.recentview').owlCarousel({
+        autoplay: true,
+        loop: true,
+        nav: true,
+        autoplay: false,
+        autoplayTimeout: 8000,
+        items: 4,
+        dots:false,
+        margin:0,
+        navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
+        responsiveClass:true,
+    responsive:{
+        0:{
+        items:1,
+      },
+            768:{
+        items:2,
+      },
+            992:{
+        items:4,
+      },
+      
         }
     });
     

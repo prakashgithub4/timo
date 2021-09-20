@@ -39,17 +39,7 @@
                                         <div id="logins-part" class="content" role="tabpanel"
                                             aria-labelledby="logins-part-trigger">
                                         <div class= "row"> 
-                                        <div class="form-group col-md-6">
-                                                <label for="name">{{ __('Discount Title') }} <span
-                                                        style='color:red'>*</span></label>
-                                                <input type="text" name="discount_title" class="form-control" id="exampleInputEmail1"
-                                                    placeholder="Discount Title"
-                                                    value="{{ isset($getSlider) ? $getSlider->discount_title : '' }}"
-                                                    required />
-                                                @error('discount_title')
-                                                    <small style="color:red">{{ $message }}</small>
-                                                @enderror
-                                            </div>
+                                         
 
                                             <div class="form-group col-md-6">
                                                 <label for="name">{{ __('Title') }} <span
@@ -63,10 +53,21 @@
                                                 @enderror
                                             </div>  
 
+                                             <div class="form-group col-md-6">
+                                                <label for="name">{{ __('Discount Title') }} </label>
+                                                <input type="text" name="discount_title" class="form-control" id="exampleInputEmail1"
+                                                    placeholder="Discount Title"
+                                                    value="{{ isset($getSlider) ? $getSlider->discount_title : '' }}"
+                                                   />
+                                                @error('discount_title')
+                                                    <small style="color:red">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+
                                         </div>
                                             
                                         <div class= "row">   
-                                            <div class="form-group col-md-6">
+                                           <!--  <div class="form-group col-md-6">
                                                 
                                                 <label for="name">{{ __('Price') }} <span
                                                         style='color:red'>*</span></label>
@@ -77,7 +78,7 @@
                                                 @error('price')
                                                     <small style="color:red">{{ $message }}</small>
                                                 @enderror
-                                            </div>
+                                            </div> -->
 
                                             <div class="form-group col-md-6">
                                                 <label for="name">{{ __('Url') }} <span
@@ -90,22 +91,23 @@
                                                     <small style="color:red">{{ $message }}</small>
                                                 @enderror
                                             </div>
-                                        </div>
-
-                                            
-
-                                            <div class="form-group">
-                                                <label for="name">{{ __('image') }}
+                                            <div class="form-group col-md-6">
+                                                <label for="name">{{ __('Image') }}
                                                     <input type="file" name="image" class="form-control"
                                                         id="exampleInputEmail1" onchange='openFile(event)' placeholder="Image"
                                                         value="{{ isset($getColorbyId) ? $getColorbyId->image : '' }}"
-                                                        {{!isset($getColorbyId->image)? 'required': '' }}
+                                                        {{isset($getColorbyId->image)? 'required': '' }}
                                                          />
                                                         <img src='{{asset('public/uploads/slider')}}/{{isset($getSlider) ? $getSlider->image : null }}' id='output' style="height:100px; width:100px; display:{{ isset($getSlider->image) ? 'block' : 'none' }}">
                                                     @error('image')
                                                         <small style="color:red">{{ $message }}</small>
                                                     @enderror
                                             </div>
+                                        </div>
+
+                                            
+
+                                            
 
                                         </div>
                                         <div id="information-part" class="content" role="tabpanel"

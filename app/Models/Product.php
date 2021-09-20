@@ -28,5 +28,9 @@ class Product extends Model
     {
         return count_compares($this->id);
     }
+    public function color()
+    {
+        return $this->hasMany('App\Models\Color','id');
+    }
 
 }

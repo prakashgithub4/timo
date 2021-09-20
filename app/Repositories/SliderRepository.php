@@ -32,13 +32,25 @@ class SliderRepository
 
     public function _update($id, $data)
     {
-        $slider = Slider::find($id);
-        $slider->discount_title = $data['discount_title'];
-        $slider->title = $data['title'];
-        $slider->price = $data['price'];
-        $slider->image = $data['image'];
-        $slider->url= $data['url'];
-        
-        $slider->save();
+        if(isset($data['image']))
+        {
+           
+            $slider = Slider::find($id);
+            $slider->discount_title = is_null($data['discount_title']) ? Null : $data['discount_title'];
+            $slider->title = $data['title'];
+            $slider->image = $data['image'];
+            $slider->url= $data['url'];
+            $slider->save();
+        }
+        else
+        {   
+            
+            $slider = Slider::find($id);
+            $slider->discount_title = is_null($data['discount_title']) ? Null : $data['discount_title'];
+            $slider->title = $data['title'];
+            $slider->url= $data['url'];
+            $slider->save();
+        }
+       
     }
 }
