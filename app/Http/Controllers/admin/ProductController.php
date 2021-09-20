@@ -33,6 +33,17 @@ class ProductController extends Controller
 
     return view('admin.products.add');
   }
+
+  public function edit($id = null)
+  {
+      if (is_null($id)) {
+          return view('admin.products.edit');
+      } else {
+          $getProduct = $this->product->_edit($id);
+          return view('admin.products.edit', compact('getProduct'));
+      }
+  }
+
   public function save(Request $request)
   {
     $request->validate([
@@ -116,7 +127,10 @@ class ProductController extends Controller
         $nestedData['is Purchase'] = "<input type='button' class='btn btn-success' onclick='isPurchased(".$product->id.",".$product->is_purchased.",this)' value = ".(($product->is_purchased == 1) ? 'False' : 'True')." />";
         $nestedData['gender'] = $product->gender;
         $nestedData['image_src'] ="<img src='".$product->image_src."' height='100' width='100'>";
-        $nestedData['options'] = "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>";
+        $nestedData['options'] = 
+        "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>
+         <a href='".route('admin.product.edit',$product->id)."' class='btn btn-info'><i class='far fa-edit'></i></button>
+        ";
         $data[] = $nestedData;
       }
     }
@@ -433,4 +447,49 @@ class ProductController extends Controller
        return response()->json(['stat'=>true,'message'=>'shipping cost has been updated in product table']);
     }
 
+    public function update(Request $request)
+    {
+
+        $userid = \Auth::user()->id;
+
+        $request->validate([
+            'handle' => 'required',
+            'title' => 'required',
+            'body' => 'required',
+            'long_description' => 'required',
+            'published' => 'required',
+        ]);
+        $input_array = array(
+            'title' => $request->title,
+            'handle' => $request->handle,
+            'body' =>  $request->body,
+            'long_description' =>  $request->long_description,
+            'published' => $request->published,
+            'is_purchased' => $request->is_purchased,
+            'type' => $request->type,
+            'tags' => $request->tags,
+            'vendor' => $request->vendor,
+        );
+
+        if ($request->id == 0) {
+            // $this->colors->_add($input_array);
+            return redirect('admin/products')->with('success', 'Product Added successfully');
+        } else {
+            // $this->colors->_update($request->id, $input_array);
+
+            $product = Product::find($request->id);
+            $product->title = $input_array['title'];
+            $product->handle = $input_array['handle'];
+            $product->body = $input_array['body'];
+            $product->published = $input_array['published'];
+            $product->is_purchased = $input_array['is_purchased'];
+            $product->type = $input_array['type'];
+            $product->tags = $input_array['tags'];
+            $product->vendor = $input_array['vendor'];
+            $product->long_description = $input_array['long_description'];
+            $product->save();
+
+            return redirect('admin/products')->with('success', 'Product has been updated successfully');
+        }
+    }
 }

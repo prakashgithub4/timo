@@ -85,6 +85,10 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin'],
   Route::get('product/published/status/{id}/{status}', 'ProductController@changepublishedstatus');
   Route::get('product/ispurchased', 'ProductController@changeispurchasestatus')->name('admin.ispurchase');
   Route::post('product/shipping/cost', 'ProductController@productshippingcost')->name('admin.shipping.cost');
+  Route::get('product/edit/{id?}', 'ProductController@edit')->name('admin.product.edit');
+  Route::post('product/update', 'ProductController@update')->name('admin.product.update');
+
+
   /** CONTACT  */
   Route::get('contact', 'ContactController@index')->name('admin.contact');
   Route::post('contact/save', 'ContactController@save')->name('admin.contact.save');
