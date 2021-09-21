@@ -8,6 +8,8 @@ use App\Repositories\HomeRepository;
 use App\Repositories\SliderRepository;
 use App\Models\Shape;
 use App\Models\Gift;
+use App\Models\Product;
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -26,9 +28,16 @@ class HomeController extends Controller
         $secondcategories = $this->home->getLatestCategory(3,3);
         $products = $this->home->publishedproducts();
         $purchased = $this->home->publishedproducts(null,1);
+        $recomanded = Product::select('products.id', 'products.seo_title', 'products.tags', 'products.seo_description', 'products.image_src', 'products.variant_image', 'products.cost_per_item', 'products.body', 'products.type')
+                         ->leftJoin('menus','menus.id','=','products.menu')
+                         ->orderBy('products.id', 'asc')
+                         ->where('products.published', 'TRUE')
+                         ->skip(0)
+                         ->take(10)
+                         ->get();
+                       // echo"<pre>"; print_r($recomanded); exit;
         $shapes = Shape::all();  
         $gifts = Gift::all();
-
         return view('fontend.home')->with([
             'slider'=>$slider,
             'category'=>$category,
@@ -36,7 +45,8 @@ class HomeController extends Controller
             'products'=>$products,
             'shapes'=>$shapes,
             'gifts'=>$gifts,
-            'purchased_product'=>$purchased
+            'purchased_product'=>$purchased,
+            'recommended'=>$recomanded
         ]);
     }
 
@@ -44,7 +54,9 @@ class HomeController extends Controller
     {
         $id = $request->id;
         $product = $this->home->publishedproducts($id);
-        return collect(['data'=>$product]);
+        $result_array =['id'=>$product->id,'seo_title'=>$product->seo_title,'image_src'=>$product->image_src,'old_price'=>price_rang($product->id)['current_price'],
+        'current_price'=>price_rang($product->id)['old_price'],'description'=>$product->seo_description,'url' =>route('product',Crypt::encryptString($product->id))];
+        return collect(['data'=>$result_array]);
     }
 
     public function create_subscriber(Request $request)

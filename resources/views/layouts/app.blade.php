@@ -13,10 +13,6 @@
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
-<<<<<<< HEAD
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"/>
-=======
->>>>>>> 57742c579d02f521f1448b34cb1b3e3b6a81b901
 
 </head>
 
@@ -458,7 +454,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -532,7 +528,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -620,7 +616,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="# ">Checkout</a>
+                                        <a class="active" href="{{route('checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>`;

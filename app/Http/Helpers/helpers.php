@@ -1,6 +1,7 @@
-<?php 
+<?php
 
-use Illuminate\Support\Facades\Crypt;
+use GuzzleHttp\Cookie\SetCookie;
+use App\Models\Product;
 
 if(!function_exists('home_discount'))
 {
@@ -239,42 +240,65 @@ if(!function_exists('count_compares'))
        
     }
 }
-if(!function_exists('encryption_route'))
-  {
-      function encryption_route($id,$flag)
-      {
-          
-          if($flag==1){
-            $data = Crypt::encrypt($id);
-            return $data;
-          }
-          if($flag==2){
-            return $data = Crypt::decrypt($id);
-          }
-          //return $data;
-       
-      }
-  }
 
-  if(!function_exists('remove_space'))
-  {
-      function remove_space($data)
-      {
-            $data = str_replace("", "-", $data);
-            return $data;
-       
-      }
-  }
-
-  if(!function_exists('clean'))
-  {
-    function clean($string) {
-      $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-      $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-      $string = strtolower($string); // Convert to lowercase
-   
-      return $string;
+if(!function_exists('recent_views'))
+{
+    function recent_views($product_id)
+    {
+    //unset($_COOKIE['recent_view']);
+   if(isset($_COOKIE['recent_view']))
+   {
+    $recent = unserialize($_COOKIE['recent_view']);
+    $serach_key = array_search($product_id,$recent,true);
+    if($serach_key)
+    {
+      unset($recent[$serach_key]);
     }
-  }
+    else
+    {
+      $recent[] = $product_id;
+    }
+   
+    setcookie('recent_view',serialize($recent),time()+ 60*60*24*365,"/");
+    return array_unique($recent);
+   }
+   else
+   {
+      $recent = unserialize(@$_COOKIE['recent_view']);
+      $rect = !empty($recent) ? $recent : [];
+      $serach_key = array_search($product_id,$rect,true);
+      if($serach_key)
+      {
+        unset($recent[$serach_key]);
+      }
+      else
+      {
+        $recent[] = $product_id;
+      }
+      setcookie('recent_view',serialize($rect),time()+ 60*60*24*365,"/");
+     
+   }
+   return array_unique($recent);
+ }
+}
+if(!function_exists('recent_products'))
+{
+    function recentproducts()
+    {
+         
+      if(isset($_COOKIE['recent_view']))
+      {
+        $recent  = unserialize($_COOKIE['recent_view']);
+        $recents = implode(',',$recent);
+        $recent_view = Product::select('id','seo_description','seo_title','type','image_src')->orderBy('id','desc')->whereIn('id',explode(',',$recents))->skip(0)->take(10)->get();
+        return $recent_view;
+      }
+      else
+      {
+        return Null;
+      }
+    }
+}
+
 
 ?>
