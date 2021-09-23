@@ -404,7 +404,20 @@
         $(document).ready(function()
         {
             upadatecartwithuserid();
+            updatecompairlist();
         });
+        async function updatecompairlist()
+        {
+            let result = await $.ajax({
+                  url:"{{route('compair.list.update')}}",
+                  type:"Post",
+                  data:{
+                    "_token": '{{ csrf_token() }}',
+                  }
+
+              });
+              console.log(result);
+        }
         async function upadatecartwithuserid()
         {
             try{

@@ -241,10 +241,12 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
    Route::post('account/address/save','ProfileController@saveaddress')->name('account.address.save');
    /** product details */
    Route::get('product/{id}','ProductController@index')->name('product');
+    Route::get('shape/detail/{id?}/{slug?}','ShapeController@index')->name('shape.details');
    /**compair **/
    Route::get('compair/','CompairController@index')->middleware('customer')->name('compair');
    Route::post('compair/add','CompairController@addtocmpair')->name('compair.add');
    Route::post('compair/remove','CompairController@remove_compare')->name('compair.remove');
+   Route::post('compair/list/update','CompairController@devicereplacebyuser')->name('compair.list.update');
    /** Review  */
    Route::post('product/review','ReviewController@addreview')->name('product.review');
 
