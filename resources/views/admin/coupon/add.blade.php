@@ -58,7 +58,7 @@
                                                 @enderror
                                             </div> --}}
 
-                                             <div class="form-group">
+                                             {{-- <div class="form-group">
                                                 <label for="name">{{ __('User') }} 
                                                     <!-- <span style='color:red'>*</span> -->
                                                     </label>
@@ -72,7 +72,7 @@
                                                 @error('user')
                                                     <small style="color:red">{{ $message }}</small>
                                                 @enderror
-                                            </div>
+                                            </div> --}}
 
                                             <div class="form-group">
                                                 <label for="name">{{ __('Coupon') }} <!-- <span
@@ -87,7 +87,7 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="name">{{ __('Amount') }} <span
+                                                <label for="name">{{ __('Percentage %') }} <span
                                                         style='color:red'>*</span></label>
                                                 <input type="text" name="discount" class="form-control" id="differance"
                                                     placeholder="discount"
@@ -164,9 +164,7 @@
 @endsection
 @section('script')
     <script type="text/javascript">
-        $(document).ready(function() {
-            $('.ckeditor').ckeditor();
-        });
+        
         $(function() {
 
             $('#myform').validate({

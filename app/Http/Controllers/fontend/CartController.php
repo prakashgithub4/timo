@@ -9,7 +9,9 @@ use App\Models\Cart;
 use App\Models\Product;
 use App\Models\User;
 use App\Models\Coupon;
+use App\Models\Coupon_Apply;
 use Auth;
+
 
 class CartController extends Controller
 {
@@ -21,16 +23,14 @@ class CartController extends Controller
   }
   public function index()
   {
-    $userdata = Auth::user();
-    $cart = Cart::select(\DB::raw('SUM(qty) as quantities'), \DB::raw('SUM(sub_total) as total'))->where('user_id', $userdata->id)->first();
-    $coupon = Coupon::where('user_id', $userdata->id)->where('status', 'apply')->first();
-    if (!empty($coupon)) {
-      $total = $cart->total - $coupon->discount;
-    } else {
-      $total = $cart->total;
-    }
+    $userdata = \Auth::user();
+    $coupon_details = Cart::select('coupons.*')
+                      ->leftJoin('apply_coupons','apply_coupons.user_id','=','carts.user_id')
+                      ->leftJoin('coupons','coupons.id','=','apply_coupons.coupon_id')
+                      ->where('apply_coupons.user_id',$userdata->id)
+                      ->first();
 
-    return view('fontend.carts', compact('cart', 'coupon', 'total'));
+    return view('fontend.carts',compact('coupon_details'));
   }
 
   public function add_to_cart(Request $request)
@@ -169,30 +169,63 @@ class CartController extends Controller
       return response()->json(['stat' => true, 'cartdetails' => cart_list()]);
     }
   }
-  public function cuponcode_apply()
-  {
-    $userdata = \Auth::user();
-    $coupon = Coupon::where('coupon', request()->coupon)->where('user_id', $userdata->id)->first();
-    if (!empty($userdata)) {
-      if (!empty($coupon)) {
-        $coupon_details = Coupon::where('user_id', $userdata->id)->where('status', 'pending')->whereDate('created_date', '>=', date('Y-m-d'))->whereDate('expire_date', '<=', date('Y-m-d', strtotime($coupon->expire_date)))->first();
-        if (empty($coupon_details)) {
-          $coupon->status = 'expired';
-          $coupon->save();
-          return response()->json(['stat' => false, 'message' => "Coupon code is expired", 'data' => $coupon]);
-        }
-        if ($coupon->status != 'expired' && $coupon->status != 'apply') {
+  public function cuponcode_apply(Request $request)
+  {  
+     $userdata = Auth::user();
+     $coupon = Coupon::where('coupon',$request->coupon)->first();
+     if(!empty($coupon))
+     {
+
+     $today = date('Y-m-d');
+     $expiration_day = date('Y-m-d',strtotime($coupon->expire_date));
+     
+     if($today < $expiration_day)
+     {
+       $coupon_apply  = Coupon_Apply::where('user_id',$userdata->id)->first();
+       if(empty($coupon_apply))
+       {
+          $newcoupon = new Coupon_Apply();
+          $newcoupon->user_id = $userdata->id;
+          $newcoupon->coupon_id = $coupon->id;
+          $newcoupon->save();
           $coupon->status = 'apply';
           $coupon->save();
-          return response()->json(['stat' => true, 'message' => "coupon code applied successfully", 'data' => $coupon]);
-        } else {
-          return response()->json(['stat' => false, 'message' => "coupon code is already applied", 'data' => []]);
-        }
-      } else {
-        return response()->json(['stat' => false, 'message' => "coupon code is invalid", 'data' => []]);
+          return response()->json(['stat'=>true,'message'=>'Coupon code has been applied successfully','data'=>$coupon]);
+       }
+       else if($coupon->status == 'apply')
+       {
+        return response()->json(['stat'=>false,'message'=>'Coupon is already applied','data'=>$coupon]);
+       }
+       else
+       {
+          $coupon_apply->user_id = $userdata->id;
+          $coupon_apply->coupon_id = $coupon->id;
+          $coupon_apply->save();
+          $coupon->status = 'apply';
+          $coupon->save();
+          return response()->json(['stat'=>true,'message'=>'Coupon code has been applied successfully','data'=>$coupon]);
+       }
+     }
+     else if(empty($userdata))
+     {
+       return response()->json(['stat'=>false,'message'=>'please login first']); 
+     }
+     else
+     {
+
+      $coupon_apply = Coupon_Apply::where('coupon_id',$coupon->id)->first();
+      if(!empty($coupon_apply))
+      {
+        $coupon_apply->delete();
       }
-    } else {
-      return response()->json(['stat' => false, 'message' => "Please login first", 'data' => []]);
+      $coupon->status = 'expired';
+      $coupon->save();
+      return response()->json(['stat'=>false,'message'=>'Coupon Code is expired','data'=>[]]);
+     }
+    }
+    else
+    {
+      return response()->json(['stat'=>false,'message'=>'Coupon code is invalid']);
     }
   }
 
@@ -201,21 +234,42 @@ class CartController extends Controller
     $coupon = Coupon::find(request()->coupon_id);
     $coupon->status = 'removed';
     $coupon->save();
+    $coupon_apply = Coupon_Apply::where('coupon_id',request()->coupon_id)->first();
+    $coupon_apply->delete();
     return response()->json(['stat' => true, 'message' => 'Coupon code has been removed successfully', 'data' => $coupon]);
   }
   public function checkexpiration()
   {
     $userdata = \Auth::user();
-    $coupon_details = Coupon::where('user_id', $userdata->id)->where('status', 'apply')->whereDate('expire_date', '>=', date('Y-m-d'))->first();
-    if (empty($coupon_details)) {
-      $coupon = Coupon::where('user_id', $userdata->id)->where('status', 'apply')->first();
-      if (!empty($coupon)) {
-        $coupon->status = 'expired';
-        $coupon->save();
-        return response()->json(['stat' => true, 'message' => "promo code is currently exired"]);
-      } else {
-        return response()->json(['stat' => false, 'message' => "Nothing to be updated"]);
-      }
+    $coupon_details = Cart::select('coupons.*')
+    ->leftJoin('apply_coupons','apply_coupons.user_id','=','carts.user_id')
+    ->leftJoin('coupons','coupons.id','=','apply_coupons.coupon_id')
+    ->where('coupons.status','apply')
+    ->where('apply_coupons.user_id',$userdata->id)
+    ->first();
+    if(empty($coupon_details))
+    {
+      return response()->json(['stat'=>false,'message'=>'No any Coupon code currently applied']);
+    }
+    $today = date('Y-m-d');
+    $expiredate = date('Y-m-d',strtotime($coupon_details->expire_date));
+    if($today <= $expiredate)
+    {
+      $coupon = Coupon::find($coupon_details->id);
+      $coupon->status = 'apply';
+      $coupon->save();
+      return response()->json(['stat'=>false,'message'=>'Coupon code is applied']);
+     
+    }
+    else
+    {
+      $coupon_apply = Coupon_Apply::where('coupon_id',$coupon_details->id)->first();
+      $coupon_apply->delete();
+
+      $coupon = Coupon::find($coupon_details->id);
+      $coupon->status = 'expired';
+      $coupon->save();
+      return response()->json(['stat'=>true,'message'=>'Coupon code has been expired']);
     }
   }
 }

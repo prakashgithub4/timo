@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Coupon;
+use App\Models\Coupon_Apply;
 use GuzzleHttp\Cookie\SetCookie;
 use App\Models\Product;
 
@@ -140,11 +142,11 @@ if(!function_exists('cart_list'))
         $cartproduct = [];
         if(!empty($userdata)) 
         {
-          $cartproduct = \App\Models\Cart::select('carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.user_id',\Auth::user()->id)->get();
+          $cartproduct = \App\Models\Cart::select('carts.product_id','carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.user_id',\Auth::user()->id)->get();
         }
         else if(@$_COOKIE['device'])
         {
-          $cartproduct = \App\Models\Cart::select('carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.device_id',$_COOKIE['device'])->get();
+          $cartproduct = \App\Models\Cart::select('carts.product_id','carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.device_id',$_COOKIE['device'])->get();
         }
         return $cartproduct;
     }
@@ -202,14 +204,13 @@ if(!function_exists('price_rang'))
                                                ->where('status','=','active')
                                                ->orderBy('id','desc')
                                                ->first();
+          $old_price_with_percent =(float) ($product->cost_per_item * $price_range->differance)/100;
+        
            if(!empty($price_range))
            {
-             return array('old_price'=>$product->cost_per_item + $price_range->differance,'current_price'=>$product->cost_per_item - $price_range->differance);
+             return array('old_price'=>$product->cost_per_item + $old_price_with_percent,'current_price'=>$product->cost_per_item - $old_price_with_percent);
            }
-           else
-           {
-              return array('old_price'=>$product->cost_per_item ,'current_price'=>$product->cost_per_item);
-           }
+          
 
        }
        
@@ -299,6 +300,35 @@ if(!function_exists('recent_products'))
       }
     }
 }
-
-
-?>
+// if(!function_exists('recent_products'))
+// {
+//    function checkcupon()
+//    {
+//      $userdata = \Auth::user();
+//      if(!empty($userdata)&&$userdata->user_type =='customer')
+//      {
+//          $coupon_apply = Coupon_Apply::where('user_id',$userdata->id)->first();
+//          if(!empty($coupon_apply))
+//          {
+//            return true;
+//          }
+//          else
+//          {
+//            return false;
+//          }
+//      }
+//      else
+//      {
+//         $coupon_apply = Coupon_Apply::where('device_id',$_COOKIE['device'])->first();
+//         if(!empty($coupon_apply))
+//         {
+//           return true;
+//         }
+//         else
+//         {
+//           return false;
+//         }
+//      }
+     
+//    }
+// }
