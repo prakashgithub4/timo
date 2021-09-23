@@ -3,4 +3,4 @@
 *.readmd
 *.md
 tiamohtml/*
-.env
+*.env

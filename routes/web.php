@@ -28,8 +28,8 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
    Route::get('change_password','UserController@changepassword')->name('reset-password');
    Route::post('update_password','UserController@updatepassword')->name('update-password');
    Route::get('logout/','AuthController@logout')->name('admin.logout');
-   Route::get('cms/{slug?}','CmsController@index');
-   Route::post('cms/update','CmsController@update');
+   //Route::get('cms/{slug?}','CmsController@index');
+  // Route::post('cms/update','CmsController@update');
    /*** Customer module */
    Route::get('user/{user_type}','UserController@customerlist');
    Route::get('customer/add','UserController@addcustomer');
@@ -250,4 +250,7 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
 
    /** chekouts */
   Route::get('checkouts/','CheckoutController@index')->name('checkout');
+
+  //purchase-order
+  Route::post('purchase-order','OrderController@save')->name('purchase.save');
 });
