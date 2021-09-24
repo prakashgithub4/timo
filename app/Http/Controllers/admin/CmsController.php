@@ -49,7 +49,6 @@ class CmsController extends Controller
             'slug' =>clean($request->title),
            // 'id' => $userid
         );
-
         if ($request->id == 0) {
             $this->cms->_add($input_array);
             return redirect('admin/cms')->with('success', 'Data has been created successfully');
