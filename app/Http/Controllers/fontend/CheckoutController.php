@@ -19,7 +19,7 @@ class CheckoutController extends Controller
     {
         $userdata = Auth::user();
        // $cart  = Cart::where('user_id',$userdata->id)->get();
-        $product = Product::select('products.id','products.image_src','products.seo_title','carts.qty','carts.price')
+        $product = Product::select('carts.id as CI','products.id','products.image_src','products.seo_title','carts.qty','carts.price')
         ->leftJoin('carts','carts.product_id','=','products.id')
         ->where('carts.user_id',$userdata->id)
         ->get();

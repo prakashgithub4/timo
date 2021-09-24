@@ -153,7 +153,7 @@
                                         <a href="{{route('user.cart')}}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="javascript:void(0)">Checkout</a>
+                                        <a class="active" href="{{route('checkout')}}">Checkout</a>
                                     </div>
 
                                 </div>

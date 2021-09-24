@@ -29,7 +29,7 @@ Product Details
 
                         <div id="img-1" class="zoomWrapper single-zoom">
                             <a href="#">
-                                <img id="zoom1" src="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" data-zoom-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" alt="big-1">
+                                <img id="zoom1" src="{{@$product_image_array[0]['image']}}" data-zoom-image="{{@$product_image_array[0]['image']}}" alt="big-1">
                             </a>
                         </div>
 
@@ -41,26 +41,8 @@ Product Details
                                 @if (@count($product_image_array) > 0)
                                 @foreach($product_image_array as $item)
                                 <li>
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" data-zoom-image="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}">
-                                        <img src="{{(empty($product->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $product->image_src }}" alt="zo-th-1"/>
-                                    </a>
-
-                                </li>
-                                <li >
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{asset('assets/fontend/img/product/product1-big.jpg')}}" data-zoom-image="{{asset('assets/fontend/img/product/product1-big.jpg')}}">
-                                        <img src="{{asset('assets/fontend/img/product/product13.jpg')}}" alt="zo-th-1"/>
-                                    </a>
-
-                                </li>
-                                <li >
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{asset('assets/fontend/img/product/product3-big.jpg')}}" data-zoom-image="assets/img/product/product3-big.jpg')}}">
-                                        <img src="{{asset('assets/fontend/img/product/product4.jpg')}}" alt="zo-th-1"/>
-                                    </a>
-
-                                </li>
-                                <li >
-                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="assets/img/product/product2-big.jpg" data-zoom-image="{{asset('assets/fontend/img/product/product2-big.jpg')}}">
-                                        <img src="{{asset('assets/fontend/img/product/product2.jpg')}}" alt="zo-th-1"/>
+                                    <a href="#" class="elevatezoom-gallery active" data-update="" data-image="{{$item['image']}}" data-zoom-image="{{$item['image']}}">
+                                        <img src="{{$item['image']}}" alt="zo-th-1"/>
                                     </a>
 
                                 </li>
@@ -73,16 +55,10 @@ Product Details
                 </div>
                 <div class="col-lg-6 col-md-6">
                     <div class="product_d_right">
-                       <form action="#">
-                           
-                            <h1>{{$product->title}}</h1>
-                            <div class="product_nav">
-                                <ul>
-                                    <li class="prev"><a href="#"><i class="fa fa-angle-left"></i></a></li>
-                                    <li class="next"><a href="#"><i class="fa fa-angle-right"></i></a></li>
-                                </ul>
-                            </div>
-                            <div class=" product_ratting">
+                    <form action="#">
+                        
+                            <h1>{{$product->seo_title}}</h1>
+                            <div class="product_ratting">
                                 <ul>
                                     <li><a href="#"><i class="fa fa-star"></i></a></li>
                                     <li><a href="#"><i class="fa fa-star"></i></a></li>
@@ -94,20 +70,19 @@ Product Details
                             </div>
                             @php $price = price_rang($product->id); @endphp
                             <div class="product_price">
-                                <span class="old_price">${!!$product->cost_per_item!!}</span>
-                                <span class="current_price">$70.00</span>
+                                <span class="old_price" id="old">${{number_format($price['old_price'],2)}}</span>
+                                <span class="current_price" id="new">${{number_format($price['current_price'],2)}}</span>
+                                <input type="hidden" id ="current_price" value="{{$price['current_price']}}"/>
+                                <input type="hidden" id ="old_price" value="{{$price['old_price']}}"/>
                             </div>
                             <div class="product_desc">
-                                {!!$product->body!!}
+                                <p>{{$product->seo_description}} </p>
                             </div>
 
                             <div class="product_variant quantity">
                                 <label>quantity</label>
-                                <input min="1" max="100" value="1" type="number">
-                                {{-- <button class="button" type="submit">add to cart</button>  --}}
-                                <a   href="javascript:add_to_cart({{$product->id}})" title="add to cart">
-                                    <button class="button" type="button">add to cart</button>
-                                </a> 
+                                <input min="1" max="100" value="1" type="number" onchange="onchangeqty(this.value)">
+                                <button class="button" onclick="add_to_cart({{$product->id}})" type="button">add to cart</button>  
                                 
                             </div>
                             <div class=" product_d_action">
@@ -117,15 +92,17 @@ Product Details
                             </ul>
                             </div>
                             <div class="product_meta">
-                                <span>Category: <a href="#">{!! $product->type!!}</a></span>
-                            </div>
-                            
+                                <span>Category: <a href="javascript:void(0)">{{$product->type}}</a></span>
+                            </div>                                
                         </form>
                         <div class="priduct_social">
-
-                            {{-- @php echo print_r(URL::current()); @endphp --}}
-
-                            {!! Share::page(URL::current())->facebook()->twitter()->whatsapp() !!}
+                            <ul>
+                                <li><a href="http://www.facebook.com/sharer.php?u={{route('product',Crypt::encryptString($product->id))}}" title="facebook"><i class="fa fa-facebook"></i></a></li>           
+                                <li><a href="#" title="twitter"><i class="fa fa-twitter"></i></a></li>           
+                                <li><a href="#" title="pinterest"><i class="fa fa-pinterest"></i></a></li>           
+                                <li><a href="#" title="google +"><i class="fa fa-google-plus"></i></a></li>        
+                                <li><a href="#" title="linkedin"><i class="fa fa-linkedin"></i></a></li>        
+                            </ul>      
                         </div>
 
                     </div>
@@ -133,91 +110,52 @@ Product Details
             </div>
         </div>    
     </div>
-    <!--product details end-->
-
-        <!--product info start-->
-        <div class="product_d_info">
-            <div class="container">   
-                <div class="row">
-                    <div class="col-12">
-                        <div class="product_d_inner">   
-                            <div class="product_info_button">    
-                                <ul class="nav" role="tablist">
-                                    <li >
-                                        <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Description</a>
-                                    </li>
-                                    <li>
-                                       <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews (1)</a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="tab-content">
-                                <div class="tab-pane fade show active" id="info" role="tabpanel" >
-                                    <div class="product_info_content">
-                                        {!! $product-> long_description!!}
-                                    </div>    
-                                </div>
-    
-                                <div class="tab-pane fade" id="reviews" role="tabpanel" >
-                                    <div class="reviews_wrapper">
-                                        <h2>1 review for Donec eu furniture</h2>
-                                        <div class="reviews_comment_box">
-                                            <div class="comment_thmb">
-                                                <img src="{{asset('assets/fontend/img/blog/comment2.jpg')}}" alt="">
-                                            </div>
-                                            <div class="comment_text">
-                                                <div class="reviews_meta">
-                                                    <div class="star_rating">
-                                                        <ul>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                            <li><a href="#"><i class="ion-ios-star"></i></a></li>
-                                                        </ul>   
-                                                    </div>
-                                                    <p><strong>admin </strong>- September 12, 2018</p>
-                                                    <span>roadthemes</span>
-                                                </div>
-                                            </div>
-                                            
-                                        </div>
-                                        <div class="comment_title">
-                                            <h2>Add a review </h2>
-                                            <p>Your email address will not be published.  Required fields are marked </p>
-                                        </div>
-                                        <div class="product_ratting mb-10">
-                                           <h3>Your rating</h3>
-                                            <ul>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-star"></i></a></li>
-                                            </ul>
-                                        </div>
-                                        <div class="product_review_form">
-                                            <form action="#">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <label for="review_comment">Your review </label>
-                                                        <textarea name="comment" id="review_comment" ></textarea>
-                                                    </div> 
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <label for="author">Name</label>
-                                                        <input id="author"  type="text">
-    
-                                                    </div> 
-                                                    <div class="col-lg-6 col-md-6">
-                                                        <label for="email">Email </label>
-                                                        <input id="email"  type="text">
-                                                    </div>  
-                                                </div>
-                                                <button type="submit">Submit</button>
-                                             </form>   
-                                        </div> 
-                                    </div>    
-                                </div>
+    <div class="product_d_info">
+        <div class="container">   
+            <div class="row">
+                <div class="col-8">
+                    <div class="product_d_inner">   
+                        <div class="product_info_button">    
+                            <ul class="nav" role="tablist">
+                                <li >
+                                    <a class="active" data-toggle="tab" href="#info" role="tab" aria-controls="info" aria-selected="false">Description</a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#reviews" role="tab" aria-controls="reviews" aria-selected="false">Reviews (1)</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="tab-content">
+                            <div class="tab-pane fade show active" id="info" role="tabpanel" >
+                                <div class="product_info_content">
+                                    {{$product->long_description}}
+                                  
+                                </div>  
+                                <div class="proinfo">
+                                    <h3>Diamond Details</h3>
+                                    <table class="table table-striped">
+                                        <tbody>
+                                            @php $flag = 0; @endphp
+                                            @foreach ($attribute_array as $key=>$item)
+                                            @if(!is_null($item['value']))
+                                            <tr>
+                                                <th scope="row">{{$key + 1}}</th>
+                                                <td>{{$item['name']}}</td>
+                                                <td>{{$item['value']}}</td>
+                                              </tr>
+                                              @else
+                                                @php $flag = 1; @endphp
+                                              @endif
+                                            @endforeach
+                                           @if($flag == 1)
+                                           <tr>
+                                               <td colspan = 3>No attribute</td>
+                                           </tr>
+                                           @endif
+                                           
+                                        </tbody>
+                                      </table>
+                                </div>  
                             </div>
 
                             <div class="tab-pane fade" id="reviews" role="tabpanel" >
@@ -355,7 +293,7 @@ Product Details
                                     <div class="single_product">
                                         <div class="product_thumb">
                                             <a class="primary_img" href="{{route('product',[Crypt::encryptString($products->id)])}}"><img src="{{$products->image_src}}" alt=""></a>
-                                            <a class="secondary_img" href="{{route('product',[Crypt::encryptString($products->id)])}}"><img src="{{(@gallerypicksecond($products->id)->image == null) ? $products->image_src : gallerypicksecond($products->id)->image }}" alt=""></a>
+                                            <!-- <a class="secondary_img" href="{{route('product',[Crypt::encryptString($products->id)])}}"><img src="{{(@gallerypicksecond($products->id)->image == null) ? $products->image_src : gallerypicksecond($products->id)->image }}" alt=""></a> -->
                                         </div>
                                         <div class="product_content">
                                             <div class="tag_cate">
@@ -402,7 +340,7 @@ Product Details
             </div>    
         </div>
     </div>
-    {{-- <section class="product_section p_bottom p_section1 pt-5 retpro bg-white">
+    <!-- <section class="product_section p_bottom p_section1 pt-5 retpro bg-white">
         <div class="container">
             <div class="row">
                <div class="col-12">
@@ -469,8 +407,8 @@ Product Details
                 </div>
             </div>    
         </div>
-    </section> --}}
-    @include('parcials.recent')
+    </section> -->
+     @include('parcials.recent')
 </div>
 @endsection
 @section('script')

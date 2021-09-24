@@ -98,7 +98,7 @@ Home
                     <div class="product_area ">
                         <div class="product_container bottom">
                             <div class="custom-row product_row1">
-                                @foreach ($products as $item)
+                                @foreach ($recommended as $item)
                                 @php $price = price_rang($item->id); @endphp
                                 <div class="custom-col-5">
                                     <div class="single_product">
@@ -366,7 +366,7 @@ Home
         </div>
     </section>
 
-    <section class="product_section p_bottom p_section1 pt-5">
+    {{-- <section class="product_section p_bottom p_section1 pt-5">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -1001,7 +1001,8 @@ Home
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
+    @include('parcials.recent')
 @endsection
 @section('script')
 <script type="text/javascript">
