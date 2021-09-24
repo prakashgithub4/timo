@@ -67,9 +67,9 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="name">{{ __('Amount') }} <span
+                                                <label for="name">{{ __('Percent %') }} <span
                                                         style='color:red'>*</span></label>
-                                                <input type="text" name="diff" class="form-control" id="differance"
+                                                <input type="number" name="diff" class="form-control" id="differance"
                                                     placeholder="Amount"
                                                     value="{{isset($get_range_by_id) ? $get_range_by_id->differance : ''}}"
                                                     required/>

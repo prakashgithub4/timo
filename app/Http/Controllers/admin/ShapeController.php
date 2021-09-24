@@ -44,9 +44,15 @@ class ShapeController extends Controller
         if ($request->hasFile('logo')) {
             $logo = $this->Uploadfile($request->file('logo'), 'uploads/shape');
         }
+        if($request->hasFile('banner'))
+        {
+            $banner = $this->Uploadfile($request->file('banner'),'uploads/shape/banner');
+        }
         $input_array = array(
             'name' => $request->name,
             'logo' => $logo['file'],
+            'banner'=>$banner['file'],
+            'description'=>$request->description,
             'userId'=>\Auth::user()->id
         ); 
         
@@ -57,6 +63,9 @@ class ShapeController extends Controller
             $getImageByid = $this->shape->_edit($request->id);
             if (File::exists(public_path('uploads/shape/' . $getImageByid->image))) {
                 File::delete(public_path('uploads/shape/' . $getImageByid->image));
+            }
+            if (File::exists(public_path('uploads/shape/banner' . $getImageByid->banner))) {
+                File::delete(public_path('uploads/shape/banner' . $getImageByid->banner));
             }
             $this->shape->_update($request->id, $input_array);
             return redirect('admin/shapes')->with('success', 'Shape has been updated successfully');

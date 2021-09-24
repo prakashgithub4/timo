@@ -42,16 +42,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-
+                                           @php $total = 0; $qty = 0; @endphp
                                             @foreach (cart_list() as $carts)
+                                            @php $total = $total + $carts->sub_total; @endphp
+                                            @php $qty = $qty + $carts->qty; @endphp
                                                 <tr class="cart_{{ $carts->id }}">
                                                     <input type="hidden" name="cart_id" value="{{ $carts->id }}" />
                                                     <td class="product_remove"><a
                                                             href="javascript:removecart({{ $carts->id }})"><i
                                                                 class="fa fa-trash-o"></i></a></td>
-                                                    <td class="product_thumb"><a href="#"><img
+                                                    <td class="product_thumb"><a href="{{route('product',[Crypt::encryptString($carts->product_id)])}}"><img
                                                                 src="{{ $carts->image_src }}" alt=""></a></td>
-                                                    <td class="product_name"><a href="#">{{ $carts->seo_title }}</a>
+                                                    <td class="product_name"><a href="{{route('product',[Crypt::encryptString($carts->product_id)])}}">{{ $carts->seo_title }}</a>
                                                     </td>
                                                     <td class="product-price">£{{ $carts->price }}</td>
                                                     <td class="product_quantity"><label>Quantity</label> <input min="0"
@@ -62,6 +64,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    
                                 </div>
                                 <div class="cart_submit d-flex justify-content-between">
                                     <button type="button">Continue shopping</button>
@@ -73,71 +76,7 @@
                         @endif
                     </div>
                 </div>
-                <!--  <section class="product_section p_bottom p_section1">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="section_title">
-                                    <h2>Cleaning Products</h2>
-                                </div>
-                            </div>
-                <div class="col-12">
-                    <div class="product_area cleaning-pro">
-                        <div class="product_container bottom">
-                            <div class="row">
-                                <div class="col-md-3 col-lg-3 col-sm-6 col-12">
-                                    <div class="single-shipping">
-                                        <div class="shipping_icone icone_1">
-                                            <img src="{{ asset('assets/fontend/img/product/product5.jpg') }}" alt="">
-                                        </div>
-                                        <div class="shipping_content cartcnt">
-                                            <h3>Blue Nile Jewelry Polishing Cloth</h3>
-                                            <p><strong>Price: $5.00</strong></p>
-                                            <a href="#" class="btn">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-sm-6 col-12">
-                                    <div class="single-shipping">
-                                        <div class="shipping_icone icone_1">
-                                            <img src="{{ asset('assets/fontend/img/product/product5.jpg') }}" alt="">
-                                        </div>
-                                        <div class="shipping_content cartcnt">
-                                            <h3>Blue Nile Jewelry Polishing Cloth</h3>
-                                            <p><strong>Price: $5.00</strong></p>
-                                            <a href="#" class="btn">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-sm-6 col-12">
-                                    <div class="single-shipping">
-                                        <div class="shipping_icone icone_1">
-                                            <img src="{{ asset('assets/fontend/img/product/product5.jpg') }}" alt="">
-                                        </div>
-                                        <div class="shipping_content cartcnt">
-                                            <h3>Blue Nile Jewelry Polishing Cloth</h3>
-                                            <p><strong>Price: $5.00</strong></p>
-                                            <a href="#" class="btn">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-sm-6 col-12">
-                                    <div class="single-shipping">
-                                        <div class="shipping_icone icone_1">
-                                            <img src="{{ asset('assets/fontend/img/product/product5.jpg') }}" alt="">
-                                        </div>
-                                        <div class="shipping_content cartcnt">
-                                            <h3>Blue Nile Jewelry Polishing Cloth</h3>
-                                            <p><strong>Price: $5.00</strong></p>
-                                            <a href="#" class="btn">Add</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section> -->
+           
                 <div class="coupon_area">
                     <div class="row">
                         <div class="col-lg-12 col-md-12">
@@ -155,16 +94,19 @@
                                             <input placeholder="Coupon code" id="coupon" type="text" class="w-50">
                                             <button type="button" onclick="couponcode()">Apply coupon</button>
                                         </div>
-                                        <div class="col-md-4 col-md-4 col-12">
+                                        @php $discount = isset($coupon_details->discount)?($coupon_details->discount * $total)/100:0; @endphp
+                                        <div class="col-md-4 col-md-4 col-12" id ="coupon_price">
                                             <h4 id="single-promo" class="mb-0 text-center d-block mt-4"><strong>Coupon
                                                     Price</strong>
-                                                -£{{ !empty(@$coupon->discount) ? $coupon->discount : '00.0' }}
+                                                -£{{ isset($discount) ? number_format($discount,2) : "0.00"}}
                                             </h4>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+
                         <div class="col-lg-6 col-md-6">
                             <div class="coupon_code left">
                                 <h3>Shipping Information</h3>
@@ -206,52 +148,47 @@
                             <div class="coupon_code right">
                                 <h3>Price Information</h3>
                                 <div class="coupon_inner">
-                                    <!-- <div class="cart_subtotal">
-                                <p>Order #</p>
-                                <p class="cart_amount">60416175</p>
-                            </div> -->
-                                    <div class="cart_subtotal">
-                                        <p>Number of items</p>
-                                        <p class="cart_amount">{{ empty($cart->quantities) ? '0' : $cart->quantities }}
-                                        </p>
-                                    </div>
-                                    <div class="cart_subtotal">
-                                        <p>Item total</p>
-                                        <p class="cart_amount">£{{ empty($cart->total) ? '0.00' : $cart->total }}</p>
-                                        <input type="hidden" id="item_total"
-                                            value="{{ empty($cart->total) ? 0 : $cart->total }}" />
-                                    </div>
-                                    @if (isset($coupon))
-                                        <div class="cart_subtotal" id="promo_static">
-                                            <p>*Promo code: {{ $coupon->coupon }} <button type="button"
-                                                    onclick="removecoupon({{ $coupon->id }})"
-                                                    class="h-auto py-1 px-2">Remove</button>
-                                            </p>
-                                            <p class="cart_amount">
-                                                -£{{ !empty(@$coupon->discount) ? $coupon->discount : '00.0' }}</p>
+                                    {{-- <div class="cart_subtotal">
+                                       <p>Order #</p>
+                                       <p class="cart_amount">60416175</p>
+                                   </div> --}}
+                                   <div class="cart_subtotal">
+                                       <p>Number of items</p>
+                                       <p class="cart_amount">{{isset($qty) ? $qty : 0}}</p>
+                                   </div>
+                                   <div class="cart_subtotal">
+                                       <p>Item total</p>
+                                       <p class="cart_amount">£{{isset($total) ? $total :'0.00'}}</p>
+                                   </div>
+                                   <input type ="hidden" id="total" value="{{$total}}"/>
+                                  
 
-                                        </div>
-                                    @endif
-                                    <input type="hidden" id="coupon_amount"
-                                        value="{{ !empty(@$coupon->discount) ? $coupon->discount : 0 }}" />
-                                    <div class="cart_subtotal" id="promo">
-                                        <input type="hidden" id='coupon_id'
-                                            value="{{ isset($coupon) ? $coupon->expire_date : 0 }}" />
-                                    </div>
-                                    <!--  <div class="cart_subtotal ">
-                                <p>Shipping</p>
-                                <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
-                            </div>
-                            <a href="#">Calculate shipping</a> -->
+                                   @if(isset($coupon_details) && $coupon_details->status =='apply')
+                                   <div class="cart_subtotal coupon_block" >
+                                    
+                                       <p>*Promo code: {{$coupon_details->coupon}} <button type="button" class="h-auto py-1 px-2" onclick='removecoupon({{$coupon_details->id}})'>Remove</button></p>
+                                       <p class="cart_amount">-£{{number_format($discount,2)}}</p>
+                                       
+                                   </div>
+                                   @endif
 
-                                    <div class="cart_subtotal">
-                                        <p>Total</p>
-                                        <p class="cart_amount" id="grand_total">£{{ empty($total) ? '0.00' : $total }}
-                                        </p>
-                                    </div>
-                                    <div class="checkout_btn">
-                                        <a href="#">Proceed to Checkout</a>
-                                    </div>
+                                   <div class="cart_subtotal coupon_block" style="display: none" >
+                                    
+                                   </div>
+                                  
+                                   {{-- <div class="cart_subtotal ">
+                                       <p>Shipping</p>
+                                       <p class="cart_amount"><span>Flat Rate:</span> £255.00</p>
+                                   </div>
+                                   <a href="#">Calculate shipping</a> --}}
+                                    @php $discount_price = (isset($discount)&&($discount != 0)&&($coupon_details->status =='apply')) ? $total - $discount : $total; @endphp 
+                                   <div class="cart_subtotal" >
+                                       <p>Total</p>
+                                       <p class="cart_amount" id ="grand_total">£{{$discount_price}}</p>
+                                   </div>
+                                   <div class="checkout_btn">
+                                       <a href="#">Proceed to Checkout</a>
+                                   </div>
                                 </div>
                             </div>
                         </div>
@@ -285,9 +222,12 @@
             }
         }
 
-        async function couponcode() {
+        async function couponcode() 
+        {
             let form = $("#form").serializeArray();
             let coupon = $("#coupon").val();
+            var coupon_price= $("#total").val();
+            
 
             try {
                 const res = await $.ajax({
@@ -296,46 +236,10 @@
                     data: {
                         "_token": '{{ csrf_token() }}',
                         "coupon": coupon
-
                     }
                 });
-
-                var grandtotal = 0;
-                var total = $("#item_total").val();
-                var coupons = $("#coupon_amount").val();
-                if (res.stat == true) {
-
-                    if (res.data.status == 'apply') {
-                        $('#promo').css({
-                            "display": "block"
-                        });
-                        $('#promo').html(`<div class="cart_subtotal" id ="promo">
-                                        <p>*Promo code: ${res.data.coupons} <button class="h-auto py-1 px-2">Remove</button></p>
-                                    <p class="cart_amount">-£${res.data.discount}</p></div>`);
-                        $('#single-promo').html(`<strong>Coupon Price</strong>-£${res.data.discount}`);
-                        $("#coupon_amount").val(res.data.discount);
-                        grandtotal = parseFloat(total) - parseFloat(coupons);
-                        $("#grand_total").html(`£${grandtotal}`)
-                        $.toast({
-                            heading: 'success',
-                            text: res.message,
-                            icon: 'success',
-                            position: 'top-right'
-                        });
-                    }
-
-                } else if (res.data.status == 'expired') {
-                    $('#promo_static').remove();
-                    grandtotal = parseFloat(total);
-                    $('#single-promo').html(`<strong>Coupon Price</strong>-£ 0.00`);
-                    $("#grand_total").html(`£${grandtotal}`)
-                    $.toast({
-                        heading: 'error',
-                        text: res.message,
-                        icon: 'error',
-                        position: 'top-right'
-                    });
-                } else {
+                if(res.stat == false)
+                {
                     $.toast({
                         heading: 'error',
                         text: res.message,
@@ -343,44 +247,92 @@
                         position: 'top-right'
                     });
                 }
+                var subtotal = 0;
+                if (res.stat == true) 
+                {
+                    let discount = (parseFloat(res.data.discount)  *  parseFloat(coupon_price))/100;
+                    subtotal = parseFloat(coupon_price) - parseFloat(discount);
+                    
+                    if (res.data.status == 'apply') {
+
+                        $(".coupon_block").css({
+                            'display':'block'
+                        })
+                        $(".coupon_block").html(`<div class="cart_subtotal" id="coupon_block">
+                                       <p>*Promo code: ${res.data.coupon} <button type="button" onclick='removecoupon(${res.data.id})' class="h-auto py-1 px-2">Remove</button></p>
+                                       <p class="cart_amount">-£${discount.toFixed(2)}</p>
+                                   </div>`)
+                                   $('#grand_total').html(`<p class="cart_amount">£${subtotal.toFixed(2)}</p>`)
+
+                                   $("#coupon_price").html(`
+                                            <h4 id="single-promo" class="mb-0 text-center d-block mt-4"><strong>Coupon
+                                                    Price</strong>
+                                                -£${discount.toFixed(2)}
+                                            </h4>`)
+
+
+                        $.toast({
+                            heading: 'success',
+                            text: res.message,
+                            icon: 'success',
+                            position: 'top-right'
+                        });
+                    }
+                } else if (res.data.status == 'expired') {
+                    $(".coupon_block").css({
+                            'display':'none'
+                        })
+                    
+                    $('#single-promo').html(`<strong>Coupon Price</strong>-£ 0.00`);
+                    $('#grand_total').html(`<p class="cart_amount">£${coupon_price}</p>`)
+                    $.toast({
+                        heading: 'error',
+                        text: res.message,
+                        icon: 'error',
+                        position: 'top-right'
+                    });
+                } 
+                
             } catch (error) {
                 console.log(error)
             }
         }
         $(document).ready(function() {
-            //checexpire()
-            let coupon = $("#coupon_id").val();
+            checexpire();
+        //     checexpire()
+        //     let coupon = $("#coupon_id").val();
 
-            var expired = new Date(coupon)
-            var edd = String(expired.getDate()).padStart(2, '0');
-            var emm = String(expired.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var eyyyy = expired.getFullYear();
-            expired = eyyyy + '/' + emm + "/" + edd
+        //     var expired = new Date(coupon)
+        //     var edd = String(expired.getDate()).padStart(2, '0');
+        //     var emm = String(expired.getMonth() + 1).padStart(2, '0'); //January is 0!
+        //     var eyyyy = expired.getFullYear();
+        //     expired = eyyyy + '/' + emm + "/" + edd
 
-            var today = new Date();
-            var dd = String(today.getDate()).padStart(2, '0');
-            var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-            var yyyy = today.getFullYear();
-            today = yyyy + '/' + mm + "/" + dd;
-           if(coupon != 0)
-           {
-                setInterval(function() {
-                    if (expired < today) {
-                        checexpire();
-                    }
-                }, 15 * 60 * 1000);
-           }
+        //     var today = new Date();
+        //     var dd = String(today.getDate()).padStart(2, '0');
+        //     var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+        //     var yyyy = today.getFullYear();
+        //     today = yyyy + '/' + mm + "/" + dd;
+        //    if(coupon != 0)
+        //    {
+        //         setInterval(function() {
+        //             if (expired < today) {
+        //                 checexpire();
+        //             }
+        //         }, 15 * 60 * 1000);
+        //    }
 
         })
         async function checexpire(id) {
 
             let end_date = $("#expire_date").val();
+            var coupon_price= $("#total").val();
             const res = await $.ajax({
                 url: "{{ route('coupon.auto') }}",
                 type: 'post',
                 data: {
                     "_token": '{{ csrf_token() }}',
-                    'expire_date': end_date
+                    //'expire_date': end_date
 
 
                 }
@@ -389,7 +341,7 @@
                 var total = $("#item_total").val();
                 $('#promo_static').remove();
                 $('#single-promo').html(`<strong>Coupon Price</strong>-£ 0.00`);
-                $("#grand_total").html(`£${total}`)
+                $("#grand_total").html(`£${coupon_price}`)
                 $.toast({
                     heading: 'success',
                     text: res.message,
@@ -411,6 +363,7 @@
         }
 
         async function removecoupon(coupon_id) {
+           // var coupon_price= $("#total").val();
             const res = await $.ajax({
                 url: "{{ route('coupon.remove') }}",
                 type: 'post',
@@ -420,7 +373,10 @@
                 }
             });
             if (res.stat == true) {
-                var total = $("#item_total").val();
+                $(".coupon_block").css({
+                            'display':'none'
+                        });
+                var total = $("#total").val();
                 $('#promo_static').remove();
                 $('#single-promo').html(`<strong>Coupon Price</strong>-£ 0.00`);
                 $("#grand_total").html(`£${total}`)

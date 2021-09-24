@@ -17,13 +17,22 @@ class CompairController extends Controller
   public function index()
   {
     $compair_array=[];
+    $userdata = Auth::user();
     $product = Product::select('products.image_src','products.id as p_id','products.color','products.attribute','products.attribute_values','products.shape','categories.name as cat_name','compairs.*','shapes.name as sname','colors.name as cname')
        ->join('compairs','products.id','=','compairs.product_id')
           ->leftJoin('categories','products.category','=','categories.id')
           ->leftJoin('shapes','products.shape','=','shapes.id')
           ->leftJoin('colors','products.color','=','colors.id')
-
-          ->where('products.published','TRUE')->get();
+          ->where('products.published','TRUE');
+          if(!empty($userdata))
+          {
+            $product = $product->where('compairs.user_id',$userdata->id);
+          }
+          else
+          {
+            $product = $product->where('compairs.device_id',$_COOKIE['device']);
+          }
+          $product = $product->get();
           $compair_array['products'][] = ['product'=>'Product'];
           $compair_array['color'][] = ['color'=>'Color'];
           $compair_array['shape'][] = ['shape'=>'Shape'];
@@ -63,13 +72,21 @@ class CompairController extends Controller
            }
            
         }
- //echo "<pre>"; print_r($compair_array['delete']); exit;
 
     return view('fontend.compair',compact('compair_array'));
   }
   public function addtocmpair(Request $request)
   {
     $userdata = Auth::user();
+    if (empty($userdata)) {
+      if (isset($_COOKIE['device'])) {
+        $device_id = $_COOKIE['device'];
+      } else {
+        $token = 'P-' . date('Y') . '-' . rand(100000, 999999);
+        setcookie("device", $token, time() + 60 * 60 * 24 * 365, "/", "", 0);
+        $device_id = $_COOKIE['device'];
+      }
+    }
     if(!empty($userdata) && ($userdata->user_type == 'customer'))
     {
       $compair = Compare::where('user_id',$userdata->id)->count();
@@ -101,7 +118,32 @@ class CompairController extends Controller
     }
     else
     {
-      return response()->json(['stat'=>false,'message'=>"Please Login first"]);
+      $compair = Compare::where('device_id',$device_id)->count();
+      $current_price = price_rang($request->product_id);
+
+       if($compair < 3)
+       {
+          $checkproduct = Compare::where('product_id',$request->product_id)->first();
+        if(empty($checkproduct))
+        {
+           $compairadd = new Compare();
+           $compairadd->product_id = $request->product_id;
+           $compairadd->code ="LD".rand(10000000,99999999);
+           $compairadd->price = $current_price['current_price'];
+           $compairadd->device_id = $device_id;
+           $compairadd->save();
+           return response()->json(['stat'=>true,'message'=>'Compare item has been added successfully']);
+        }
+          else
+          {
+             return response()->json(['stat'=>false,'message'=>"This product is already added in your compair list"]);
+          }
+        
+       }
+       else
+       {
+        return response()->json(['stat'=>false,'message'=>"Sorry You have alrady added three item in your compair list"]);
+       }
     }
     
   }
@@ -119,5 +161,22 @@ class CompairController extends Controller
       return response()->json(['stat'=>false,'message'=>'please login first']);
     }
     
+  }
+
+  public function devicereplacebyuser()
+  {
+    $userdata = \Auth::user();
+    if(!empty($userdata))
+    {
+      $compair = Compare::where('device_id',@$_COOKIE['device'])->get();
+      foreach($compair as $campared)
+      {
+        $compare = Compare::find($campared->id);
+        $compare->user_id = $userdata->id;
+        $compare->device_id = Null;
+        $compare->save();
+      }
+      return response()->json(['stat'=>true,'message'=>'compare list is updated successfully']);
+    }
   }
 }

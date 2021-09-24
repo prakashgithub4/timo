@@ -9,6 +9,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Shape extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $fillable =['name','logo','userId'];
+    protected $fillable =['name','logo','banner','description','userId'];
 
 }

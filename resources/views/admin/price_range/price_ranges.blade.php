@@ -44,7 +44,7 @@
                                     <th>S.L</th>
                                     <th>Start</th>
                                     <th>End</th>
-                                    <th>Amount</th>
+                                    <th>Percent(%)</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -55,7 +55,7 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$item->start_price}}</td>
                                     <td>{{$item->end_price}}</td>
-                                    <td>{{$item->differance}}</td>
+                                    <td>{{$item->differance}}(%)</td>
                                     <td>{{$item->status}}</td>
                                     <td><a href="{{route('admin.price_range.edit',$item->id)}}" class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.price_range.delete',$item->id)}}"

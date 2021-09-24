@@ -55,7 +55,29 @@
                                                     <input type="file" name="logo" class="form-control"
                                                         id="exampleInputEmail1" onchange='openFile(event)' placeholder="Name"
                                                         required />
-                                                        <img src='{{asset('uploads/shape')}}/{{isset($getshapesById) ? $getshapesById->logo : null }}' id='output' style="height:100px; width:100px; display:{{ isset($getshapesById->logo) ? 'block' : 'none' }}">
+                                                        <img src='{{asset('public/uploads/shape')}}/{{isset($getshapesById) ? $getshapesById->logo : null }}' id='output' style="height:100px; width:100px; display:{{ isset($getshapesById->logo) ? 'block' : 'none' }}">
+                                                    {{-- @error('name')
+                                                        <small style="color:red">{{ $message }}</small>
+                                                    @enderror --}}
+                                            </div>
+
+
+                                           
+
+                                            <div class="form-group">
+                                                <label for="name">{{ __('Description') }}
+                                                    <textarea class="ckeditor" name="description" id="exampleFormControlTextarea1" rows="3">{{ isset($getshapesById) ? $getshapesById->description : '' }}</textarea>
+                                                    {{-- @error('name')
+                                                        <small style="color:red">{{ $message }}</small>
+                                                    @enderror --}}
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="name">{{ __('Banner') }}
+                                                    <input type="file" name="banner" class="form-control"
+                                                        id="exampleInputEmail1"  placeholder="Name"
+                                                        required />
+                                                        <img src='{{asset('public/uploads/shape/banner')}}/{{isset($getshapesById) ? $getshapesById->banner : null }}' id='output' style="height:100px; width:100px; display:{{ isset($getshapesById->banner) ? 'block' : 'none' }}">
                                                     {{-- @error('name')
                                                         <small style="color:red">{{ $message }}</small>
                                                     @enderror --}}

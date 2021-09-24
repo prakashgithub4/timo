@@ -44,9 +44,9 @@
                                 <tr>
                                     <th>S.L</th>
                                     <th>Coupon</th>
-                                    <th>Email</th>
+                                    {{-- <th>Email</th> --}}
                                     {{-- <th>Product</th> --}}
-                                    <th>Amount</th>
+                                    <th>Perstage(%)</th>
                                     <th>Create</th>
                                     <th>Expire</th>
                                     <th>Status</th>
@@ -59,9 +59,9 @@
                                 <tr>
                                     <td>{{$key + 1}}</td>
                                     <td>{{$coupons->coupon}}</td>
-                                    <td>{{is_null($coupons->email) ? 'N/A':$coupons->email}}</td>
+                                    {{-- <td>{{is_null($coupons->email) ? 'N/A':$coupons->email}}</td> --}}
                                     {{-- <td>{{is_null($coupons->seo_title) ? 'N/A':$coupons->seo_title}}</td> --}}
-                                    <td>{{$coupons->discount}}</td>
+                                    <td>{{$coupons->discount}}%</td>
                                     <td>{{$coupons->created_date}}</td>
                                     <td>{{$coupons->expire_date}}</td>
                                     <td>{{$coupons->status}}</td>
