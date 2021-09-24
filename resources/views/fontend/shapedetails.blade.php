@@ -23,13 +23,13 @@ Shape Details
             <div class="row align-items-center">
                 <div class="col-lg-6 col-md-12">
                     <div class="services_section_thumb">
-                        <img src="{{asset('assets/fontend/img/services4.jpg')}}" alt="">
+                        <img src="{{asset('public/uploads/shape/banner')}}/{{$shape_details->banner}}" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-12">
                     <div class="unlimited_services_content">
-                        <h1>Round Cut Diamonds</h1>
-                        <p>Round is our most popular cut. For almost 100 years, diamond cutters have been using advanced theories of light behavior and precise mathematical calculations to optimize the fire and brilliance in a round diamond. Round cuts also have the widest variety of setting styles so you can customize to your heart's content.</p>
+                        <h1>{{$shape_details->name}} Cut Diamonds</h1>
+                        <p>{{strip_tags($shape_details->description)}}</p>
                         <div class="view__work">
                             <a href="#">SHOP ALL ROUND CUT DIAMONDS  <i class="fa fa-angle-right"></i></a>
                         </div>  

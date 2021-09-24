@@ -25,6 +25,8 @@ class ShapeRepository
         $shape = Shape::find($id);
         $shape->name = $data['name'];
         $shape->logo = $data['logo'];
+        $shape->banner = $data['banner'];
+        $shape->description = $data['description']; 
         $shape->save();
     }
     public function _getshaps()

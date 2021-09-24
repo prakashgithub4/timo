@@ -17,7 +17,7 @@ class ShapeController extends Controller
 	public function index($id)
 	{
 		$shap_id = Crypt::decryptString($id); 
-		$products = Product::select('products.id','products.seo_description','products.variant_inventory_qty', 'products.image_src', 'products.seo_title','products.shape','shapes.name')
+		$products = Product::select('products.id','products.seo_description','products.variant_inventory_qty', 'products.image_src', 'products.seo_title','products.shape','shapes.name','shapes.description','shapes.banner')
 		                    ->join('shapes','shapes.id','=','products.shape')
 		                    ->where('products.shape',$shap_id)
 		                    ->paginate($this->pageSize);
