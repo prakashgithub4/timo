@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Country;
 
 class CheckoutController extends Controller
 {
@@ -23,8 +24,9 @@ class CheckoutController extends Controller
         ->leftJoin('carts','carts.product_id','=','products.id')
         ->where('carts.user_id',$userdata->id)
         ->get();
+        $country = Country::all();
         
      
-        return view('fontend.checkout',compact('product'));
+        return view('fontend.checkout',compact('product','country'));
     }
 }

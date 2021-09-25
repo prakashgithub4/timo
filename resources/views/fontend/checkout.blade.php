@@ -57,15 +57,10 @@
                                 <div class="form-group col-12 mb-20">
                                     <label for="country">Country <span>*</span></label>
                                     <select class="niceselect_option" name="country" id="country" required> 
-                                        <option value="2">India</option>      
-                                        <option value="3">Algeria</option> 
-                                        <option value="4">Afghanistan</option>    
-                                        <option value="5">Ghana</option>    
-                                        <option value="6">Albania</option>    
-                                        <option value="7">Bahrain</option>    
-                                        <option value="8">Colombia</option>    
-                                        <option value="9">Dominican Republic</option>   
-
+                                        <option selected>--select--</option>
+                                        @foreach ($country as $countries)
+                                        <option value="{{$countries->id}}">{{$countries->name}}</option>      
+                                       @endforeach
                                     </select>
                                     @error('country')
                                         <span>{{ $message }}</span>
@@ -322,7 +317,7 @@
                                     </div>
                                 </div>
                                 <div class="order_button text-center mt-3">
-                                    <button  type="submit">Proceed to PayPal</button> 
+                                    <button  type="submit">Proceed to Pay</button> 
                                 </div>    
                             </div> 
                        
