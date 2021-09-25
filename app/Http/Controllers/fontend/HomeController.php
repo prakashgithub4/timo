@@ -10,6 +10,7 @@ use App\Models\Shape;
 use App\Models\Gift;
 use App\Models\Product;
 use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
@@ -20,9 +21,10 @@ class HomeController extends Controller
     {
         $this->home= $home;
         $this->slide= $slide;
+        $this->minute = 10;
     }
     public function index()
-    {   // print_r(price_rang(2)); exit;
+    {   
         $slider = $this->slide->getSlider();
         $category = $this->home->getLatestCategory();
         $secondcategories = $this->home->getLatestCategory(3,3);
@@ -32,12 +34,57 @@ class HomeController extends Controller
                          ->leftJoin('menus','menus.id','=','products.menu')
                          ->orderBy('products.id', 'asc')
                          ->where('products.published', 'TRUE')
+                         ->where('menus.menu_name','Diamonds')
                          ->skip(0)
                          ->take(10)
                          ->get();
-                       // echo"<pre>"; print_r($recomanded); exit;
+
         $shapes = Shape::all();  
         $gifts = Gift::all();
+
+        Cache::put('product', $products,$this->minute);
+        Cache::put('slider',$slider,$this->minute);
+        Cache::put('category',$category,$this->minute);
+        Cache::put('secondcat',$secondcategories,$this->minute);
+        Cache::put('purchased',$purchased,$this->minute);
+        Cache::put('recommended',$recomanded,$this->minute);
+        Cache::put('shapes',$shapes,$this->minute);
+        Cache::put('gift',$gifts,$this->minute);
+        if(Cache::has('product'))
+        {
+            $products = Cache::get('product');
+        }
+        if(Cache::has('slider'))
+        {
+            $slider = Cache::get('slider');
+        }
+        if(Cache::get('category'))
+        {
+            $category = Cache::get('category');
+        }
+        if(Cache::get('secondcat'))
+        {
+            $secondcategories = Cache::get('secondcat');
+        }
+        if(Cache::get('purchased'))
+        {
+            $purchased = Cache::get('purchased');
+        }
+        if(Cache::get('recommended'))
+        {
+            $recomanded = Cache::get('recommended');
+        }
+        if(Cache::get('shapes'))
+        {
+            $shapes = Cache::get('shapes');
+        }
+        if(Cache::get('gift'))
+        {
+            $gifts = Cache::get('gift');
+        }
+
+                       // echo"<pre>"; print_r($recomanded); exit;
+       
         return view('fontend.home')->with([
             'slider'=>$slider,
             'category'=>$category,
