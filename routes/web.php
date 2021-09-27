@@ -191,7 +191,12 @@ Route::group(['prefix'=>'admin','namespace'=>'App\Http\Controllers\admin'],funct
       Route::get('cms/delete/{id}','CmsController@delete')->name('admin.cms.deleted');
       
 
-
+  /** CMS Category module */
+  Route::get('cms-category/{slug?}','CmsCategoryController@index');
+  Route::get('add/cms-category','CmsCategoryController@add')->name('admin.cms_category.add');
+  Route::post('cms-category/save','CmsCategoryController@save')->name('admin.cms_category.save');
+  Route::get('cms-category/edit/{id?}','CmsCategoryController@add')->name('admin.cms_category.edit');
+  Route::get('cms-category/delete/{id}','CmsCategoryController@delete')->name('admin.cms_category.deleted');
 
    
 });
