@@ -59,7 +59,7 @@ class MenuRepository
         $menu = Menu::find($id);
         $menu->menu_name = $data['menu_name'];
         $menu->status  = $data['status'];
-        $menu->top  = $data['top'];
+        //$menu->top  = $data['top'];
        // $menu->deleted_at  = $data['deleted_at'];
         $menu->save();
     }
