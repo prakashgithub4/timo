@@ -255,4 +255,7 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
 
   //purchase-order
   Route::post('purchase-order','OrderController@save')->name('purchase.save');
+
+  //Diamonds filter
+  Route::get('diamonds/search','FilterController@index')->name('diamonds.search');
 });
