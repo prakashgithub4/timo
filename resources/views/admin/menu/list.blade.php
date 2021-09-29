@@ -37,7 +37,9 @@
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
+                       
                         <label><a href="{{route('admin.menu.add') }}" class="btn btn-success">Add</a></label>
+                       
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
@@ -45,7 +47,8 @@
                                     <th>Menu Title</th>
                                     <th>Status</th>
                                     <th>Mega Menu</th>
-                                    <th>Set On Top</th>
+                                    <th>Set On Head</th>
+                                    <th>Set On Side</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -61,7 +64,7 @@
                                         <?php }?>
                                         </td>
 
-                                    <td><?php if($menu_item->top=="0") {?>
+                                    <td><?php if($menu_item->mega=="0") {?>
                                         <a class='badge badge-warning' href="{{url('/admin/menu/set-on-top/'.$menu_item->id.'/1')}}">Inactive</a>
                                         <?php } else {?>
                                         <a class='badge badge-success' href="{{url('/admin/menu/set-on-top/'.$menu_item->id.'/0')}}">Active</a>
@@ -72,6 +75,13 @@
                                     <?php } else {?>
                                     <a class='badge badge-success' href="{{url('/admin/menu/set-on-head/'.$menu_item->id.'/0')}}">Active</a>
                                     <?php }?></td>
+
+                                    <td><?php if($menu_item->side_on=="0") {?>
+                                        <a class='badge badge-warning' href="{{url('/admin/menu/set-on-side/'.$menu_item->id.'/1')}}">Inactive</a>
+                                        <?php } else {?>
+                                        <a class='badge badge-success' href="{{url('/admin/menu/set-on-side/'.$menu_item->id.'/0')}}">Active</a>
+                                        <?php }?>
+                                    </td>
                                     
                                     <td><a href='{{route('admin.menu.edit',$menu_item->id)}}' class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.menu.delete',$menu_item->id)}}"

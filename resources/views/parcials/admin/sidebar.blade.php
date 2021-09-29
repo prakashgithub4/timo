@@ -152,45 +152,53 @@ $cms_titles = cms();
                     </p>
                 </a>
                 <ul class="nav nav-treeview">
-
                     <li class="nav-item">
                         <a href="{{ url('admin/slider') }}" class="nav-link">
                             <i class="far fa-circle nav-icon"></i>
                             <p>Slider</p>
                         </a>
                     </li>
-
-                    <li class="nav-item">
-                        <a href="{{ url('admin/menu') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p> Menu</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ url('admin/menu-category') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p> Menu Category</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ url('admin/menu-sub-category') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p> Menu Sub Category</p>
-                        </a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a href="{{ route('admin.assign.menu') }}" class="nav-link">
-                            <i class="far fa-circle nav-icon"></i>
-                            <p>Add Menu Products</p>
-                        </a>
-                    </li>
-
-
                 </ul>
             </li>
+
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas  fa-bars"></i>
+                  <p>
+                      Menus
+                      <i class="fas fa-angle-left right"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                      <a href="{{ url('admin/menu') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p> Menu</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{ url('admin/menu-category') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p> Menu Category</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{ url('admin/menu-sub-category') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p> Menu Sub Category</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{ route('admin.assign.menu') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Add Menu Products</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-layer-group"></i>

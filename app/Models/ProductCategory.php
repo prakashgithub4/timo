@@ -13,7 +13,7 @@ class ProductCategory extends Model
     use HasFactory,SoftDeletes;
     protected $table ='product_category';
     protected $primaryKey = "product_category_id";
-    protected $fillable=['menu_id', 'product_category', 'mega_menu', 'sequence','created_at', 'updated_at', 'deleted_at'];
+    protected $fillable=['menu_id', 'product_category', 'sequence','created_at', 'updated_at', 'deleted_at'];
 
     public function menu()
     {   

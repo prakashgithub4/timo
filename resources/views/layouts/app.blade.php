@@ -41,18 +41,19 @@
                                 <li class="menu-item-has-children active">
                                     <a href="{{url('/')}}">Home</a>
                                 </li>
-                                <?php  $mymenu= \App\Models\Menu::where('head_on', '0')->get();?>
-                                  @foreach($mymenu as $menu)
-                                @if($menu->top == 0)
+                                <?php  $mymenu= \App\Models\Menu::where('side_on', '1')->offset(0)->limit(14)->get();?>
+                                @foreach($mymenu as $menu)
                                 <li class="menu-item-has-children">
-                                    <a href="javascript:void(0)">{{$menu->menu_name}}</a>
+                                    <a href="#">{{$menu->menu_name}}</a>
                                     <?php  $menuCategory= \App\Models\ProductCategory::where('menu_id', $menu->id)->get();?>
+                                    @if(count($menuCategory)>0)
                                     <ul class="sub-menu">
                                         @foreach($menuCategory as $menu_cat)
-                                         @if($menu_cat->mega_menu==1)
                                         <li class="menu-item-has-children">
                                             <a href="#">{{$menu_cat->product_category}}</a>
                                             <?php  $menuSubCategory= \App\Models\ProductSubCategory::where('menu_id', $menu->id)->where('product_category_id',$menu_cat->product_category_id)->get();?>
+                                            
+                                            @if(count($menuSubCategory)>0)
                                             <ul class="sub-menu">
                                                 @foreach($menuSubCategory as $mSC)
                                                 <li><a href="javascript:void(0)">@if(is_null($mSC->icon))<img src="{{asset('assets/fontend/img/nav-round.png')}}" alt="">@else <img src="{{asset('public/uploads/subcat_icons/'.$mSC->icon)}}">@endif
@@ -60,31 +61,12 @@
                                                 @endforeach
                                             
                                             </ul>
+                                            @endif
                                         </li>
-                                        @endif
                                         @endforeach
-                                      
                                     </ul>
+                                    @endif
                                 </li>
-                                @else
-                                   <li class="menu-item-has-children">
-                                    <a href="javascript:void(0)">{{$menu->menu_name}}</a>
-                                    <?php  $menuCategory= \App\Models\ProductCategory::where('menu_id', $menu->id)->get();?>
-
-                                    <ul class="sub-menu">
-                                        @foreach($menuCategory as $mCat)
-                                        @if($mCat->mega_menu==1)
-                                        <?php  $menuSubCategory2= \App\Models\ProductSubCategory::where('menu_id', $menu->id)->where('product_category_id',$mCat->product_category_id)->get();?>
-                                        @foreach($menuSubCategory2 as $mSubCat2)
-                                        <li><a href="#">@if(is_null($mSubCat2->icon))<img src="{{asset('assets/fontend/img/nav-round.png')}}" alt="">@else <img src="{{asset('public/uploads/subcat_icons/'.$mSubCat2->icon)}}">@endif
-                                            {{$mSubCat2->sub_category_name}}</a></li>
-                                       
-                                     @endforeach 
-                                     @endif
-                                     @endforeach  
-                                    </ul>
-                                </li>
-                                @endif
                                 @endforeach
                                
                             </ul>

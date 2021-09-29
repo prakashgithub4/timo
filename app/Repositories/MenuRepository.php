@@ -40,7 +40,7 @@ class MenuRepository
     {
        
         $menu = Menu::find($id);
-        $menu->top  =$top;
+        $menu->mega  =$top;
         $menu->save();
     }
 
@@ -64,5 +64,12 @@ class MenuRepository
         $menu->save();
     }
 
+    public function _setOnSide($id, $side_on)
+    {
+       
+        $menu = Menu::find($id);
+        $menu->side_on  =$side_on;
+        $menu->save();
+    }
     
 }

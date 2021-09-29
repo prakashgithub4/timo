@@ -44,7 +44,6 @@
                                     <th>Sl/No</th>
                                     <th>Menu</th>
                                     <th>Ctegory Name</th>
-                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -54,15 +53,6 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$productCategory_item->menu->menu_name}}</td>
                                     <td>{{$productCategory_item->product_category}}</td>
-                                    <td> <?php if($productCategory_item->mega_menu=="0") {?>
-                                        <a class='' href="{{url('/admin/menu-category/megamenu/'.$productCategory_item->product_category_id.'/1')}}"><i class='fas fa-toggle-off' style='font-size:36px;color:grey'></i></a>
-                                        <?php } else {?>
-                                        <a class='' href="{{url('/admin/menu-category/megamenu/'.$productCategory_item->product_category_id.'/0')}}"><i class='fas fa-toggle-on' style='font-size:36px;color:blue'></i></a>
-                                        <?php }?>
-                                        </td>
-
-                                
-                                    
                                     <td><a href='{{route('admin.productCategory.edit',$productCategory_item->product_category_id)}}' class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.productCategory.delete',$productCategory_item->product_category_id)}}"
                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>

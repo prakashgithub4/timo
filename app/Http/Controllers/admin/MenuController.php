@@ -21,8 +21,11 @@ class MenuController extends Controller
     function index()
     {
         $menu = $this->menu->_get();
+        $count =  count($menu);
+        //print_r(count($menu));
+       // exit();
         //return $menu;
-        return view('admin.menu.list',compact('menu'));
+        return view('admin.menu.list',compact('menu','count'));
     }
 
 
@@ -62,7 +65,7 @@ class MenuController extends Controller
         $input_array = array(
             'menu_name' => $request->menu_name,
             'status' => $request->status==null? 'inactive' : 'active',
-            'top' => $request->top==null?'0':'1'
+            'mega' => $request->mega==null?'0':'1'
 
             
         );
@@ -83,7 +86,7 @@ class MenuController extends Controller
 
     public function deleteMenu( Request $request, $id)
     {
-        $getMenu = $this->menu->_edit($id);
+        //$getMenu = $this->menu->_edit($id);
         
         $getMenu = $this->menu->_delete($id);
         
@@ -223,6 +226,13 @@ class MenuController extends Controller
             }
         
         }
+    }
+
+    function setOnSide(Request $reques,$id,$top)
+    {
+        $menu = $this->menu->_setOnSide($id, $top);
+        //return $menu;
+        return redirect('admin/menu')->with('success', 'Menu has been updated successfully');
     }
 
 }

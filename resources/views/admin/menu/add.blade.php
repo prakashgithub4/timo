@@ -71,13 +71,13 @@
                                             <div class="form-group colmd-6">
                                             <label for="horns">MEGA MENU</label>
                                         @if(!empty($getMenu))
-                                            @if($getMenu->top=='1')   
-                                            <input type="checkbox" id="" name="top" class="form-control" value="1" checked>
+                                            @if($getMenu->mega=='1')   
+                                            <input type="checkbox" id="" name="mega" class="form-control" value="1" checked>
                                             @else 
-                                            <input type="checkbox" id="" name="top" class="form-control" value="1" >
+                                            <input type="checkbox" id="" name="mega" class="form-control" value="1" >
                                             @endif
                                         @else
-                                        <input type="checkbox" id="" name="top" class="form-control" value="1" >
+                                        <input type="checkbox" id="" name="mega" class="form-control" value="1" >
                                         @endif
                                             
                                             </div>

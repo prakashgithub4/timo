@@ -36,8 +36,6 @@ class ProductCategoryRepository
     {
         
         $ProductCategory = ProductCategory::find($id);
-        
-        $ProductCategory->mega_menu  =$mega;
         $ProductCategory->save();
     }
     
@@ -46,7 +44,6 @@ class ProductCategoryRepository
         $ProductCategory = ProductCategory::find($id);
         $ProductCategory->menu_id = $data['menu_id'];
         $ProductCategory->product_category  = $data['product_category'];
-        $ProductCategory->mega_menu  = $data['mega_menu'];
        // $ProductCategory->deleted_at  = $data['deleted_at'];
         $ProductCategory->save();
     }

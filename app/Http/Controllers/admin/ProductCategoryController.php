@@ -62,9 +62,6 @@ class ProductCategoryController extends Controller
         $input_array = array(
             'menu_id' => $request->menu_id,
             'product_category' => $request->product_category,
-            'mega_menu' => $request->mega_menu==null?'0':'1'
-
-            
         );
    
        
