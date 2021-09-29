@@ -258,5 +258,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('checkouts/', 'CheckoutController@index')->name('checkout');
 
   //purchase-order
-  Route::post('purchase-order', 'OrderController@save')->name('purchase.save');
+  Route::post('purchase-order','OrderController@save')->name('purchase.save');
+
+  //Diamonds filter
+  Route::get('diamonds/search','FilterController@index')->name('diamonds.search');
 });
