@@ -245,7 +245,7 @@
                                                                         @foreach ($menuCategory as $mCat)
                                                                         <li class="menu-item-has-children">
 
-                                                                            <a href="#">{{$mCat->product_category}}</a>
+                                                                            {{-- <a href="#">{{$mCat->product_category}}</a> --}}
                                                                                 <?php $menuSubCategory = \App\Models\ProductSubCategory::where('menu_id', $menu->id)
                                                                                     ->where('product_category_id', $mCat->product_category_id)
                                                                                     ->get(); ?>

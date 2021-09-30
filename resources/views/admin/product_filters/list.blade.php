@@ -1,19 +1,18 @@
 @extends('layouts.admin')
 @section('content')
 @section('title')
-Menu Sub Category
+    Cms
 @endsection
 <!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Menu Sub Category</h1>
+                <h1>Product Filters</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Slider</a></li>">Menu Sub Category</a></li>
-                   
+                    <li class="breadcrumb-item active">Product Filters</li>
                 </ol>
             </div>
         </div>
@@ -37,33 +36,27 @@ Menu Sub Category
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <label><a href="{{route('admin.productSubCategory.add') }}" class="btn btn-success">Add</a></label>
+                        <label><a href="{{route('admin.product_filter.add') }}" class="btn btn-success">Add</a></label>
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th>Sl/No</th>
-                                    <th>Menu</th>
-                                    <th>Category</th>
-                                    <th>Sub Category</th>
-                                    <th>icon</th>
+                                    <th>S.L</th>
+                                    <th>Name</th>
+                                    <th>Min Range</th>
+                                    <th>Max range</th>
                                     <th>Action</th>
-
                                 </tr>
                             </thead>
                             <tbody>
-                              
-                              @foreach($productSubCategory as $key=>$productSubCategory_item)
+                              @forelse($allcms as $key=>$item)
                                 <tr>
                                     <td>{{$key+1}}</td>
-                                    <td>{{$productSubCategory_item->menu_name}}</td>
-                                    <td>{{$productSubCategory_item->product_category}}</td>
-                                    <td>{{$productSubCategory_item->sub_category_name}}</td>
-                                    <td>@if(!is_null($productSubCategory_item->icon))<img src="{{asset('public/uploads/subcat_icons/'.$productSubCategory_item->icon)}}"/>@else N/A @endif</td>
-                                    <td>
-                                        <a href='{{route('admin.productSubCategory.edit',$productSubCategory_item->product_sub_category_id)}}' class="btn btn-info btn-sm"><i
-                                                class="fas fa-edit"></i></a>&nbsp;
-                                        <a onclick="return confirm('Are you sure?')" href="{{route('admin.productSubCategory.delete',$productSubCategory_item->product_sub_category_id)}}"
-                                            class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
+                                    <td>{{$item->filter_name}}</td>
+                                    <td>{{$item->min_range}}</td>
+                                    <td>{{$item->max_range}}</td>
+                                    <td><a href='{{route('admin.product_filter.edit',$item->id)}}' class="btn btn-info"><i
+                                                class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.product_filter.deleted',$item->id)}}"
+                                            class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -96,7 +89,7 @@ Menu Sub Category
         $('#example2').DataTable({
             "paging": true,
             "lengthChange": true,
-            "searching": true,
+            "searching": false,
             "ordering": true,
             "info": true,
             "autoWidth": true,
