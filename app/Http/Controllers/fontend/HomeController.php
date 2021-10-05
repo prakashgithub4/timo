@@ -81,10 +81,7 @@ class HomeController extends Controller
         if(Cache::get('gift'))
         {
             $gifts = Cache::get('gift');
-        }
-
-                       // echo"<pre>"; print_r($recomanded); exit;
-       
+        }       
         return view('fontend.home')->with([
             'slider'=>$slider,
             'category'=>$category,

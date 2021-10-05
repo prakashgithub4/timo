@@ -196,6 +196,7 @@ if(!function_exists('price_rang'))
        $counter = 0;
        $product = \App\Models\Product::select('id','cost_per_item')->where('id',$product_id)->first();
        $min = \App\Models\Product::min('cost_per_item');
+     
        
        if(!empty($product))
        {
@@ -204,7 +205,8 @@ if(!function_exists('price_rang'))
                                                ->where('status','=','active')
                                                ->orderBy('id','desc')
                                                ->first();
-          $old_price_with_percent =(float) ($product->cost_per_item * $price_range->differance)/100;
+                                          
+          $old_price_with_percent = ceil((@$product->cost_per_item * @$price_range->differance)/100);
         
            if(!empty($price_range))
            {
@@ -300,6 +302,16 @@ if(!function_exists('recent_products'))
       }
     }
 }
+
+if(!function_exists('recent_products'))
+{
+    function pricefilterrange()
+    {
+      $min = \App\Models\Product::min('cost_per_item');
+      $max = \App\Models\Product::max('cost_per_item');
+      return array('min'=>$min,'max'=>$max);
+    }
+  }
 // if(!function_exists('recent_products'))
 // {
 //    function checkcupon()

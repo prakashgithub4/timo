@@ -96,7 +96,6 @@ class ProductController extends Controller
         ->get();
     } else {
       $search = $request->input('search.value');
-
       $products =  Product::where('id', 'LIKE', "%{$search}%")
         ->orWhere('title', 'LIKE', "%{$search}%")
         ->offset($start)
