@@ -258,4 +258,10 @@ Route::group(['namespace'=>'App\Http\Controllers\fontend'],function(){
 
   //Diamonds filter
   Route::get('diamonds/search','FilterController@index')->name('diamonds.search');
+  Route::get('diamonds/all','FilterController@allPosts')->name('all.product');
+  Route::post('diamonds/get/pagelengthwise/diamonds','FilterController@getPagelengthwisedata')->name('lengthwise.data');
+  Route::get('product/lengthwis/display','FilterController@getPagelengthwisedata')->name('page.length');
+  Route::get('page','FilterController@pageLink')->name('page');
+  Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
+  Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
 });

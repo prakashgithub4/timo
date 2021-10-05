@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('title')
-Compare
+Diamond Search 
 @endsection
+@php $price_range = pricefilterrange(); @endphp
 @section('content')
-
 
 <div class="error_section">
     <div class="container">   
@@ -12,7 +12,7 @@ Compare
                 <div class="quck_check">
                     <label class="i360">
                         <input type="checkbox">
-                        <span><img src="assets/img/icon/360.png" style="width: 40px;"> Available</span>
+                        <span><img src="{{asset('assets/fontend/img/icon/360.png')}}" style="width: 40px;"> Available</span>
                         
                     </label>
                 </div>
@@ -21,7 +21,7 @@ Compare
                 <div class="quck_check">
                     <label class="truck">
                         <input type="checkbox">
-                        <span><img src="assets/img/icon/truck.png" style="width: 40px;">View Delevery</span>
+                        <span><img src="{{asset('assets/fontend/img/icon/truck.png')}}" style="width: 40px;">View Delevery</span>
                     </label>
                 </div>
             </div>
@@ -120,8 +120,8 @@ Compare
                                 </div>
                             </div>
                             <div class="price-field">
-                            <input type="range"  min="100" max="500" value="100" id="lower">
-                            <input type="range" min="100" max="500" value="500" id="upper">
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['min']}}" id="lower" onchange="price()"/>
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['max']}}" id="upper" onchange="price()"/>
                             </div>
                             
                         </fieldset> 
@@ -323,7 +323,7 @@ Compare
                         <div class="list_button">
                             <ul class="nav" role="tablist">
                                 <li>
-                                    <a class="" data-toggle="tab" href="#large" role="tab" aria-controls="large" aria-selected="false"><i class="ion-grid"></i></a>
+                                    <a class="" data-toggle="tab" href="#large" role="tab" aria-controls="large" aria-selected="false"><i class="ion-grid" ></i></a>
                                 </li>
                                 <li>
                                     <a data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true" class="active"><i class="ion-ios-list-outline"></i> </a>
@@ -332,14 +332,18 @@ Compare
                         </div>
                         <div class="orderby_wrapper">
                             <h3>Item per page : </h3>
-                            <div class=" niceselect_option" style="display: block;">        
-                                <form class="select_option" action="#" style="display: block;">        
-                                    <select name="orderby" id="short">
-                                        <option selected="" value="1">All</option>
-                                        <option value="2">24</option>
+                            {{-- <div class="niceselect_option" >        
+                                <form class="select_option" action="#" style="display: block;">         --}}
+                                    <select class ="niceselect_option" name="orderby" id="short" onchange="lengthwisedata(this.value)">
+                                        {{-- <option selected="" value="1">All</option> --}}
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                       
                                     </select>
-                                </form>        
-                            </div>                                        
+                                {{-- </form>        
+                            </div>                                         --}}
                             <div class="page_amount">
                                 <p>Showing 1–9 of 21 results</p>
                             </div>
@@ -350,8 +354,8 @@ Compare
                      <!--shop tab product start-->
                         <div class="tab-content">
                             <div class="tab-pane grid_view fade retpro bg-white p-0" id="large" role="tabpanel">
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="row" id="all">
+                                    {{-- <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="single_product">
                                             <div class="product_thumb">
                                                 <a class="primary_img" href="product-details.html"><img src="assets/img/product/product10.jpg" alt=""></a>
@@ -393,8 +397,8 @@ Compare
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-lg-3 col-md-4 col-sm-6">
+                                    </div> --}}
+                                    {{-- <div class="col-lg-3 col-md-4 col-sm-6">
                                         <div class="single_product">
                                             <div class="product_thumb">
                                                 <a class="primary_img" href="product-details.html"><img src="assets/img/product/product9.jpg" alt=""></a>
@@ -857,19 +861,19 @@ Compare
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="shop_toolbar t_bottom">
-                                            <div class="pagination">
-                                                <ul>
+                                            <div class="pagination pagiante-custome">
+                                                {{-- <ul>
                                                     <li class="current">1</li>
                                                     <li><a href="#">2</a></li>
                                                     <li><a href="#">3</a></li>
                                                     <li class="next"><a href="#">next</a></li>
                                                     <li><a href="#">&gt;&gt;</a></li>
-                                                </ul>
+                                                </ul> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -880,253 +884,30 @@ Compare
                                     <thead>
                                        <tr>
                                           <th>Wish List</th>
-                                          <th>Shape</th>
-                                          <th>Price</th>
-                                          <th>Carat</th>
-                                          <th>Cut</th>
-                                          <th>Color</th>
-                                          <th>Clarity</th>
+                                          <th class ="order">Shape</th>
+                                          <th class ="order">Price</th>
+                                          <th class ="order">Carat</th>
+                                          <th class ="order">Cut</th>
+                                          <th class ="order">Color</th>
+                                          <th class ="order">Clarity</th>
                                        </tr>
                                     </thead>
-                                    <tbody>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>                                                  
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
-                                       <tr>
-                                        <th scope="row"><label class="wishList_call"><input type="checkbox"><span></span></label></th>
-                                          <td>Nixon</td>
-                                          <td>System Architect</td>
-                                          <td>Edinburgh</td>
-                                          <td>61</td>
-                                          <td>2011/04/25</td>
-                                          <td>$320,800</td>
-                                       </tr>
+                                    <tbody id ="table">
+                                       
+                               
                                     </tbody>
                                  </table>
                                  <div class="row">
                                     <div class="col-md-12">
                                         <div class="shop_toolbar t_bottom mt-4">
-                                            <div class="pagination">
-                                                <ul>
+                                            <div class="pagination pagiante-custome">
+                                                {{-- <ul>
                                                     <li class="current">1</li>
                                                     <li><a href="#">2</a></li>
                                                     <li><a href="#">3</a></li>
                                                     <li class="next"><a href="#">next</a></li>
                                                     <li><a href="#">&gt;&gt;</a></li>
-                                                </ul>
+                                                </ul> --}}
                                             </div>
                                         </div>
                                     </div>
@@ -1140,7 +921,7 @@ Compare
     </div>    
 </div>
 <!--error section area end--> 
-<section class="product_section p_bottom p_section1 pt-5 retpro">
+{{-- <section class="product_section p_bottom p_section1 pt-5 retpro">
     <div class="container">
         <div class="row">
            <div class="col-12">
@@ -1641,12 +1422,219 @@ Compare
             </div>
         </div>    
     </div>
-</section>
+</section> --}}
+@include('parcials.recent')
 
 @endsection
 
 @section('script')
+<script>
+var order = 0;
 
+$(".order").click(function(){
+    if(order > 0)
+  {
+      order --;
+  }
+  else
+  {
+    order ++;
+  }
+  oderfilter(order);
+  
+});
+async function oderfilter(order)
+{
+    let result  = await $.ajax({
+        url:"{{route('order.filter')}}",
+        type:"GET",
+        data:{order:order},
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result.data.original,false)
+    }
+}
+async function price()
+{
+    let lower  = $("#lower").val();
+    let maximum =$('#upper').val();
+    let result  = await $.ajax({
+        url:"{{route('price.filter')}}",
+        type:"GET",
+        data:{min:lower,max:maximum},
+        dataType: "json"
+       
+    });
+    if(result.stat == true){
+       
+        createhtmlgrid(result.data.original,true)
+    }
+   
+    
+    
+
+}
+
+
+    
+async function lengthwisedata(id)
+{
+    let result  = await $.ajax({
+        url:"{{route('page.length')}}",
+        type:"GET",
+        data:{page_length:id},
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result)
+    }
+    console.log(result)
+}
+$(document).ready(function () {
+          
+    loaddata();
+});
+async function loaddata()
+{
+    let result  = await $.ajax({
+        url:"{{route('all.product')}}",
+        type:"GET",
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result)
+    }
+   
+    
+}
+var count = 1;
+function createhtmlgrid(result,flag = false)
+{
+    var html =``;
+    let data = result['data'];
+    
+$.each(data, function(index, value) {
+
+    html += `<div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="single_product">
+            <div class="product_thumb">
+                <a class="primary_img" href="${value.product_details}"><img src="${value.image_src}" alt=""></a>
+                <a class="secondary_img" href="${value.product_details}"><img src="${value.image_src}" alt=""></a>
+                <div class="quick_button">
+                    <a href="#" onclick="showquickview(${value.id})"> quick view</a>
+                </div>
+            </div>
+            <div class="product_content">
+                <div class="tag_cate">
+                    
+                    <a href="#">${value.type}</a>
+                </div>
+                <h3><a href="${value.product_details}">${value.title}</a></h3>
+                <div class="price_box">
+                    <span class="old_price">$${value.old_price}</span>
+                    <span class="current_price">$${value.price}</span>
+                </div>
+                <div class="product_hover">
+                    <div class="product_ratings">
+                        <ul>
+                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
+                        </ul>
+                    </div>
+                    <div class="product_desc">
+                        <p>${value.seo_description}</p>
+                    </div>
+                    <div class="action_links">
+                        <ul>
+                            <li><a href="wishlist.html" data-placement="top" title="Add to Wishlist" data-toggle="tooltip"><span class="icon icon-Heart"></span></a></li>
+                            <li class="add_to_cart"><a href="cart.html" title="add to cart">add to cart</a></li>
+                            <li><a href="compare.html" title="compare"><i class="ion-ios-settings-strong"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+
+
+  
+});
+
+$("#all").html(html);
+
+var table = '';
+$.each(data,function(index,value){
+    
+  table +=`<tr>
+            <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>
+                <td>${(!value.shape)?'N/A':value.shape}</td>
+                <td>${value.price}</td>
+                <td>${(value.carat.Carat != undefined)?value.carat.Carat : 'N/A'}</td>
+                <td>${(value.cuts != undefined)?value.cuts : ''}</td>
+                <td>${(!value.color)?'N/A':value.color}</td>
+                <td>${(!value.clearity)?'N/A':value.clearity}</td>
+            </tr>`;
+    });
+    $("#table").html(table);
+
+
+var start = 1;
+var end = result.total_pages;
+
+var pagination = `<div class="pagination">
+                   <ul>`;
+if(result.total_pages <= count)
+{
+    pagination +=`<li class="next"><a href="javascript:paginelink(${count - 1})">Prev</a></li>`;
+}
+for(let i = start; i <= end; i++)
+{
+   
+        pagination +=`<li id ="paging_${i}" class =${(count == i)?"current":''}><a  href="javascript:paginelink(${i})">${i}</a></li>`;
+    
+   
+}
+if(count > 1)
+{
+    pagination +=`<li class="next"><a href="javascript:paginelink(${count + 1})">next</a></li><li><a href="javascript:paginelink(${count + 1})">&gt;&gt;</a></li></ul></div>`;
+}
+    if(flag == false)
+    {
+        $(".pagiante-custome").html(pagination);
+        $(".pagiante-custome").show();
+    }
+    else{
+        $(".pagiante-custome").hide();
+    }
+}
+async function paginelink(page)
+{
+    let page_length = $('#short').val();
+    
+    let result  = await $.ajax({
+        url:"{{route('page')}}",
+        type:"GET",
+        data:{page:page,length:page_length},
+       
+       
+    });
+    if(result.stat == true)
+    {
+        count = page;
+        createhtmlgrid(result.data.original)
+    }
+}
+</script>
 
 
 @endsection 
