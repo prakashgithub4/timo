@@ -8,6 +8,8 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
+
+                    <?php print_r($getMenu)  ?>
                     <h1>{{ isset($getMenu) ? 'Update Menu Category' : 'Add Sub Menu Category' }}</h1>
                 </div>
                 <div class="col-sm-6">
@@ -42,7 +44,6 @@
                                                 <div class="form-group col-md-4">
                                                 </div>
 
-                                                <?php print_r($getMenu); ?>
 
                                                 <div class="form-group col-md-4">
                                                     <label for="menu">MENU</label>

@@ -38,10 +38,11 @@ class SubCategoryController extends Controller
     {
 
         if (is_null($id)) {
+            $getMenu = $this->ProductSubCategory->_edit($id);
             $menu = $this->menu->_getByStatus();
             $productCategory = $this->productCategory->_get();
             //  return $productCategory;
-            return view('admin.menu_sub_category.add', compact('menu'));
+            return view('admin.menu_sub_category.add', compact('menu','getMenu'));
         } else {
 
             $getMenu = $this->ProductSubCategory->_edit($id);
