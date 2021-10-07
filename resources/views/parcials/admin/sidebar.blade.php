@@ -141,6 +141,12 @@ $cms_titles = cms();
                             <p>Reviews</p>
                         </a>
                     </li>
+                    <li class="nav-item">
+                      <a href="{{ route('admin.product_filter') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Product Filters</p>
+                      </a>
+                  </li>
                 </ul>
             </li>
             <li class="nav-item">

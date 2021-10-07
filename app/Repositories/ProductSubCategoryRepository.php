@@ -48,9 +48,10 @@ class ProductSubCategoryRepository
     {
         $productSubCategory = productSubCategory::find($id);
         $productSubCategory->menu_id = $data['menu_id'];
-        $productSubCategory->product_category  = $data['product_category'];
-        $productSubCategory->mega_menu  = $data['mega_menu'];
-       // $productSubCategory->deleted_at  = $data['deleted_at'];
+        $productSubCategory->product_category_id  = $data['product_category_id'];
+        $productSubCategory->sub_category_name  = $data['sub_category_name'];
+        $productSubCategory->icon  = $data['icon'];
+
         $productSubCategory->save();
     }
 

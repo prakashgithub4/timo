@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 'middleware' => 'HtmlMinifier'], function () {
   Route::get('/', 'AuthController@login');
   Route::get('/dashbord', 'DashbordController@index')->name('admin.dashbord');
   Route::get('login', 'AuthController@login');
@@ -127,7 +127,7 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin'],
   /** MENU SUB CATEGORY */
   Route::get('menu-sub-category', 'SubCategoryController@index');
   Route::get('menu-sub-category/add', 'SubCategoryController@addOrEdit')->name('admin.productSubCategory.add');
-  // Route::get('menu-sub-category/edit/{id}','SubCategoryController@addOrEdit')->name('admin.productSubCategory.edit');
+  Route::get('menu-sub-category/edit/{id}', 'SubCategoryController@addOrEdit')->name('admin.productSubCategory.edit');
   Route::get('menu-sub-category/delete/{id}', 'SubCategoryController@delete')->name('admin.productSubCategory.delete');
   Route::post('menu-sub-category/add', 'SubCategoryController@saveMenuCategory')->name('admin.productSubCategory.save');
   Route::get('menudata', 'SubCategoryController@menuData')->name('admin.productSubCategory.menudata');
@@ -198,6 +198,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin'],
   Route::post('cms-category/save', 'CmsCategoryController@save')->name('admin.cms_category.save');
   Route::get('cms-category/edit/{id?}', 'CmsCategoryController@add')->name('admin.cms_category.edit');
   Route::get('cms-category/delete/{id}', 'CmsCategoryController@delete')->name('admin.cms_category.deleted');
+
+
+  /**Product Filters module */
+  Route::get('product-filter/{slug?}', 'ProductFilterController@index')->name('admin.product_filter');
+  Route::get('add/product-filter', 'ProductFilterController@add')->name('admin.product_filter.add');
+  Route::post('product-filter/save', 'ProductFilterController@save')->name('admin.product_filter.save');
+  Route::get('product-filter/edit/{id?}', 'ProductFilterController@add')->name('admin.product_filter.edit');
+  Route::get('product-filter/delete/{id}', 'ProductFilterController@delete')->name('admin.product_filter.deleted');
 });
 Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('/', 'HomeController@index')->name('home');
@@ -258,7 +266,7 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('checkouts/', 'CheckoutController@index')->name('checkout');
 
   //purchase-order
-  Route::post('purchase-order','OrderController@save')->name('purchase.save');
+  Route::post('purchase-order', 'OrderController@save')->name('purchase.save');
 
   //Diamonds filter
   Route::get('diamonds/search','FilterController@index')->name('diamonds.search');
@@ -268,5 +276,4 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('page','FilterController@pageLink')->name('page');
   Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
-
 });

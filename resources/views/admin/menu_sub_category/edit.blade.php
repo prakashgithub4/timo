@@ -8,8 +8,6 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-
-                    <?php print_r($getMenu)  ?>
                     <h1>{{ isset($getMenu) ? 'Update Menu Category' : 'Add Sub Menu Category' }}</h1>
                 </div>
                 <div class="col-sm-6">
@@ -35,7 +33,7 @@
                                     enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name='id'
-                                        value="{{ isset($getMenu) ? $getMenu->product_category_id : 0 }}" />
+                                        value="{{ isset($getMenu) ? $getMenu->product_sub_category_id : 0 }}" />
                                     <div class="bs-stepper-content">
                                         <!-- your steps content here -->
                                         <div id="logins-part" class="content" role="tabpanel"
@@ -44,6 +42,7 @@
                                                 <div class="form-group col-md-4">
                                                 </div>
 
+                                                {{-- <?php print_r($getMenu); ?> --}}
 
                                                 <div class="form-group col-md-4">
                                                     <label for="menu">MENU</label>
@@ -70,28 +69,38 @@
                                                 <div class="form-group col-md-4">
                                                 </div>
 
-                                                <div class="form-group col-md-4" style="display:none;" id="menu_category">
+                                                <div class="form-group col-md-4"  id="menu_category">
                                                     <label for="menu">MENU CATEGORY </label>
 
-                                                    <select name="product_category_id" class="form-control " id="undercat">
+                                                    {{-- <select name="product_category_id" class="form-control " id="undercat">
                                                         <option value=" ">Select Category</option>
+                                                    </select> --}}
+
+                                                    <select name="product_category_id" class="form-control dynamic" id="undercat">
+                                                        @if (empty($getMenu))
+                                                            <option value=" ">--- Select Menu ---</option>
+                                                        @endif
+                                                        @foreach ($category as $cat)
+
+                                                            <option value="<?php echo $cat->product_category_id; ?>" <?php if (!empty($getMenu)) {
+    echo $getMenu->product_category_id == $cat->product_category_id ? 'selected' : '';
+} ?>>
+                                                                {{ $cat->product_category }} </option>
+                                                        @endforeach
                                                     </select>
-
-
-
                                                 </div>
                                             </div>
 
                                             <div class="row">
                                                 <div class="form-group col-md-4">
                                                 </div>
-                                                <div class="form-group col-md-4" style="display:none;"
+                                                <div class="form-group col-md-4" 
                                                     id="menu_product_category">
 
                                                     <label for="name">{{ __(' SUB CATEGORY NAME ') }} <span
-                                                            style='color:red'>*</span></label>
+                                                            style='color:red'>*</span></label>  
                                                     <input type="text" name="sub_category_name" class="form-control"
-                                                        id="exampleInputEmail1" placeholder=" subcategory name" required>
+                                                        id="exampleInputEmail1" placeholder=" subcategory name"  value="<?php echo !empty($getMenu)? $getMenu->sub_category_name:'' ?>" required>
                                                     @error('menu')
                                                         <small style="color:red">{{ $message }}</small>
                                                     @enderror
@@ -102,12 +111,15 @@
                                                 <div class="form-group col-md-4">
                                                 </div>
 
-                                                <div class="form-group col-md-4" style="display:none;"
+                                                <div class="form-group col-md-4" 
                                                     id="menu_product_icon">
+                                                    <input type="hidden" name="hidden_file" value="<?php echo !empty($getMenu)? $getMenu->icon:'' ?>" />
 
-                                                    <label for="name">{{ __(' SUB CATEGORY ICON ') }}(15 x 15)</label>
+                                                    <label for="name">{{ __(' SUB CATEGORY ICON ') }}(15 x 15) @if (!empty($getMenu))
+                                                        {{$getMenu->icon}}
+                                                     @endif</label>
                                                     <input type="file" name="sub_category_icon" class="form-control"
-                                                        placeholder=" subcategory name" required>
+                                                        placeholder=" subcategory name">
                                                     @error('menu')
                                                         <small style="color:red">{{ $message }}</small>
                                                     @enderror
@@ -181,9 +193,7 @@
                     success: function(data) {
                         // var perform= data.changedone;
 
-                        $("#menu_category").css("display", "");
-                        $("#menu_product_category").css("display", "");
-                        $("#menu_product_icon").css("display", "");;
+                      
 
 
                         $('#undercat').empty();

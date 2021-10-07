@@ -5,7 +5,7 @@ Home
 @section('banner')
     <section class="slider_area owl-carousel"> 
      @foreach($slider as $slide)
-    <div class="single_slider" data-bgimg="{{asset('public/uploads/slider/'.$slide->image)}}">
+    <div class="single_slider" data-bgimg="{{asset('public/uploads/slider/'.$slide->image)}}" lazy="loading">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-6">
@@ -45,7 +45,7 @@ Home
                                 	<a href="{{route('shape.details',[Crypt::encryptString($shape->id),$slug])}}" title="">
                                     <div class="single-shipping">
                                         <div class="shipping_icone icone_1">
-                                            <img src="{{ asset('public/uploads/shape') }}/{{$shape->logo}}" alt="">
+                                            <img src="{{ asset('public/uploads/shape') }}/{{$shape->logo}}" alt="" lazy="loading">
                                         </div>
                                         <div class="shipping_content">
                                             <h3>{{$shape->name}}</h3>
@@ -71,7 +71,7 @@ Home
                             <div class="single_banner">
                                 <div class="banner_thumb">
                                     <a href="javascript:void(0)"><img src="{{ asset('public/uploads/category') }}/{{ $categories->image }}"
-                                            alt=""></a>
+                                            alt="" lazy="loading"></a>
                                     <div class="banner_content">
                                         <p>{{ $categories->short }}</p>
                                         <h2>{{ $categories->name }}</h2>
@@ -106,7 +106,7 @@ Home
                                         <div class="product_thumb">
                                             <a class="primary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{(empty($item->image_src)) ? asset('assets/fontend/img/product/product3.jpg'): $item->image_src }}"
-                                                    alt=""></a>
+                                                    alt="" lazy="loading"></a>
                                            <!--  <a class="secondary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{ (@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a> -->
@@ -168,7 +168,7 @@ Home
                                 <div class="banner_thumb">
                                     <a href="#"><img
                                             src="{{ asset('public/uploads/category') }}/{{ $secondcategories->image }}"
-                                            alt=""></a>
+                                            alt="" lazy="loading"></a>
                                     <div class="banner_content">
                                         <p>{{ $secondcategories->short }}</p>
                                         <h2>{{ $secondcategories->name }}</h2>
@@ -204,7 +204,7 @@ Home
                                         <div class="product_thumb">
                                             <a class="primary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{ (empty($item->image_src)) ? asset('assets/fontend/img/product/product16.jpg') : $item->image_src }}"
-                                                    alt=""></a>
+                                                    alt="" lazy="loading"></a>
                                            <!--  <a class="secondary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{(@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a> -->
@@ -289,7 +289,7 @@ Home
                                         <div class="product_thumb">
                                             <a class="primary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{ (empty($item->image_src)) ? asset('assets/fontend/img/product/product16.jpg') : $item->image_src }}"
-                                                    alt=""></a>
+                                                    alt="" lazy="loading"></a>
                                             <!-- <a class="secondary_img" href="{{route('product',[Crypt::encryptString($item->id)])}}"><img
                                                     src="{{(@gallerypicksecond($item->id)->image == null) ? asset('assets/fontend/img/product/product4.jpg') : gallerypicksecond($item->id)->image }}"
                                                     alt=""></a> -->

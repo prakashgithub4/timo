@@ -68,7 +68,7 @@
                                             @endif
 
                                             </div>
-                                            <div class="form-group colmd-6">
+                                            <!--<div class="form-group colmd-6">
                                             <label for="horns">MEGA MENU</label>
                                         @if(!empty($getMenu))
                                             @if($getMenu->mega=='1')   
@@ -80,7 +80,7 @@
                                         <input type="checkbox" id="" name="mega" class="form-control" value="1" >
                                         @endif
                                             
-                                            </div>
+                                            </div>-->
 
 
                                             

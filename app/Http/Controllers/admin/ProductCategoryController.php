@@ -43,7 +43,7 @@ class ProductCategoryController extends Controller
             return view('admin.menu_category.add', compact('menu'));
         } else {
           
-            $getMenu = $this->productCategory->_edit($id);
+             $getMenu = $this->productCategory->_edit($id);
           
              $menu = $this->menu->_getByStatus();
             
