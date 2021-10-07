@@ -50,8 +50,8 @@ $url = explode('/',$segment);
                             <div class="custom-col-5">
                                 <div class="single_product">
                                     <div class="product_thumb">
-                                        <a class="primary_img" href="#"><img src="{{$recent_views->image_src}}" alt=""></a>
-                                        <a class="secondary_img" href="#"><img src="{{(@gallerypicksecond($recent_views->id)->image == null) ? $recent_views->image_src : gallerypicksecond($recent_views->id)->image }}" alt=""></a>
+                                        <a class="primary_img" href="#"><img src="{{$recent_views->image_src}}" alt="" lazy="loading"></a>
+                                        <a class="secondary_img" href="#"><img src="{{(@gallerypicksecond($recent_views->id)->image == null) ? $recent_views->image_src : gallerypicksecond($recent_views->id)->image }}" alt="" lazy="loading"></a>
                                         <div class="quick_button">
                                             <a href="#" data-toggle="modal" data-target="#modal_box" data-placement="top" data-original-title="quick view"> quick view</a>
                                         </div>

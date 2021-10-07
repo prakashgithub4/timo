@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin'], function () {
+Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 'middleware' => 'HtmlMinifier'], function () {
   Route::get('/', 'AuthController@login');
   Route::get('/dashbord', 'DashbordController@index')->name('admin.dashbord');
   Route::get('login', 'AuthController@login');
