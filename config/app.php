@@ -178,7 +178,7 @@ return [
         App\Providers\UserserviceProvider::class,
         App\Providers\CmsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class
 
     ],
 
@@ -235,6 +235,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
         'Share' => Jorenvh\Share\ShareFacade::class,
+        'PayPal' => Srmklive\PayPal\Facades\PayPal::class
     ],
 
 ];

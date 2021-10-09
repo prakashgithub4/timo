@@ -38,14 +38,14 @@
 
                                 <div class="form-group col-lg-4 mb-20">
                                     <label>First Name <span>*</span></label>
-                                    <input type="text" name="first_name" id="first_name" class="form-control" required>   
+                                    <input type="text" name="first_name" id="first_name" class="form-control" >   
                                     @error('first_name')
                                         <span>{{ $message }}</span>
                                     @enderror 
                                 </div>
                                 <div class="form-group col-lg-4 mb-20">
                                     <label>Last Name  <span>*</span></label>
-                                    <input type="text" name="last_name" id="last_name" class="form-control" required> 
+                                    <input type="text" name="last_name" id="last_name" class="form-control" > 
                                     @error('last_name')
                                         <span>{{ $message }}</span>
                                     @enderror 
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="form-group col-12 mb-20">
                                     <label for="country">Country <span>*</span></label>
-                                    <select class="niceselect_option" name="country" id="country" required> 
+                                    <select class="niceselect_option" name="country" id="country" > 
                                         <option selected>--select--</option>
                                         @foreach ($country as $countries)
                                         <option value="{{$countries->id}}">{{$countries->name}}</option>      
@@ -69,7 +69,7 @@
 
                                 <div class="form-group col-12 mb-20">
                                     <label>Street address  <span>*</span></label>
-                                    <input placeholder="House number and street name" type="text" name="address" id="address" required> 
+                                    <input placeholder="House number and street name" type="text" name="address" id="address" > 
                                     @error('address')
                                         <span>{{ $message }}</span>
                                     @enderror    
@@ -79,25 +79,25 @@
                                 </div>
                                 <div class="form-group col-lg-6 mb-20">
                                     <label>Town / City <span>*</span></label>
-                                    <input  type="text" name="city" id="city" required>    
+                                    <input  type="text" name="city" id="city" >    
                                 </div> 
                                 <div class="form-group col-lg-6 mb-20">
                                     <label>State <span>*</span></label>
-                                    <input type="text" name="state" id="state" required> 
+                                    <input type="text" name="state" id="state" > 
                                     @error('city')
                                         <span>{{ $message }}</span>
                                     @enderror   
                                 </div> 
                                 <div class="form-group col-lg-6 mb-20">
                                     <label>Phone<span>*</span></label>
-                                    <input type="text" name="phone" id="phone" required> 
+                                    <input type="text" name="phone" id="phone" > 
                                     @error('phone')
                                         <span>{{ $message }}</span>
                                     @enderror
                                 </div> 
                                 <div class="col-lg-6 mb-20">
                                     <label> Email Address   <span>*</span></label>
-                                    <input type="text" name="email" id="email" required>  
+                                    <input type="text" name="email" id="email" >  
 
                                 </div> 
                                 <div class="col-12 mb-20">
@@ -297,7 +297,7 @@
                                     </div>
                                 </div>
                             <div class="panel-default">
-                                    <input id="payment" name="check_method" type="radio" data-target="createp_account" />
+                                    <input id="payment" name="check_method" type="radio" data-target="createp_account" value="cod" />
                                     <label for="payment" data-toggle="collapse" data-target="#method" aria-controls="method">COD</label>
 
                                     <div id="method" class="collapse one" data-parent="#accordion">
@@ -307,7 +307,7 @@
                                     </div>
                                 </div> 
                             <div class="panel-default">
-                                    <input id="payment_defult" name="check_method" type="radio" data-target="createp_account" />
+                                    <input id="payment_defult" name="check_method" type="radio" data-target="createp_account" value="paypal" />
                                     <label for="payment_defult" data-toggle="collapse" data-target="#collapsedefult" aria-controls="collapsedefult">PayPal <img src="assets/img/icon/papyel.png" alt=""></label>
 
                                     <div id="collapsedefult" class="collapse one" data-parent="#accordion">

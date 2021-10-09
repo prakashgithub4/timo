@@ -276,4 +276,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('page','FilterController@pageLink')->name('page');
   Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
+
+  /** Paypal */
+  Route::get('paymentsuccess', 'PaymentController@payment_success');
+  Route::get('paymenterror', 'PaymentController@payment_error');
 });
