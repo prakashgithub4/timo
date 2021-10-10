@@ -11,21 +11,24 @@ use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\ProductRepository;
 use App\Exports\ProductsExport;
-use App\Models\Attribute;
+use App\Models\Attribute as Attribute;
 use App\Models\Color;
 use App\Models\Category;
 use App\Models\Shape;
 use App\Models\Size;
 use App\Models\Gift;
+use App\Repositories\AttributRepository;
+use App\Models\ProductAttributeMapping as PAMapping;
 
 class ProductController extends Controller
 {
   //
   public $product = null;
-  public function __construct(ProductRepository $product)
+  public function __construct(ProductRepository $product, AttributRepository $attribute)
   {
     $this->middleware('admin');
     $this->product = $product;
+    $this->attribute = $attribute;
   }
 
   public function add()
@@ -40,7 +43,9 @@ class ProductController extends Controller
           return view('admin.products.edit');
       } else {
           $getProduct = $this->product->_edit($id);
-          return view('admin.products.edit', compact('getProduct'));
+          $attribute = Attribute::all();
+
+          return view('admin.products.edit', compact('getProduct','attribute'));
       }
   }
 
@@ -313,7 +318,7 @@ class ProductController extends Controller
         }
         $chtml .="</select>";
 
-        $ahtml = "<select name = attributes[] multiple onchange='method.updateattribute(this,".$product->id.")'> class='form-control'>"; 
+        $ahtml = "<select name = attributes[] multiple > class='form-control'>"; 
         $ahtml .="<option disabled>--Select--</option>";
         foreach($attribute as $attributes)
         {
@@ -321,7 +326,7 @@ class ProductController extends Controller
         }
         $ahtml .="</select>";
         if(!is_null($product->attribute)){
-          $ahtml .="<a href='javascript:void(0)' onclick='method.addattributevalue(".$product->id.")' data-toggle='modal' data-target='#largeModal'>Add value</a>";
+          // $ahtml .="<a href='javascript:void(0)' onclick='method.addattributevalue(".$product->id.")' data-toggle='modal' data-target='#largeModal'>Add value</a>";
         }
         
 
@@ -446,6 +451,8 @@ class ProductController extends Controller
        return response()->json(['stat'=>true,'message'=>'shipping cost has been updated in product table']);
     }
 
+
+//Update Product
     public function update(Request $request)
     {
 
@@ -476,7 +483,24 @@ class ProductController extends Controller
         } else {
             // $this->colors->_update($request->id, $input_array);
 
+            //Saving Attributes
             $product = Product::find($request->id);
+             PAMapping::where('pid',$request->id)->delete();
+
+            $input_array1 = [];
+            foreach($request->ids as $key=>$item)
+            {
+              //print_r( $item);
+              //exit();
+              PAMapping::Create([
+                'pid'       =>  $request->id,
+                'aid'       =>  $item,
+              ]);
+              $input_array2[] =$item;
+              $input_array1[] = ["attribute_id"=>$item,"value"=>($request->value[$key]) ? $request->value[$key] : '','unit'=>($request->unit[$key]) ? $request->unit[$key] : ''];
+            }
+            $product->attribute_values = json_encode($input_array1);
+            $product->attribute = json_encode($input_array2);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
             $product->body = $input_array['body'];
