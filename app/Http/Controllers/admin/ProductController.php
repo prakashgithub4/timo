@@ -17,6 +17,7 @@ use App\Models\Category;
 use App\Models\Shape;
 use App\Models\Size;
 use App\Models\Gift;
+use App\Models\ProductAttribute;
 
 class ProductController extends Controller
 {
@@ -36,12 +37,37 @@ class ProductController extends Controller
 
   public function edit($id = null)
   {
+      $attributes = Attribute::all();
       if (is_null($id)) {
-          return view('admin.products.edit');
+          return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-          return view('admin.products.edit', compact('getProduct'));
+          return view('admin.products.edit', compact('getProduct','attributes'));
       }
+  }
+
+  public function loadproductattribute(Request $request)
+  { 
+   $result = [];
+   $product = $request->query();
+   $product_attributs = Product::select('product_attribute_mapping.attribute_values','attributes.name','product_attribute_mapping.id')
+               ->join('product_attribute_mapping','product_attribute_mapping.pid','=','products.id')
+               ->join('attributes','attributes.id','=','product_attribute_mapping.aid')
+               ->distinct('product_attribute_mapping.*')
+              // ->groupBy('product_attribute_mapping.aid')
+               ->where('product_attribute_mapping.pid',$product['product_id'])
+               ->get();
+      foreach($product_attributs as $item)
+      {
+         $result[] = ['attribute_values'=>$item->attribute_values,'name'=>$item->name,'url'=>route('admin.productattribute.remove',$item->id)];
+      }
+   
+    return response()->json(['data'=>$result]);
+  }
+  public function removeproductattribute($id)
+  {
+    ProductAttribute::find($id)->delete();
+    return redirect()->back();
   }
 
   public function save(Request $request)
@@ -448,16 +474,31 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-
-        $userid = \Auth::user()->id;
-
-        $request->validate([
-            'handle' => 'required',
-            'title' => 'required',
-            'body' => 'required',
-            'long_description' => 'required',
-            'published' => 'required',
-        ]);
+     
+       // $userid = \Auth::user()->id;
+        
+        // $request->validate([
+        //     'handle' => 'required',
+        //     'title' => 'required',
+        //     'body' => 'required',
+        //     'long_description' => 'required',
+        //     'published' => 'required',
+        // ]);
+        $attribute = array();
+        if(count($request->attribute_id) > 0){
+          foreach($request->attribute_id as $key=>$attributes)
+          {
+            $attribute[] = ['value'=>$request->attribute_value[$key],'attribute_id'=>$request->attribute_id[$key]];
+            $product_attribute = new ProductAttribute();
+            $product_attribute->pid = $request->id;
+            $product_attribute->aid = $request->attribute_id[$key];
+            $product_attribute->attribute_values = $request->attribute_value[$key];
+            $product_attribute->save();
+          }
+        }
+       
+        $attribute_values = isset($attribute) ? json_encode($attribute) :[];
+       
         $input_array = array(
             'title' => $request->title,
             'handle' => $request->handle,
@@ -468,14 +509,13 @@ class ProductController extends Controller
             'type' => $request->type,
             'tags' => $request->tags,
             'vendor' => $request->vendor,
+            'attribute_values'=>$attribute_values
         );
-
         if ($request->id == 0) {
-            // $this->colors->_add($input_array);
+            
             return redirect('admin/products')->with('success', 'Product Added successfully');
         } else {
-            // $this->colors->_update($request->id, $input_array);
-
+           
             $product = Product::find($request->id);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
@@ -486,7 +526,10 @@ class ProductController extends Controller
             $product->tags = $input_array['tags'];
             $product->vendor = $input_array['vendor'];
             $product->long_description = $input_array['long_description'];
+            $product->attribute_values = $input_array['attribute_values'];
             $product->save();
+
+
 
             return redirect('admin/products')->with('success', 'Product has been updated successfully');
         }
