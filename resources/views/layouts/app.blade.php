@@ -477,7 +477,7 @@
                         'cart_id': id
                     },
                 })
-                console.log(result);
+               
                 if (result.status == true) {
                     $("#cart_" + id).remove();
                     $(".cart_"+ id).remove();
