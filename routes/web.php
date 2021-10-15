@@ -87,6 +87,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::post('product/shipping/cost', 'ProductController@productshippingcost')->name('admin.shipping.cost');
 
   Route::get('product/edit/{id?}', 'ProductController@edit')->name('admin.product.edit');
+  Route::get('product/find/{id?}', 'ProductController@find')->name('admin.product.find');
+
   Route::post('product/update', 'ProductController@update')->name('admin.product.update');
   /** CONTACT  */
   Route::get('contact', 'ContactController@index')->name('admin.contact');

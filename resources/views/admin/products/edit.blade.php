@@ -39,7 +39,7 @@
                         @endif
                         <form method="post"  action='{{ route('admin.product.update') }}' id="myform">
                             @csrf
-                            <input type="hidden" name="id" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
+                            <input type="hidden" name="id" id="menu_id" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
                             <input type="hidden" name="status" value="{{ isset($getProduct) ? $getProduct->status : ''  }}" />
                             <div class="card-body">
 
@@ -140,32 +140,37 @@
                                     {{-- <?php  var_dump($getProduct->attribute); 
                                     print_r(json_decode($getProduct->attribute));
                                     ?> --}}
-                                    
                                             <select type="text" name="attribute[]" class="form-control" id="attribute" required multiple onchange="showattributeform(this)">
                                                 <option>Select</option>
                                                 @foreach ($attribute as $cats)
+                                                @if(json_decode($getProduct->attribute)!=null)
                                                     <option {{ in_array($cats->id, json_decode($getProduct->attribute)) ? 'selected' : '' }} value={{$cats->id}}>{{$cats->name}}</option>
+                                                @else
+                                                <option  value={{$cats->id}}>{{$cats->name}}</option>
+                                                @endif
                                                 @endforeach
                                             </select>
                                     @error('attribute')
                                         <small style="color:red">{{ $message }}</small>
                                     @enderror
+
                                 </div>
 
                                
                                 <div class="form-group">
+                                    {{-- @if($getProduct->attribute_values!=null)
+                                    @foreach (json_decode($getProduct->attribute_values) as $v)
+                                    <div class ="row" id="{{$v->attribute_id}}">
+                                        <div class ="col-md-6">
+                                           <input type ='hidden' name ='ids[]' value='{{$v->attribute_id}}'/>
+                                           <label>Value</label> <input type="text" class ="form-control" name="value[]" value="{{$v->value}}" required/>
+                                        </div>
+                                           <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6' value="{{$v->unit}}"/></div>
+                                       </div>
+                                    @endforeach
+                                    @endif --}}
                                     <div id ="value_attr"> 
-                                        @if($getProduct->attribute_values!=null)
-                                        @foreach (json_decode($getProduct->attribute_values) as $v)
-                                        <div class ="row">
-                                            <div class ="col-md-6">
-                                               <input type ='hidden' name ='ids[]' value='{{$v->attribute_id}}'/>
-                                               <label>Value</label> <input type="text" class ="form-control" name="value[]" value="{{$v->value}}" required/>
-                                            </div>
-                                               <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6' value="{{$v->unit}}"/></div>
-                                           </div>
-                                        @endforeach
-                                        @endif
+                                       
                                     </div>
                              
                                 </div>
@@ -193,6 +198,7 @@
 @section('script')
 
 <script type="text/javascript">
+let inputfield = [];
     $(document).ready(function() {
        //$('.ckeditor').ckeditor();
        CKEDITOR.replace( 'body', {
@@ -204,16 +210,50 @@ CKEDITOR.replace( 'long_description', {
     filebrowserUploadUrl: "{{route('admin.upload', ['_token' => csrf_token() ])}}",
     filebrowserUploadMethod: 'form'
 });
-
-showattributeform(select);
     });
+
+    $(window).on('load', function() {
+ 
+        
+var menu_id = $("#menu_id").val();
+console.log(menu_id)
+$.ajax({
+                    url: "{{ url('admin/product/find/') }}",
+                    method: 'get',
+                    data: {
+                        id: menu_id,
+                    },
+
+                    success: function(data) {
+                        // var perform= data.changedone;
+                         console.log(JSON.stringify(JSON.parse(data.data.attribute_values)));
+                        var html = ``;
+        $.each(JSON.parse(data.data.attribute_values),function(key,item)
+        {
+        
+            inputfield.push(item.attribute_id);
+             html +=`<div class ="row">
+                        <div class ="col-md-6">
+                           <input type ='hidden' name ='ids[]' value='${item.attribute_id}'/>
+                           <label>Value</label> <input type="text" class ="form-control" name="value[]" required value="${item.value}"/>
+                        </div>
+                           <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6'  value="${item.unit}"/></div>
+                       </div>`;
+        });
+        $("#value_attr").html(html);
+                      
+                    }
+
+                });
+});
 </script>
     <script>
         $(function() {
-           
             $('#myform').validate({
                 rules: {
-                    title:required,
+                    title:{
+                        required: true
+                    },
                     body: {
                         required: true
                     },
@@ -243,7 +283,7 @@ showattributeform(select);
 
         function showattributeform(select)
      {
-        let inputfield = [];
+        
         var html = ``;
         $.each(select.options,function(index,item)
         {
@@ -259,7 +299,7 @@ showattributeform(select);
                        </div>`;
           }
         });
-        $("#value_attr").append(html);
+        $("#value_attr").html(html);
        
      }
     </script>

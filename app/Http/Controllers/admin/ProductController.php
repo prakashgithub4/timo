@@ -49,6 +49,15 @@ class ProductController extends Controller
       }
   }
 
+  public function find($id = null)
+  {
+          //print_r($_GET['id']);
+         // exit();
+          $getProduct = $this->product->_edit($_GET['id']);
+          return response()->json(['stat'=>true,'message'=>"data fetch successfully","data"=>$getProduct]);
+
+  }
+
   public function save(Request $request)
   {
     $request->validate([
