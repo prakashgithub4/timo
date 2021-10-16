@@ -44,7 +44,7 @@
                                 <tr>
                                     <th>S.L</th>
                                     <th>Name</th>
-                                    <th>Attribute</th>
+                                    {{-- <th>Attribute</th> --}}
                                     <th>color</th>
                                     <th>Category</th>
                                     <th>Shape</th>
@@ -403,9 +403,6 @@
                     },
                     {
                         "data": "title"
-                    },
-                    {
-                        "data": "attribute"
                     },
                     {
                         "data": "color"

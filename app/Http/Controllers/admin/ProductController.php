@@ -354,7 +354,7 @@ class ProductController extends Controller
         $publish_status = ($product->published == 'TRUE')?1:0;
         $nestedData['SL'] =  $key + 1;
         $nestedData['title'] = $product->seo_title;
-        $nestedData['attribute'] = $ahtml;
+     //   $nestedData['attribute'] = $ahtml;
         $nestedData['color'] = $chtml;
         $nestedData['category'] = $cahtml;
         $nestedData['shape'] = $shtml;
@@ -489,11 +489,23 @@ class ProductController extends Controller
           foreach($request->attribute_id as $key=>$attributes)
           {
             $attribute[] = ['value'=>$request->attribute_value[$key],'attribute_id'=>$request->attribute_id[$key]];
-            $product_attribute = new ProductAttribute();
-            $product_attribute->pid = $request->id;
-            $product_attribute->aid = $request->attribute_id[$key];
-            $product_attribute->attribute_values = $request->attribute_value[$key];
-            $product_attribute->save();
+            $check_attribute = ProductAttribute::where(['pid'=>$request->id,'aid'=>$request->attribute_id[$key]])->first();
+            if(empty($check_attribute))
+            {
+              $product_attribute =  new ProductAttribute();
+              $product_attribute->pid = $request->id;
+              $product_attribute->aid = $request->attribute_id[$key];
+              $product_attribute->attribute_values = $request->attribute_value[$key];
+              $product_attribute->save();
+            }
+            else
+            {
+              $check_attribute->pid = $request->id;
+              $check_attribute->aid = $request->attribute_id[$key];
+              $check_attribute->attribute_values = $request->attribute_value[$key];
+              $check_attribute->save();
+            }
+          
           }
         }
        
