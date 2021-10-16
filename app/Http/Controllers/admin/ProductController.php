@@ -17,12 +17,7 @@ use App\Models\Category;
 use App\Models\Shape;
 use App\Models\Size;
 use App\Models\Gift;
-<<<<<<< HEAD
-use App\Repositories\AttributRepository;
-use App\Models\ProductAttributeMapping as PAMapping;
-=======
 use App\Models\ProductAttribute;
->>>>>>> d23f12eb4618135a0dab52e267510457a8eedc1e
 
 class ProductController extends Controller
 {
@@ -48,21 +43,6 @@ class ProductController extends Controller
           return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-<<<<<<< HEAD
-          $attribute = Attribute::all();
-
-          return view('admin.products.edit', compact('getProduct','attribute'));
-      }
-  }
-
-  public function find($id = null)
-  {
-          //print_r($_GET['id']);
-         // exit();
-          $getProduct = $this->product->_edit($_GET['id']);
-          return response()->json(['stat'=>true,'message'=>"data fetch successfully","data"=>$getProduct]);
-
-=======
           return view('admin.products.edit', compact('getProduct','attributes'));
       }
   }
@@ -89,7 +69,6 @@ class ProductController extends Controller
   {
     ProductAttribute::find($id)->delete();
     return redirect()->back();
->>>>>>> d23f12eb4618135a0dab52e267510457a8eedc1e
   }
 
   public function save(Request $request)
@@ -539,13 +518,7 @@ class ProductController extends Controller
             
             return redirect('admin/products')->with('success', 'Product Added successfully');
         } else {
-<<<<<<< HEAD
-            // $this->colors->_update($request->id, $input_array);
-
-            //Saving Attributes
-=======
            
->>>>>>> d23f12eb4618135a0dab52e267510457a8eedc1e
             $product = Product::find($request->id);
              PAMapping::where('pid',$request->id)->delete();
 

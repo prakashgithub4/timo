@@ -178,6 +178,7 @@ return [
         App\Providers\UserserviceProvider::class,
         App\Providers\CmsServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        FruitCake\Cors\CorsServiceProvider::class,
 
 
     ],

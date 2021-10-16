@@ -123,20 +123,3 @@ Shape Details
         </div>
     </div>
 @endsection
-@section('script')
-    <script>
-        $(document).ready(function() {
-            $.ajax({
-                    type: "GET",
-                    data: {
-                        "_token": '{{ csrf_token() }}',
-                    },
-                    url: "https://belgiumdia.com/api/DeveloperAPI?stock=&APIKEY=524768a17cce78adb1c84ffb47be828494c118923dc8",
-                    success: function(response) 
-                    {  
-                            console.log(response)
-                    }
-                });
-    });
-    </script>
-@endsection
