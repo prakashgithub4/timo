@@ -281,4 +281,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('page','FilterController@pageLink')->name('page');
   Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
+  /** products with api  */
+  Route::get('products/list/all','ApiProductController@index');
+  Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
+  
 });

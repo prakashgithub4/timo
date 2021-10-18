@@ -76,5 +76,9 @@ class ProductController extends Controller
        //echo"<pre>";print_r($recent_view); exit;
       return view('fontend.product_details',compact('product','attribute_array','realted_products','product_image_array','recent_view','attribute_data'));
     }
+    public function productlisting()
+    {
+       echo "hello"; die ;
+    }
    
 }

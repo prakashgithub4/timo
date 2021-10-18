@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"> 
+    <style>
+    img.lazy {
+        width: 700px; 
+        height: 467px; 
+        display: block;
+    }
+</style>
 
 </head>
 
@@ -125,7 +132,7 @@
             <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.plugins.min.js')}}"></script>
             {{-- <script type="text/javascript" src="{{asset('assets/fontend/js/custom.js')}}"></script> --}}
 
-           
+          
 
             
             @yield('script')
@@ -672,6 +679,7 @@
          
         }
     </script>
+    
 </body>
 
 </html>
