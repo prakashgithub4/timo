@@ -86,6 +86,9 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::get('product/ispurchased', 'ProductController@changeispurchasestatus')->name('admin.ispurchase');
   Route::post('product/shipping/cost', 'ProductController@productshippingcost')->name('admin.shipping.cost');
 
+  Route::get('product/attributes/','ProductController@loadproductattribute')->name('admin.product.attribute');
+  Route::get('product/remove/attribute/{id}','ProductController@removeproductattribute')->name('admin.productattribute.remove');
+
   Route::get('product/edit/{id?}', 'ProductController@edit')->name('admin.product.edit');
   Route::post('product/update', 'ProductController@update')->name('admin.product.update');
   /** CONTACT  */
@@ -276,4 +279,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('page','FilterController@pageLink')->name('page');
   Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
+  /** products with api  */
+  Route::get('products/list/all','ApiProductController@index');
+  Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
+  
 });

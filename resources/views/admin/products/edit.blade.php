@@ -39,7 +39,7 @@
                         @endif
                         <form method="post"  action='{{ route('admin.product.update') }}' id="myform">
                             @csrf
-                            <input type="hidden" name="id" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
+                            <input type="hidden" name="id" id="product" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
                             <input type="hidden" name="status" value="{{ isset($getProduct) ? $getProduct->status : ''  }}" />
                             <div class="card-body">
 
@@ -125,6 +125,23 @@
                                             <option value="FALSE" {{ isset($getProduct) ? $getProduct->published=='FALSE' ? 'selected' : '' : '' }}>Not Published</option>
                                         </select>
                                 </div>
+                                 <?php $attribute_value = json_decode($getProduct->attribute_values); ?>
+                                <div class="form-group">
+                                    <label for="cms_category">Attribute</label>
+                                        <select name="attribute" id="attribute" class="form-control" multiple onchange="get_attribute(this)">
+                                            <option disabled value="">--- Select ---</option>
+                                            @foreach($attributes as $key=>$attr)
+                                            <option name_attr="{{$attr->name}}"  value="{{$attr->id}}">{{$attr->name}}</option>
+                                            @endforeach
+                                        </select>
+                                        <label><a href="#exampleModal" data-toggle="modal" data-target="#exampleModal">View attributes</a></label>
+                                </div>
+                                <div class ="row" id="attribute_value">
+                                    {{-- <div class="form-group col-2">
+                                        <input type="text" class="form-control" name="attribute_value" value=""/>
+                                    </div> --}}
+                               </div>
+
 
                                 <div class="form-group">
                                     <label for="cms_category">Purchased Status</label>
@@ -188,12 +205,69 @@
             <!-- /.row -->
         </div><!-- /.container-fluid -->
     </section>
+
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Attributies</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table">
+            <thead>
+              <tr>
+                  <td>Name</td>
+                  <td>Value</td>
+                  <td>Action</td>
+              </tr>
+            </thead>
+            <tbody id="attr_table">
+             
+            </tbody>
+
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <script>
+       
+        function get_attribute(select)
+        {
+           // var result = [];
+            var options = select && select.options;
+            var html = '';
+           
+            $.each(options,function(index,item){
+           
+                if(item.selected)
+                {
+                  let names = $(item).attr('name_attr');
+                  html +=  `<div class="form-group col-12">
+                                       <input type ="hidden" name ="attribute_id[]" value ="${item.value}"/>
+                                      <label>${names}</label>  <input type="text" class="form-control" name="attribute_value[]" value=""/>
+                                </div>`
+                }
+            });
+            $('#attribute_value').html(html);
+        }
+    </script>
     <!-- /.content -->
 @endsection
 @section('script')
 
 <script type="text/javascript">
     $(document).ready(function() {
+        loadattribute()
        //$('.ckeditor').ckeditor();
        CKEDITOR.replace( 'body', {
     filebrowserUploadUrl: "{{route('admin.upload', ['_token' => csrf_token() ])}}",
@@ -207,6 +281,30 @@ CKEDITOR.replace( 'long_description', {
 
 showattributeform(select);
     });
+   async function loadattribute()
+   {
+    let product = $("#product").val();
+    const response = await $.ajax({
+                    url: "{{ route('admin.product.attribute') }}",
+                    type: 'get',
+                    data: {
+                       // "_token": '{{ csrf_token() }}',
+                        'product_id': product
+                    },
+                });
+     var html =  ``;
+     $.each(response.data,function(index,item){
+        html += `<tr>
+                <td>${item.name}</td>
+                <td>${item.attribute_values}</td>
+                <td><a href="${item.url}" class="btn btn-danger"><i class="fa fa-trash"></i></a></td>
+            </tr>`;
+     })
+     $("#attr_table").html(html);
+                console.log(response.data)
+   
+   }
+   
 </script>
     <script>
         $(function() {
@@ -259,8 +357,13 @@ showattributeform(select);
                        </div>`;
           }
         });
+<<<<<<< HEAD
         $("#value_attr").append(html);
        
      }
+=======
+
+    
+>>>>>>> 893368232e54833f117fd8a315793429c4c95f49
     </script>
 @endsection
