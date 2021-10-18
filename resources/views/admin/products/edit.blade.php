@@ -151,41 +151,6 @@
                                             <option value="0" {{ isset($getProduct) ? $getProduct->is_purchased=='0' ? 'selected' : '' : '' }}>Not Purchased</option>
                                         </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="name">Attribute<span
-                                            style='color:red'>*</span></label>
-                                    {{-- <?php  var_dump($getProduct->attribute); 
-                                    print_r(json_decode($getProduct->attribute));
-                                    ?> --}}
-                                    
-                                            <select type="text" name="attribute[]" class="form-control" id="attribute" required multiple onchange="showattributeform(this)">
-                                                <option>Select</option>
-                                                @foreach ($attribute as $cats)
-                                                    <option {{ in_array($cats->id, json_decode($getProduct->attribute)) ? 'selected' : '' }} value={{$cats->id}}>{{$cats->name}}</option>
-                                                @endforeach
-                                            </select>
-                                    @error('attribute')
-                                        <small style="color:red">{{ $message }}</small>
-                                    @enderror
-                                </div>
-
-                               
-                                <div class="form-group">
-                                    <div id ="value_attr"> 
-                                        @if($getProduct->attribute_values!=null)
-                                        @foreach (json_decode($getProduct->attribute_values) as $v)
-                                        <div class ="row">
-                                            <div class ="col-md-6">
-                                               <input type ='hidden' name ='ids[]' value='{{$v->attribute_id}}'/>
-                                               <label>Value</label> <input type="text" class ="form-control" name="value[]" value="{{$v->value}}" required/>
-                                            </div>
-                                               <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6' value="{{$v->unit}}"/></div>
-                                           </div>
-                                        @endforeach
-                                        @endif
-                                    </div>
-                             
-                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
@@ -278,8 +243,6 @@ CKEDITOR.replace( 'long_description', {
     filebrowserUploadUrl: "{{route('admin.upload', ['_token' => csrf_token() ])}}",
     filebrowserUploadMethod: 'form'
 });
-
-showattributeform(select);
     });
    async function loadattribute()
    {
@@ -319,7 +282,7 @@ showattributeform(select);
                 messages: {
                     title:{
                         required: "Please enter a title",
-                    },
+                    }
                     body: {
                         required: "Please enter a body",
                     },
@@ -336,9 +299,9 @@ showattributeform(select);
                     $(element).removeClass('is-invalid');
                 }
             });
-           
         });
 
+<<<<<<< HEAD
         function showattributeform(select)
      {
         let inputfield = [];
@@ -365,5 +328,8 @@ showattributeform(select);
 
     
 >>>>>>> 893368232e54833f117fd8a315793429c4c95f49
+=======
+    
+>>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
     </script>
 @endsection

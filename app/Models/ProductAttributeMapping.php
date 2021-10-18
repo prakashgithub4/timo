@@ -13,12 +13,12 @@ class ProductAttributeMapping extends Model
     protected $fillable =['pid','aid'];
     public function Product()
     {
-        return $this->hasMany('App\Models\Product','pid','id');
+        return $this->belongsTo('App\Models\Product','pid','id');
     }
 
     public function Attribute()
     {
-        return $this->hasMany('App\Models\Attribute','aid','id');
+        return $this->belongsTo('App\Models\Attribute','aid','id');
     }
    
     
