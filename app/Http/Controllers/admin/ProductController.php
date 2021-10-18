@@ -17,12 +17,9 @@ use App\Models\Category;
 use App\Models\Shape;
 use App\Models\Size;
 use App\Models\Gift;
-<<<<<<< HEAD
 use App\Repositories\AttributRepository;
 use App\Models\ProductAttributeMapping as PAMapping;
-=======
 use App\Models\ProductAttribute;
->>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
 
 class ProductController extends Controller
 {
@@ -47,13 +44,9 @@ class ProductController extends Controller
           return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-<<<<<<< HEAD
           $attribute = Attribute::all();
 
           return view('admin.products.edit', compact('getProduct','attribute'));
-=======
-          return view('admin.products.edit', compact('getProduct','attributes'));
->>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
       }
   }
 
@@ -542,13 +535,9 @@ class ProductController extends Controller
             
             return redirect('admin/products')->with('success', 'Product Added successfully');
         } else {
-<<<<<<< HEAD
             // $this->colors->_update($request->id, $input_array);
 
             //Saving Attributes
-=======
-           
->>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
             $product = Product::find($request->id);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
