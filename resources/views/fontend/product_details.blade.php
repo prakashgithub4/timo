@@ -133,10 +133,12 @@ Product Details
                                 </div>  
                                 <div class="proinfo">
                                     <h3>Diamond Details</h3>
+                                    {{-- <?php print_r($attribute_data) ?> --}}
                                     <table class="table table-striped">
                                         <tbody>
                                             @php $flag = 0; @endphp
-                                            @foreach ($attribute_array as $key=>$item)
+                                            @if(count($attribute_data)>0)
+                                            @foreach ($attribute_data as $key=>$item)
                                             @if(!is_null($item['value']))
                                             <tr>
                                                 <th scope="row">{{$key + 1}}</th>
@@ -147,12 +149,14 @@ Product Details
                                                 @php $flag = 1; @endphp
                                               @endif
                                             @endforeach
+                                            @else
+                                            @php $flag = 1; @endphp
+                                            @endif
                                            @if($flag == 1)
                                            <tr>
                                                <td colspan = 3>No attribute</td>
                                            </tr>
                                            @endif
-                                           
                                         </tbody>
                                       </table>
                                 </div>  

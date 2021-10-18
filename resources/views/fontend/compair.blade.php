@@ -32,7 +32,6 @@ Compare
                              <div class="compare-table table-responsive">
                                 <table class="table mb-0">
                                     <tbody>
-                                       
                                        @if(count($compair_array['products']) > 1)
                                         <tr>
                                             <td class="first-column">{{$compair_array['products'][0]['product']}}</td>
@@ -81,10 +80,8 @@ Compare
                                           @php $attribute_id = $compair_array['attribute_name'][$i]['attribute_id'];  @endphp
                                         <tr>
                                             <td class="first-column">{{$compair_array['attribute_name'][$i]['name']}}</td>
-                                             <?php foreach($compair_array['attribute'][$attribute_id] as $key=>$item){ ?>
 
-                                                <td class="pro-price">{{$item}}</td>
-                                            <?php } ?>
+                                                <td class="pro-price">{{$compair_array['attribute_name'][$i]['attribute_id']}}</td>
                                            
                                         </tr>
 

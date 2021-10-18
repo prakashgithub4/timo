@@ -11,4 +11,8 @@ class Attribute extends Model
     use HasFactory,SoftDeletes;
     
     protected $fillable =['name','userId'];
+
+    public function attributemapping() {
+        return $this->hasMany('App\Models\ProductAttributeMapping');
+    }
 }

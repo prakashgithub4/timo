@@ -9,12 +9,17 @@ use App\Models\Product;
 use App\Models\Attribute;
 use App\Models\Gallery;
 use App\Models\Size;
+use App\Models\ProductAttributeMapping as PA;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
     public function index($id)
     {
+
+      
       $product_id = Crypt::decryptString($id); 
+     // print_r($product_id);exit();
       $attribute_array = [];
       $product_image_array =[];
       $related_images = [];
@@ -42,7 +47,20 @@ class ProductController extends Controller
             ];
           }
        }
+
+       $attribute_data =  PA::select('attributes.name as name','product_attribute_mapping.attribute_values as value')
+       ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
+       ->leftjoin('products', 'product_attribute_mapping.pid', '=', 'products.id')
+       ->where('products.id',$product_id)
+       ->get();
      
+
+      //  $attribute_data =  DB::table('product_attribute_mapping')
+      //  ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
+      //  ->leftjoin('products', 'product_attribute_mapping.pid', '=', 'products.id')
+      //  ->where('products.id',$product_id)
+      //  ->get();
+
      
         $product_image_array[]=['image'=>$product->image_src];
         $gellary = Gallery::where('status','active')->where('product_id',$product_id)->get();
@@ -56,7 +74,7 @@ class ProductController extends Controller
        
        $recent_view = Product::select('id','seo_description','seo_title','type','image_src')->whereIn('id',explode(',',$recent))->skip(0)->take(10)->get();
        //echo"<pre>";print_r($recent_view); exit;
-      return view('fontend.product_details',compact('product','attribute_array','realted_products','product_image_array','recent_view'));
+      return view('fontend.product_details',compact('product','attribute_array','realted_products','product_image_array','recent_view','attribute_data'));
     }
    
 }

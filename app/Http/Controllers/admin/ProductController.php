@@ -11,7 +11,7 @@ use App\Imports\ProductsImport;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Repositories\ProductRepository;
 use App\Exports\ProductsExport;
-use App\Models\Attribute as Attribute;
+use App\Models\Attribute;
 use App\Models\Color;
 use App\Models\Category;
 use App\Models\Shape;
@@ -23,11 +23,10 @@ class ProductController extends Controller
 {
   //
   public $product = null;
-  public function __construct(ProductRepository $product, AttributRepository $attribute)
+  public function __construct(ProductRepository $product)
   {
     $this->middleware('admin');
     $this->product = $product;
-    $this->attribute = $attribute;
   }
 
   public function add()
@@ -340,7 +339,7 @@ class ProductController extends Controller
         }
         $chtml .="</select>";
 
-        $ahtml = "<select name = attributes[] multiple > class='form-control'>"; 
+        $ahtml = "<select name = attributes[] multiple onchange='method.updateattribute(this,".$product->id.")'> class='form-control'>"; 
         $ahtml .="<option disabled>--Select--</option>";
         foreach($attribute as $attributes)
         {
@@ -348,7 +347,7 @@ class ProductController extends Controller
         }
         $ahtml .="</select>";
         if(!is_null($product->attribute)){
-          // $ahtml .="<a href='javascript:void(0)' onclick='method.addattributevalue(".$product->id.")' data-toggle='modal' data-target='#largeModal'>Add value</a>";
+          $ahtml .="<a href='javascript:void(0)' onclick='method.addattributevalue(".$product->id.")' data-toggle='modal' data-target='#largeModal'>Add value</a>";
         }
         
 
@@ -473,8 +472,6 @@ class ProductController extends Controller
        return response()->json(['stat'=>true,'message'=>'shipping cost has been updated in product table']);
     }
 
-
-//Update Product
     public function update(Request $request)
     {
      
@@ -488,9 +485,11 @@ class ProductController extends Controller
         //     'published' => 'required',
         // ]);
         $attribute = array();
+       // $atrributekey = array();
         if(count($request->attribute_id) > 0){
           foreach($request->attribute_id as $key=>$attributes)
           {
+            //$atrributekey[]= $request->attribute_id[$key];
             $attribute[] = ['value'=>$request->attribute_value[$key],'attribute_id'=>$request->attribute_id[$key]];
             $check_attribute = ProductAttribute::where(['pid'=>$request->id,'aid'=>$request->attribute_id[$key]])->first();
             if(empty($check_attribute))
@@ -524,7 +523,9 @@ class ProductController extends Controller
             'type' => $request->type,
             'tags' => $request->tags,
             'vendor' => $request->vendor,
-            'attribute_values'=>$attribute_values
+            'attribute_values'=>$attribute_values,
+            //'attribute'=>isset($atrributekey) ? json_encode($atrributekey) :[]
+       
         );
         if ($request->id == 0) {
             
@@ -532,22 +533,6 @@ class ProductController extends Controller
         } else {
            
             $product = Product::find($request->id);
-             PAMapping::where('pid',$request->id)->delete();
-
-            $input_array1 = [];
-            foreach($request->ids as $key=>$item)
-            {
-              //print_r( $item);
-              //exit();
-              PAMapping::Create([
-                'pid'       =>  $request->id,
-                'aid'       =>  $item,
-              ]);
-              $input_array2[] =$item;
-              $input_array1[] = ["attribute_id"=>$item,"value"=>($request->value[$key]) ? $request->value[$key] : '','unit'=>($request->unit[$key]) ? $request->unit[$key] : ''];
-            }
-            $product->attribute_values = json_encode($input_array1);
-            $product->attribute = json_encode($input_array2);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
             $product->body = $input_array['body'];
@@ -558,6 +543,8 @@ class ProductController extends Controller
             $product->vendor = $input_array['vendor'];
             $product->long_description = $input_array['long_description'];
             $product->attribute_values = $input_array['attribute_values'];
+            //$product->attribute = $input_array['attribute'];
+
             $product->save();
 
 

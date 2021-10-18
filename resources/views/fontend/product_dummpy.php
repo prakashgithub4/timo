@@ -59,23 +59,23 @@ class CompairController extends Controller
             $compair_array['add_to_cart'][] = ['product_id'=>$products->p_id];
             $compair_array['delete'][] = ['compaire_id'=>$products->id];
             // dd($products->p_id);
-            $res=  PA::select('attributes.id','attributes.name as name','product_attribute_mapping.attribute_values as value')
-            ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
-            ->leftjoin('products', 'product_attribute_mapping.pid', '=', 'products.id')
-            ->where('products.id',$products->p_id)
+            $res= PA::select('pid', 'aid', )
+            ->where('pid','=',$products->p_id)
             ->get();
-
-            // dd($res);
-            // exit();
+           // dd($attributes);
+           // exit();
             if(!is_null($res))
             {
               $attributes= $res;
               foreach($attributes as $key=>$item)
               {
                 
-                  $compair_array['attribute'][$item->attribute_id][] = $item->id;
+                  $compair_array['attribute'][$item->attribute_id][] = $item->aid;
+                
+                
+                $attribute_data = \App\Models\Attribute::find($item->aid);
                
-                  $compair_array['attribute_name'][$key] = ['name'=>$item->name,'attribute_id'=>$item->value];
+                  $compair_array['attribute_name'][$key] = ['name'=>$attribute_data->name,'attribute_id'=>$attribute_data->value];
                 
               }
            }

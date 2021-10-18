@@ -33,4 +33,7 @@ class Product extends Model
         return $this->hasMany('App\Models\Color','id');
     }
 
+    public function attributemapping() {
+        return $this->hasMany('App\Models\ProductAttributeMapping','id');
+    }
 }

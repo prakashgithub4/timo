@@ -39,11 +39,7 @@
                         @endif
                         <form method="post"  action='{{ route('admin.product.update') }}' id="myform">
                             @csrf
-<<<<<<< HEAD
-                            <input type="hidden" name="id" id="menu_id" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
-=======
                             <input type="hidden" name="id" id="product" value="{{ isset($getProduct) ? $getProduct->id : 0  }}" />
->>>>>>> d23f12eb4618135a0dab52e267510457a8eedc1e
                             <input type="hidden" name="status" value="{{ isset($getProduct) ? $getProduct->status : ''  }}" />
                             <div class="card-body">
 
@@ -155,46 +151,6 @@
                                             <option value="0" {{ isset($getProduct) ? $getProduct->is_purchased=='0' ? 'selected' : '' : '' }}>Not Purchased</option>
                                         </select>
                                 </div>
-                                <div class="form-group">
-                                    <label for="name">Attribute<span
-                                            style='color:red'>*</span></label>
-                                    {{-- <?php  var_dump($getProduct->attribute); 
-                                    print_r(json_decode($getProduct->attribute));
-                                    ?> --}}
-                                            <select type="text" name="attribute[]" class="form-control" id="attribute" required multiple onchange="showattributeform(this)">
-                                                <option>Select</option>
-                                                @foreach ($attribute as $cats)
-                                                @if(json_decode($getProduct->attribute)!=null)
-                                                    <option {{ in_array($cats->id, json_decode($getProduct->attribute)) ? 'selected' : '' }} value={{$cats->id}}>{{$cats->name}}</option>
-                                                @else
-                                                <option  value={{$cats->id}}>{{$cats->name}}</option>
-                                                @endif
-                                                @endforeach
-                                            </select>
-                                    @error('attribute')
-                                        <small style="color:red">{{ $message }}</small>
-                                    @enderror
-
-                                </div>
-
-                               
-                                <div class="form-group">
-                                    {{-- @if($getProduct->attribute_values!=null)
-                                    @foreach (json_decode($getProduct->attribute_values) as $v)
-                                    <div class ="row" id="{{$v->attribute_id}}">
-                                        <div class ="col-md-6">
-                                           <input type ='hidden' name ='ids[]' value='{{$v->attribute_id}}'/>
-                                           <label>Value</label> <input type="text" class ="form-control" name="value[]" value="{{$v->value}}" required/>
-                                        </div>
-                                           <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6' value="{{$v->unit}}"/></div>
-                                       </div>
-                                    @endforeach
-                                    @endif --}}
-                                    <div id ="value_attr"> 
-                                       
-                                    </div>
-                             
-                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
@@ -275,7 +231,6 @@
 @section('script')
 
 <script type="text/javascript">
-let inputfield = [];
     $(document).ready(function() {
         loadattribute()
        //$('.ckeditor').ckeditor();
@@ -316,11 +271,10 @@ CKEDITOR.replace( 'long_description', {
 </script>
     <script>
         $(function() {
+           
             $('#myform').validate({
                 rules: {
-                    title:{
-                        required: true
-                    },
+                    title:required,
                     body: {
                         required: true
                     },
@@ -328,7 +282,7 @@ CKEDITOR.replace( 'long_description', {
                 messages: {
                     title:{
                         required: "Please enter a title",
-                    },
+                    }
                     body: {
                         required: "Please enter a body",
                     },
@@ -345,26 +299,6 @@ CKEDITOR.replace( 'long_description', {
                     $(element).removeClass('is-invalid');
                 }
             });
-           
-        });
-
-        function showattributeform(select)
-     {
-        
-        var html = ``;
-        $.each(select.options,function(index,item)
-        {
-          if(item.selected == true)
-          {
-             inputfield.push(item.value);
-             html +=`<div class ="row">
-                        <div class ="col-md-6">
-                           <input type ='hidden' name ='ids[]' value='${item.value}'/>
-                           <label>Value</label> <input type="text" class ="form-control" name="value[]" required/>
-                        </div>
-                           <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6'/></div>
-                       </div>`;
-          }
         });
 
     
