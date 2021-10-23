@@ -53,13 +53,22 @@ class OrderController extends Controller
             'comapny' => $request->comapny,
             'uid' =>$userdata->id
         );
-        //print_r($input_array);
-        //exit();
-         PurchaseOrder::create($input_array);
-         $array  = explode(',',$request->cat_id);
-         for ($i = 0; $i < count($array); $i++) {
-            DB::table('carts')->where('id', $array[$i])->delete();
-         }
-         return Redirect::to('/')->with('success', 'Order Placed successfully');
+        if($request->check_method == 'cod')
+        {
+           
+           
+             PurchaseOrder::create($input_array);
+             $array  = explode(',',$request->cat_id);
+             for ($i = 0; $i < count($array); $i++) {
+                DB::table('carts')->where('id', $array[$i])->delete();
+             }
+             return Redirect::to('/')->with('success', 'Order Placed successfully');
+        }
+        else
+        {
+            $paypal = new PaymentController($input_array['order_total']);
+            $paypal->charge();
+        }
+       
     }
 }

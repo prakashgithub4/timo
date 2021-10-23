@@ -290,4 +290,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'PaypalController@payWithPaypal',));
   Route::post('paypal', array('as' => 'paypal','uses' => 'PaypalController@postPaymentWithpaypal',));
   Route::get('paypal', array('as' => 'status','uses' => 'PaypalController@getPaymentStatus',));
+
+  /** Paypal */
+  Route::get('paymentsuccess', 'PaymentController@payment_success');
+  Route::get('paymenterror', 'PaymentController@payment_error');
 });
