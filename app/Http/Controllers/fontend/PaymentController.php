@@ -10,22 +10,23 @@ class PaymentController extends Controller
 {
     //
      public $gateway;
-     public function __construct()
+     public $price;
+     public function __construct($price = null)
     {
         $this->gateway = Omnipay::create('PayPal_Rest');
         $this->gateway->setClientId(env('PAYPAL_CLIENT_ID'));
         $this->gateway->setSecret(env('PAYPAL_CLIENT_SECRET'));
         $this->gateway->setTestMode(true); //set it to 'false' when go live
+        $this->price = $price;
     }
 
   
 
      public function charge()
-    {
-       
+     {
             try {
                 $response = $this->gateway->purchase(array(
-                    'amount' => 10.00,
+                    'amount' =>number_format((float)$this->price, 2, '.', ''),
                     'currency' => env('PAYPAL_CURRENCY'),
                     'returnUrl' => url('paymentsuccess'),
                     'cancelUrl' => url('paymenterror'),
@@ -58,10 +59,8 @@ class PaymentController extends Controller
             {
                 // The customer has successfully paid.
                 $arr_body = $response->getData();
-              
                 // Insert transaction data into the database
                 $isPaymentExist = Payment::where('payment_id', $arr_body['id'])->first();
-            
                 if(!$isPaymentExist)
                 {
                     $payment = new Payment;
@@ -71,6 +70,7 @@ class PaymentController extends Controller
                     $payment->amount = $arr_body['transactions'][0]['amount']['total'];
                     $payment->currency = env('PAYPAL_CURRENCY');
                     $payment->payment_status = $arr_body['state'];
+                    $payment->transection_id = 'txt-'.time().rand(100000,999999);
                     $payment->save();
                 }
          

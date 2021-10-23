@@ -14,6 +14,13 @@
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"> 
+    <style>
+    img.lazy {
+        width: 700px; 
+        height: 467px; 
+        display: block;
+    }
+</style>
 
 </head>
 
@@ -123,9 +130,9 @@
             <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.min.js')}}"></script>
             <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.plugins.min.js')}}"></script>
-            <script type="text/javascript" src="{{asset('assets/fontend/js/custom.js')}}"></script>
+            {{-- <script type="text/javascript" src="{{asset('assets/fontend/js/custom.js')}}"></script> --}}
 
-           
+          
 
             
             @yield('script')
@@ -477,7 +484,7 @@
                         'cart_id': id
                     },
                 })
-                console.log(result);
+               
                 if (result.status == true) {
                     $("#cart_" + id).remove();
                     $(".cart_"+ id).remove();
@@ -672,6 +679,7 @@
          
         }
     </script>
+    
 </body>
 
 </html>

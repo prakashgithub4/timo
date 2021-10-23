@@ -36,27 +36,27 @@ class OrderController extends Controller
         //     'payment_status' => 'required',
         //     'payment_mode' => 'required',
         // ]);
+        $input_array = array(
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'state' => $request->state,
+            'country' => $request->country,
+            'address' => $request->address,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'shipping_address' => $request->shipping_address,
+            'order_notes' => $request->order_notes,
+            'order_total' => $request->order_total,
+            'coupan_code' => $request->coupan_code,
+            'payment_status' => $request->payment_status,
+            'payment_mode' => $request->payment_mode,
+            'comapny' => $request->comapny,
+            'uid' =>$userdata->id
+        );
         if($request->check_method == 'cod')
         {
-            $input_array = array(
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
-                'state' => $request->state,
-                'country' => $request->country,
-                'address' => $request->address,
-                'email' => $request->email,
-                'phone' => $request->phone,
-                'shipping_address' => $request->shipping_address,
-                'order_notes' => $request->order_notes,
-                'order_total' => $request->order_total,
-                'coupan_code' => $request->coupan_code,
-                'payment_status' => $request->payment_status,
-                'payment_mode' => $request->payment_mode,
-                'comapny' => $request->comapny,
-                'uid' =>$userdata->id
-            );
-            //print_r($input_array);
-            //exit();
+           
+           
              PurchaseOrder::create($input_array);
              $array  = explode(',',$request->cat_id);
              for ($i = 0; $i < count($array); $i++) {
@@ -66,7 +66,7 @@ class OrderController extends Controller
         }
         else
         {
-            $paypal = new PaymentController();
+            $paypal = new PaymentController($input_array['order_total']);
             $paypal->charge();
         }
        
