@@ -284,5 +284,10 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   /** products with api  */
   Route::get('products/list/all','ApiProductController@index');
   Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
-  
+
+
+  /** paypal  */
+  Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'PaypalController@payWithPaypal',));
+  Route::post('paypal', array('as' => 'paypal','uses' => 'PaypalController@postPaymentWithpaypal',));
+  Route::get('paypal', array('as' => 'status','uses' => 'PaypalController@getPaymentStatus',));
 });
