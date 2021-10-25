@@ -8,13 +8,15 @@ use App\Models\Cart;
 use App\Models\Product;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Country;
-
+use Srmklive\PayPal\Services\ExpressCheckout;
+use PayPal;
 class CheckoutController extends Controller
 {
     //
     public function __construct()
     {
         $this->middleware('customer');
+        $this->provider = new ExpressCheckout();
     }
     public function index()
     {
@@ -29,4 +31,5 @@ class CheckoutController extends Controller
      
         return view('fontend.checkout',compact('product','country'));
     }
+   
 }

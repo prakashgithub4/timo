@@ -301,6 +301,35 @@ CKEDITOR.replace( 'long_description', {
             });
         });
 
+<<<<<<< HEAD
+        function showattributeform(select)
+     {
+        let inputfield = [];
+        var html = ``;
+        $.each(select.options,function(index,item)
+        {
+          if(item.selected == true)
+          {
+             inputfield.push(item.value);
+             html +=`<div class ="row">
+                        <div class ="col-md-6">
+                           <input type ='hidden' name ='ids[]' value='${item.value}'/>
+                           <label>Value</label> <input type="text" class ="form-control" name="value[]" required/>
+                        </div>
+                           <div class ="col-md-6"><label>Unit</label><input type='text' name="unit[]" class ="form-control" size = '6'/></div>
+                       </div>`;
+          }
+        });
+<<<<<<< HEAD
+        $("#value_attr").append(html);
+       
+     }
+=======
+
     
+>>>>>>> 893368232e54833f117fd8a315793429c4c95f49
+=======
+    
+>>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
     </script>
 @endsection

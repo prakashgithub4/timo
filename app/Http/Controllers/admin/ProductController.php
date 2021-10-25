@@ -17,6 +17,8 @@ use App\Models\Category;
 use App\Models\Shape;
 use App\Models\Size;
 use App\Models\Gift;
+use App\Repositories\AttributRepository;
+use App\Models\ProductAttributeMapping as PAMapping;
 use App\Models\ProductAttribute;
 
 class ProductController extends Controller
@@ -42,7 +44,9 @@ class ProductController extends Controller
           return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-          return view('admin.products.edit', compact('getProduct','attributes'));
+          $attribute = Attribute::all();
+
+          return view('admin.products.edit', compact('getProduct','attribute'));
       }
   }
 
@@ -531,7 +535,9 @@ class ProductController extends Controller
             
             return redirect('admin/products')->with('success', 'Product Added successfully');
         } else {
-           
+            // $this->colors->_update($request->id, $input_array);
+
+            //Saving Attributes
             $product = Product::find($request->id);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
