@@ -19,7 +19,7 @@ class CompairController extends Controller
   {
     $compair_array=[];
     $userdata = Auth::user();
-    $product = Product::with('attributemapping')->select('products.image_src','products.id as p_id','products.color','products.attribute','products.attribute_values','products.shape','categories.name as cat_name','compairs.*','shapes.name as sname','colors.name as cname')
+    $product = Product::with('attributemapping')->select('products.image_src','products.id as p_id','products.color','products.shape','categories.name as cat_name','compairs.*','shapes.name as sname','colors.name as cname')
        ->join('compairs','products.id','=','compairs.product_id')
 
           ->leftJoin('categories','products.category','=','categories.id')

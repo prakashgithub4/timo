@@ -27,7 +27,7 @@ Diamond Search
             </div>
             <div class="col-4">
                 <div class="reset_btn d-flex justify-content-end">
-                   <input type="reset" value="Reset Filter">
+                    <a href="{{route('diamonds.search') }}"><input type="reset" value="Reset Filter"></a>
                 </div>
             </div>
         </div>
@@ -36,8 +36,17 @@ Diamond Search
                 <div class="shape_fld">
                     <label>Shape</label>
                     <div class="select_diamond d-flex justify-content-between flex-wrap">
+
+                        @foreach ($shape as $v)
+                        <div class="indi_select w-20">
+                            <label>
+                            <input type="checkbox" name="shapes[]" value="<?php echo $v->id ?>" class="my_check">
+                                <span><span>{{$v->name}}</span><span></span></span>
+                            </label>
+                        </div>
+                        @endforeach
                         
-                        <div class="indi_select">
+                        {{-- <div class="indi_select">
                             <label>
                                 <input type="checkbox">
                                 <span><span>Round</span><span></span></span>
@@ -96,7 +105,7 @@ Diamond Search
                                 <input type="checkbox">
                                 <span><span>Round</span><span></span></span>
                             </label>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -120,8 +129,8 @@ Diamond Search
                                 </div>
                             </div>
                             <div class="price-field">
-                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['min']}}" id="lower" onchange="price()"/>
-                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['max']}}" id="upper" onchange="price()"/>
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['min']}}" id="lower" onchange="price(null)"/>
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['max']}}" id="upper" onchange="price(null)"/>
                             </div>
                             
                         </fieldset> 
@@ -148,8 +157,8 @@ Diamond Search
                                 </div>
                             </div>
                             <div class="price-field">
-                            <input type="range"  min="100" max="500" value="100" id="lower1">
-                            <input type="range" min="100" max="500" value="500" id="upper1">
+                            <input type="range"  min="100" max="500" value="100" id="lower1" onchange="price(null)">
+                            <input type="range" min="100" max="500" value="500" id="upper1" onchange="price(null)">
                             </div>
                             
                         </fieldset> 
@@ -161,8 +170,8 @@ Diamond Search
             <div class="col-4">
                 <div class="cutbox">
                     <div class="slider-box">
-                        <label for="priceRange">Cut</label>
-                        <input type="text" id="priceRange" readonly>
+                        <label for="cut">Cut</label>
+                        <input type="text" id="priceRange"  readonly >
                         <div id="price-range" class="slider"></div>
                         <div class="cut_box_main">
                             <div class="cut_box"></div>
@@ -177,7 +186,15 @@ Diamond Search
                 <div class="cutbox">
                     <div class="slider-box">
                         <label for="priceRange1">Color</label>
-                        <input type="text" id="priceRange1" readonly>
+                        <div class="form-group" style="margin-top:40px">
+                            <select   class="form-control" id="color" onchange="price(null)">
+                                <option value="">Choose Color</option>
+                                @foreach ($colors as $cats)
+                                    <option  value={{$cats->id}}>{{$cats->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- <input type="text" id="priceRange1" readonly>
                         <div id="price-range1" class="slider"></div>
                         <div class="cut_box_main">
                             <div class="cut_box1"></div>
@@ -188,7 +205,7 @@ Diamond Search
                             <div class="cut_box1"></div>
                             <div class="cut_box1"></div>
                             <div class="cut_box1"></div>
-                        </div>                                
+                        </div>                                 --}}
                     </div>
                 </div>
             </div>
@@ -884,6 +901,7 @@ Diamond Search
                                     <thead>
                                        <tr>
                                           <th>Wish List</th>
+                                          <th class ="order">Title</th>
                                           <th class ="order">Shape</th>
                                           <th class ="order">Price</th>
                                           <th class ="order">Carat</th>
@@ -1457,14 +1475,29 @@ async function oderfilter(order)
         createhtmlgrid(result.data.original,false)
     }
 }
-async function price()
+
+$(".my_check").on("click", function () {
+            var val = $(this).val();
+            //console.log($(this).val());
+            price(val)
+        });
+        
+async function price(val)
 {
     let lower  = $("#lower").val();
     let maximum =$('#upper').val();
+    let color = $('#color').val();
+    let shape = val;
+    let lower1 = $('#lower1').val();
+    let max1 = $('#upper').val();
+
+
+    console.log(lower1);
+
     let result  = await $.ajax({
         url:"{{route('price.filter')}}",
         type:"GET",
-        data:{min:lower,max:maximum},
+        data:{min:lower,max:maximum,color:color,shape:shape,lower1:lower1,max1:max1},
         dataType: "json"
        
     });
@@ -1472,9 +1505,7 @@ async function price()
        
         createhtmlgrid(result.data.original,true)
     }
-   
-    
-    
+
 
 }
 
@@ -1574,13 +1605,15 @@ $("#all").html(html);
 
 var table = '';
 $.each(data,function(index,value){
+    console.log('result',data)
     
   table +=`<tr>
             <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>
+                <td>${(!value.title)?'N/A':value.title}</td>
                 <td>${(!value.shape)?'N/A':value.shape}</td>
                 <td>${value.price}</td>
-                <td>${(value.carat.Carat != undefined)?value.carat.Carat : 'N/A'}</td>
-                <td>${(value.cuts != undefined)?value.cuts : ''}</td>
+                <td>${(!value.carat)?'N/A':value.carat}</td>
+                <td>${(!value.cuts)?'N/A':value.cuts}</td>
                 <td>${(!value.color)?'N/A':value.color}</td>
                 <td>${(!value.clearity)?'N/A':value.clearity}</td>
             </tr>`;

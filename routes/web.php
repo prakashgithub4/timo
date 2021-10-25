@@ -285,4 +285,7 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('products/list/all','ApiProductController@index');
   Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
   
+  //auto-complete 
+  Route::get('autocomplete-search', 'ProductController@autocompleteSearch')->name('autocomplete.search');
+
 });

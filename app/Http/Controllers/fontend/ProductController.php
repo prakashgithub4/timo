@@ -23,7 +23,7 @@ class ProductController extends Controller
       $attribute_array = [];
       $product_image_array =[];
       $related_images = [];
-      $product = Product::select('products.id','products.type','products.body','products.seo_title','products.color','products.image_src','products.seo_description','products.attribute_values','products.long_description','colors.name as cname','sizes.size','shapes.name as sname')
+      $product = Product::select('products.id','products.type','products.body','products.seo_title','products.color','products.image_src','products.seo_description','products.long_description','colors.name as cname','sizes.size','shapes.name as sname')
       ->leftJoin('colors','colors.id','=','products.color')
       ->leftJoin('sizes','sizes.id','=','products.size')
       ->leftJoin('shapes','shapes.id','=','products.shape')
@@ -34,19 +34,19 @@ class ProductController extends Controller
       $attribute_array[] =['value' =>$product->cname,'name'=>'Color'];
       $attribute_array[] =['value'=>$product->sname,'name'=>'Shape'];
       $attribute_array[] =['value'=>$product->size,'name'=>'Size'];
-      $product_attribute_values =  json_decode($product->attribute_values);
-       if(@count($product_attribute_values) >0)
-       {
-          foreach($product_attribute_values as $key=>$attributes)
-          {
-            $attribute = Attribute::where('id',$attributes->attribute_id)->first();
-            $attribute_array[] = [
-              'name' =>$attribute->name,
-              'value'=>$attributes->value,
-              'key'=>$key+1
-            ];
-          }
-       }
+      // $product_attribute_values =  json_decode($product->attribute_values);
+      //  if(@count($product_attribute_values) >0)
+      //  {
+      //     foreach($product_attribute_values as $key=>$attributes)
+      //     {
+      //       $attribute = Attribute::where('id',$attributes->attribute_id)->first();
+      //       $attribute_array[] = [
+      //         'name' =>$attribute->name,
+      //         'value'=>$attributes->value,
+      //         'key'=>$key+1
+      //       ];
+      //     }
+      //  }
 
        $attribute_data =  PA::select('attributes.name as name','product_attribute_mapping.attribute_values as value')
        ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
@@ -63,7 +63,7 @@ class ProductController extends Controller
 
      
         $product_image_array[]=['image'=>$product->image_src];
-        $gellary = Gallery::where('status','active')->where('product_id',$product_id)->get();
+        $gellary = Gallery::where('status','active')->where('product_id',$product_id)->limit(1)->get();
         foreach($gellary as $gelleries)
         {
           $product_image_array[]=['image'=>$gelleries->image];
@@ -80,5 +80,17 @@ class ProductController extends Controller
     {
        echo "hello"; die ;
     }
+
+    public function autocompleteSearch(Request $request)
+    {
+          $query = $request->get('query');
+          $filterResult = Product::select('title')->where('title', 'LIKE', '%'. $query. '%')->get();
+          $data = array();
+          foreach ($filterResult as $hsl)
+              {
+                  $data[] = $hsl->title;
+              }
+          return response()->json($data);
+    } 
    
 }

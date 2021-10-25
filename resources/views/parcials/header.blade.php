@@ -12,8 +12,9 @@
                     <div class="middel_right">
                         <div class="search_btn">
                             <form action="javascript:void(0)">
-                                <input placeholder="Search product..." type="text">
-                                <button type="submit"><i class="ion-ios-search-strong"></i></button>
+                                @csrf
+                                <input  data-provide="typeahead" class="form-control typeahead" autocomplete="off" placeholder="Search product..." type="text" id="search" name="search" >
+                                {{-- <button type="submit"><i class="ion-ios-search-strong"></i></button> --}}
                             </form>
                         </div>
                         <div class="box_setting" style="border-right: 0px;">
