@@ -115,33 +115,33 @@ class FilterController extends Controller
 
         $result = [];
         $attribute_values=[];
-        
+        $attribute=[];
         foreach ($allProduct as $products) {
             $price = price_rang($products->id);
             //$attribute = json_decode($products->attribute_values);
 
-            $attribute_data =  PA::select('product_attribute_mapping.aid as pid','product_attribute_mapping.aid as id','attributes.name as name','product_attribute_mapping.attribute_values as value')
-            ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
-            ->leftJoin('products', 'product_attribute_mapping.pid', '=', 'products.id')
-            ->where('products.id',$products->id)
+            $attribute =  PA::select('product_attribute_mapping.aid as pid','product_attribute_mapping.aid as id','product_attribute_mapping.attribute_values as value')
+            ->where('product_attribute_mapping.pid',$products->id)
             ->get();
 
             
-            if(!empty($attribute_data))
+            if(!empty($attribute))
             {
-                foreach($attribute_data as $attributes)
+                foreach($attribute as $attributes)
                 {
+                   $attribut_details = \DB::table('attributes')->select('id','name')->where('id',$attributes->id)->first();
+
                    if($attributes->id == 18 )
                    {
-                    $attribute_values[$attributes->name] = $attributes->value !=null ? $attributes->value :null;
+                    $attribute_values[$attribut_details->name] = $attributes->value !=null ? $attributes->value :null;
                    }
                    else if($attributes->id == 8)
                    {
-                    $attribute_values[$attributes->name] = $attributes->value !=null ? $attributes->value :null;
+                    $attribute_values[$attribut_details->name] = $attributes->value !=null ? $attributes->value :null;
                    }
                    else if($attributes->id == 9)
                    {
-                    $attribute_values[$attributes->name] = $attributes->value !=null ? $attributes->value :null;
+                    $attribute_values[$attribut_details->name] = $attributes->value !=null ? $attributes->value :null;
                    }
                 }
             }
