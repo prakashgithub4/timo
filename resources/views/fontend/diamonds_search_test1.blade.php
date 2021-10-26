@@ -1,145 +1,200 @@
 @extends('layouts.app')
 @section('title')
-    Diamond Search
+Diamond Search 
 @endsection
 @php $price_range = pricefilterrange(); @endphp
 @section('content')
 
-    <div class="error_section">
-        <div class="container">
-            <div class="row">
-                <div class="col-4">
-                    <div class="quck_check">
-                        <label class="i360">
-                            <input type="checkbox">
-                            <span><img src="{{ asset('assets/fontend/img/icon/360.png') }}" style="width: 40px;">
-                                Available</span>
+<div class="error_section">
+    <div class="container">   
+        <div class="row">
+            <div class="col-4">
+                <div class="quck_check">
+                    <label class="i360">
+                        <input type="checkbox">
+                        <span><img src="{{asset('assets/fontend/img/icon/360.png')}}" style="width: 40px;"> Available</span>
+                        
+                    </label>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="quck_check">
+                    <label class="truck">
+                        <input type="checkbox">
+                        <span><img src="{{asset('assets/fontend/img/icon/truck.png')}}" style="width: 40px;">View Delevery</span>
+                    </label>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="reset_btn d-flex justify-content-end">
+                    <a href="{{route('diamonds.search') }}"><input type="reset" value="Reset Filter"></a>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-4">
+                <div class="shape_fld">
+                    <label>Shape</label>
+                    <div class="select_diamond d-flex justify-content-between flex-wrap">
 
-                        </label>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="quck_check">
-                        <label class="truck">
-                            <input type="checkbox">
-                            <span><img src="{{ asset('assets/fontend/img/icon/truck.png') }}" style="width: 40px;">View
-                                Delevery</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="reset_btn d-flex justify-content-end">
-                        <a href="{{ route('diamonds.search') }}"><input type="reset" value="Reset Filter"></a>
+                        @foreach ($shape as $v)
+                        <div class="indi_select w-20">
+                            <label>
+                            <input type="checkbox" name="shapes[]" value="<?php echo $v->id ?>" class="my_check">
+                                <span><span>{{$v->name}}</span><span></span></span>
+                            </label>
+                        </div>
+                        @endforeach
+                        
+                        {{-- <div class="indi_select">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div> --}}
                     </div>
                 </div>
             </div>
-            <div class="row mt-5">
-                <div class="col-4">
-                    <div class="shape_fld">
-                        <label>Shape</label>
-                        <div class="select_diamond d-flex justify-content-between flex-wrap">
-
-                            @foreach ($shape as $v)
-                                <div class="indi_select w-20">
-                                    <label>
-                                        <input type="checkbox" name="shapes[]" value="<?php echo $v->id; ?>" class="my_check">
-                                        <span><span>{{ $v->name }}</span><span></span></span>
-                                    </label>
+            <div class="col-4">
+                <div class="range_fld">
+                    <label>Price</label>
+                    <div class="range_blk mt-3">
+                        <fieldset class="filter-price">
+                            <div class="price-wrap">
+                                <!-- <span class="price-title">FILTER</span> -->
+                                <div class="price-wrap-1 mb-2">
+                                <label for="one">Rs</label>
+                                <input id="one">
+                                
                                 </div>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="range_fld">
-                        <label>Price</label>
-                        <div class="range_blk mt-3">
-                            <fieldset class="filter-price">
-                                <div class="price-wrap">
-                                    <!-- <span class="price-title">FILTER</span> -->
-                                    <div class="price-wrap-1 mb-2">
-                                        <label for="one">Rs</label>
-                                        <input id="one">
-
-                                    </div>
-                                    <div class="price-wrap_line">-</div>
-                                    <div class="price-wrap-2">
-                                        <label for="two">Rs</label>
-                                        <input id="two">
-
-                                    </div>
+                                <div class="price-wrap_line">-</div>
+                                <div class="price-wrap-2">
+                                <label for="two">Rs</label>
+                                <input id="two">
+                                
                                 </div>
-                                <div class="price-field">
-                                    <input type="range" min="{{ $price_range['min'] }}" max="{{ $price_range['max'] }}"
-                                        value="{{ $price_range['min'] }}" id="lower" onchange="price(null)" />
-                                    <input type="range" min="{{ $price_range['min'] }}" max="{{ $price_range['max'] }}"
-                                        value="{{ $price_range['max'] }}" id="upper" onchange="price(null)" />
-                                </div>
-
-                            </fieldset>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-4">
-                    <div class="range_fld">
-                        <label>Carat</label>
-                        <div class="range_blk mt-3">
-                            <fieldset class="filter-price">
-                                <div class="price-wrap">
-                                    <!-- <span class="price-title">FILTER</span> -->
-                                    <div class="price-wrap-1 mb-2">
-                                        <!-- <label for="one1">Rs</label> -->
-                                        <input id="one1">
-
-                                    </div>
-                                    <div class="price-wrap_line">-</div>
-                                    <div class="price-wrap-2">
-                                        <!-- <label for="two1">Rs</label> -->
-                                        <input id="two1">
-
-                                    </div>
-                                </div>
-                                <div class="price-field">
-                                    <input type="range" min="100" max="500" value="100" id="lower1" onchange="price(null)">
-                                    <input type="range" min="100" max="500" value="500" id="upper1" onchange="price(null)">
-                                </div>
-
-                            </fieldset>
-                        </div>
+                            </div>
+                            <div class="price-field">
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['min']}}" id="lower" onchange="price(null)"/>
+                            <input type="range"  min="{{$price_range['min']}}" max="{{$price_range['max']}}" value="{{$price_range['max']}}" id="upper" onchange="price(null)"/>
+                            </div>
+                            
+                        </fieldset> 
                     </div>
                 </div>
             </div>
-            <div class="row border-bottom pt-4 pb-4 show_parent">
-                <div class="col-4">
-                    <div class="cutbox">
-                        <div class="slider-box">
-                            <label for="cut">Cut</label>
-                            <input type="slide" id="priceRange" readonly>
-                            <input type="hidden" id="priceRangeHidden" readonly>
-
-                            <div id="price-range" class="slider"></div>
-                            <div class="cut_box_main">
-                                <div class="cut_box"></div>
-                                <div class="cut_box"></div>
-                                <div class="cut_box"></div>
-                                <div class="cut_box"></div>
+            <div class="col-4">
+                <div class="range_fld">
+                    <label>Carat</label>
+                    <div class="range_blk mt-3">
+                        <fieldset class="filter-price">
+                            <div class="price-wrap">
+                                <!-- <span class="price-title">FILTER</span> -->
+                                <div class="price-wrap-1 mb-2">
+                                <!-- <label for="one1">Rs</label> -->
+                                <input id="one1">
+                                
+                                </div>
+                                <div class="price-wrap_line">-</div>
+                                <div class="price-wrap-2">
+                                <!-- <label for="two1">Rs</label> -->
+                                <input id="two1">
+                                
+                                </div>
                             </div>
-                        </div>
+                            <div class="price-field">
+                            <input type="range"  min="100" max="500" value="100" id="lower1" onchange="price(null)">
+                            <input type="range" min="100" max="500" value="500" id="upper1" onchange="price(null)">
+                            </div>
+                            
+                        </fieldset> 
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="cutbox">
-                        <div class="slider-box">
-                            <label for="priceRange1">Color</label>
-                            <div class="form-group" style="margin-top:40px">
-                                <select class="form-control" id="color" onchange="price(null)">
-                                    <option value="">Choose Color</option>
-                                    @foreach ($colors as $cats)
-                                        <option value={{ $cats->id }}>{{ $cats->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            {{-- <input type="text" id="priceRange1" readonly>
+            </div>
+        </div>
+        <div class="row border-bottom pt-4 pb-4 show_parent">
+            <div class="col-4">
+                <div class="cutbox">
+                    <div class="slider-box">
+                        <label for="cut">Cut</label>
+                        <input type="text" id="priceRange"  readonly >
+                        <div id="price-range" class="slider"></div>
+                        <div class="cut_box_main">
+                            <div class="cut_box"></div>
+                            <div class="cut_box"></div>
+                            <div class="cut_box"></div>
+                            <div class="cut_box"></div>
+                        </div>                                
+                    </div>
+                  </div>
+            </div>
+            <div class="col-4">
+                <div class="cutbox">
+                    <div class="slider-box">
+                        <label for="priceRange1">Color</label>
+                        <div class="form-group" style="margin-top:40px">
+                            <select   class="form-control" id="color" onchange="price(null)">
+                                <option value="">Choose Color</option>
+                                @foreach ($colors as $cats)
+                                    <option  value={{$cats->id}}>{{$cats->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        {{-- <input type="text" id="priceRange1" readonly>
                         <div id="price-range1" class="slider"></div>
                         <div class="cut_box_main">
                             <div class="cut_box1"></div>
@@ -150,173 +205,170 @@
                             <div class="cut_box1"></div>
                             <div class="cut_box1"></div>
                             <div class="cut_box1"></div>
-                        </div> --}}
-                        </div>
+                        </div>                                 --}}
                     </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="cutbox">
+                    <div class="slider-box">
+                        <label for="priceRange2">Clarity</label>
+                        <input type="text" id="priceRange2" readonly>
+                        <div id="price-range2" class="slider"></div>
+                        <div class="cut_box_main">
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                            <div class="cut_box1"></div>
+                        </div>                                
+                    </div>
+                  </div>
+            </div>
+            <!-- <div class="showHide_btn">
+                <button class="followbtn">More Filters</button>
+            </div> -->
+        </div>
+        <div class="more_filter_blk">
+            <div class="showHide_btn">
+                <button class="followbtn">More Filters</button>
+            </div>
+        <div class="show_hide_blk">
+            <div class="row pt-4 pb-4">
+                <div class="col-4">
+                    <div class="cutbox">
+                        <div class="slider-box">
+                            <label for="priceRange3">Polish</label>
+                            <input type="text" id="priceRange3" readonly>
+                            <div id="price-range3" class="slider"></div>
+                            <div class="cut_box_main">
+                                <div class="cut_box3"></div>
+                                <div class="cut_box3"></div>
+                                <div class="cut_box3"></div>                                        
+                            </div>
+                        </div>                                    
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="cutbox">                                
+                        <div class="slider-box">
+                            <label for="priceRange4">Symnetry</label>
+                            <input type="text" id="priceRange4" readonly>
+                            <div id="price-range4" class="slider"></div>
+                            <div class="cut_box_main">
+                                <div class="cut_box3"></div>
+                                <div class="cut_box3"></div>
+                                <div class="cut_box3"></div>                                        
+                            </div>                                    
+                        </div>
+                      </div>
                 </div>
                 <div class="col-4">
                     <div class="cutbox">
                         <div class="slider-box">
-                            <label for="priceRange2">Clarity</label>
-                            <input type="text" id="priceRange2" readonly>
-                            <div id="price-range2" class="slider"></div>
+                            <label for="priceRange5">Fluorescence</label>
+                            <input type="text" id="priceRange5" readonly>
+                            <div id="price-range5" class="slider"></div>
                             <div class="cut_box_main">
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                                <div class="cut_box1"></div>
-                            </div>
+                                <div class="cut_box5"></div>
+                                <div class="cut_box5"></div>
+                                <div class="cut_box5"></div>
+                                <div class="cut_box5"></div>
+                                <div class="cut_box5"></div>                                        
+                            </div>                                    
                         </div>
-                    </div>
+                      </div>
                 </div>
-                <!-- <div class="showHide_btn">
-                        <button class="followbtn">More Filters</button>
-                    </div> -->
             </div>
-            <div class="more_filter_blk">
-                <div class="showHide_btn">
-                    <button class="followbtn">More Filters</button>
-                </div>
-                <div class="show_hide_blk">
-                    <div class="row pt-4 pb-4">
-                        <div class="col-4">
-                            <div class="cutbox">
-                                <div class="slider-box">
-                                    <label for="priceRange3">Polish</label>
-                                    <input type="text" id="priceRange3" readonly>
-                                    <div id="price-range3" class="slider"></div>
-                                    <div class="cut_box_main">
-                                        <div class="cut_box3"></div>
-                                        <div class="cut_box3"></div>
-                                        <div class="cut_box3"></div>
+            <div class="row pt-4 pb-4">
+                <div class="col-4">
+                    <div class="range_fld">
+                        <label>Depth %</label>
+                        <div class="range_blk mt-3">
+                            <fieldset class="filter-price">
+                                <div class="price-wrap">
+                                    <!-- <span class="price-title">FILTER</span> -->
+                                    <div class="price-wrap-1 mb-2">
+                                    
+                                    <input id="one2">
+                                    <label for="one2">%</label>
+                                    </div>
+                                    <div class="price-wrap_line">-</div>
+                                    <div class="price-wrap-2">
+                                    
+                                    <input id="two2">
+                                    <label for="two2">%</label>
+                                    
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="cutbox">
-                                <div class="slider-box">
-                                    <label for="priceRange4">Symnetry</label>
-                                    <input type="text" id="priceRange4" readonly>
-                                    <div id="price-range4" class="slider"></div>
-                                    <div class="cut_box_main">
-                                        <div class="cut_box3"></div>
-                                        <div class="cut_box3"></div>
-                                        <div class="cut_box3"></div>
-                                    </div>
+                                <div class="price-field">
+                                <input type="range"  min="0" max="100" value="5" id="lower2">
+                                <input type="range" min="0" max="100" value="100" id="upper2">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="cutbox">
-                                <div class="slider-box">
-                                    <label for="priceRange5">Fluorescence</label>
-                                    <input type="text" id="priceRange5" readonly>
-                                    <div id="price-range5" class="slider"></div>
-                                    <div class="cut_box_main">
-                                        <div class="cut_box5"></div>
-                                        <div class="cut_box5"></div>
-                                        <div class="cut_box5"></div>
-                                        <div class="cut_box5"></div>
-                                        <div class="cut_box5"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row pt-4 pb-4">
-                        <div class="col-4">
-                            <div class="range_fld">
-                                <label>Depth %</label>
-                                <div class="range_blk mt-3">
-                                    <fieldset class="filter-price">
-                                        <div class="price-wrap">
-                                            <!-- <span class="price-title">FILTER</span> -->
-                                            <div class="price-wrap-1 mb-2">
-
-                                                <input id="one2" readonly>
-                                                <label for="one2">%</label>
-                                            </div>
-                                            <div class="price-wrap_line">-</div>
-                                            <div class="price-wrap-2">
-
-                                                <input id="two2" readonly>
-                                                <label for="two2">%</label>
-
-                                            </div>
-                                        </div>
-                                        <div class="price-field">
-                                            <input type="range" min="0" max="100" value="5" id="lower2" onchange="price(null)">
-                                            <input type="range" min="0" max="100" value="100" id="upper2" onchange="price(null)">
-                                        </div>
-
-                                    </fieldset>
-                                </div>
-                            </div>
+                                
+                            </fieldset> 
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="table_block">
-                <!-- <div class="row pt-4 pb-4">
-                        <div class="col-6">
-                            <div class="show_opt">
-                                <span class="list_show active">List</span>
-                                <span class="grid_show ml-4">Visual</span>
-                            </div>
+        </div>
+    </div>
+        <div class="table_block">
+            <!-- <div class="row pt-4 pb-4">
+                <div class="col-6">
+                    <div class="show_opt">
+                        <span class="list_show active">List</span>
+                        <span class="grid_show ml-4">Visual</span>
+                    </div>
+                </div>
+                <div class="col-6 d-flex justify-content-end">
+                    <div class="option_list">
+                        <label>Item per page</label>
+                        <select>
+                            <option selected>all</option>
+                            <option>24</option>
+                        </select>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <div class="shop_toolbar">
+                        <div class="list_button">
+                            <ul class="nav" role="tablist">
+                                <li>
+                                    <a class="" data-toggle="tab" href="#large" role="tab" aria-controls="large" aria-selected="false"><i class="ion-grid" ></i></a>
+                                </li>
+                                <li>
+                                    <a data-toggle="tab" href="#list" role="tab" aria-controls="list" aria-selected="true" class="active"><i class="ion-ios-list-outline"></i> </a>
+                                </li>
+                            </ul>
                         </div>
-                        <div class="col-6 d-flex justify-content-end">
-                            <div class="option_list">
-                                <label>Item per page</label>
-                                <select>
-                                    <option selected>all</option>
-                                    <option>24</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div> -->
-                <div class="row mt-5">
-                    <div class="col-12">
-                        <div class="shop_toolbar">
-                            <div class="list_button">
-                                <ul class="nav" role="tablist">
-                                    <li>
-                                        <a class="" data-toggle="tab" href="#large" role="tab" aria-controls="large"
-                                            aria-selected="false"><i class="ion-grid"></i></a>
-                                    </li>
-                                    <li>
-                                        <a data-toggle="tab" href="#list" role="tab" aria-controls="list"
-                                            aria-selected="true" class="active"><i class="ion-ios-list-outline"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="orderby_wrapper">
-                                <h3>Item per page : </h3>
-                                {{-- <div class="niceselect_option" >        
-                                <form class="select_option" action="#" style="display: block;"> --}}
-                                <select class="niceselect_option" name="orderby" id="short"
-                                    onchange="lengthwisedata(this.value)">
-                                    {{-- <option selected="" value="1">All</option> --}}
-                                    <option value="30">30</option>
-                                    <option value="40">40</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-
-                                </select>
+                        <div class="orderby_wrapper">
+                            <h3>Item per page : </h3>
+                            {{-- <div class="niceselect_option" >        
+                                <form class="select_option" action="#" style="display: block;">         --}}
+                                    <select class ="niceselect_option" name="orderby" id="short" onchange="lengthwisedata(this.value)">
+                                        {{-- <option selected="" value="1">All</option> --}}
+                                        <option value="30">30</option>
+                                        <option value="40">40</option>
+                                        <option value="50">50</option>
+                                        <option value="100">100</option>
+                                       
+                                    </select>
                                 {{-- </form>        
-                            </div> --}}
-                                <div class="page_amount">
-                                    <p>Showing 1–9 of 21 results</p>
-                                </div>
+                            </div>                                         --}}
+                            <div class="page_amount">
+                                <p>Showing 1–9 of 21 results</p>
                             </div>
                         </div>
+                    </div>
 
 
-                        <!--shop tab product start-->
+                     <!--shop tab product start-->
                         <div class="tab-content">
                             <div class="tab-pane grid_view fade retpro bg-white p-0" id="large" role="tabpanel">
                                 <div class="row" id="all">
@@ -847,23 +899,23 @@
                             <div class="tab-pane list_view fade show active" id="list" role="tabpanel">
                                 <table id="responsive-data-table" class="table dt-responsive nowrap" style="width:100%">
                                     <thead>
-                                        <tr>
-                                            <th>Wish List</th>
-                                            <th class="order">Title</th>
-                                            <th class="order">Shape</th>
-                                            <th class="order">Price</th>
-                                            <th class="order">Color</th>
-                                            <th class="order">Carat</th>
-                                            <th class="order">Cut</th>
-                                            <th class="order">Clarity</th>
-                                        </tr>
+                                       <tr>
+                                          <th>Wish List</th>
+                                          <th class ="order">Title</th>
+                                          <th class ="order">Shape</th>
+                                          <th class ="order">Price</th>
+                                          <th class ="order">Color</th>
+                                          <th class ="order">Carat</th>
+                                          <th class ="order">Cut</th>
+                                          <th class ="order">Clarity</th>
+                                       </tr>
                                     </thead>
-                                    <tbody id="table">
-
-
+                                    <tbody id ="table">
+                                       
+                               
                                     </tbody>
-                                </table>
-                                <div class="row">
+                                 </table>
+                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="shop_toolbar t_bottom mt-4">
                                             <div class="pagination pagiante-custome">
@@ -880,14 +932,14 @@
                                 </div>
                             </div>
                         </div>
-                        <!--shop tab product end-->
-                    </div>
+                    <!--shop tab product end-->
                 </div>
             </div>
         </div>
-    </div>
-    <!--error section area end-->
-    {{-- <section class="product_section p_bottom p_section1 pt-5 retpro">
+    </div>    
+</div>
+<!--error section area end--> 
+{{-- <section class="product_section p_bottom p_section1 pt-5 retpro">
     <div class="container">
         <div class="row">
            <div class="col-12">
@@ -1389,128 +1441,119 @@
         </div>    
     </div>
 </section> --}}
-    @include('parcials.recent')
+@include('parcials.recent')
 
 @endsection
 
 @section('script')
-    <script>
-        var order = 0;
+<script>
+var order = 0;
 
-        $(".order").click(function() {
-            if (order > 0) {
-                order--;
-            } else {
-                order++;
-            }
-            oderfilter(order);
+$(".order").click(function(){
+    if(order > 0)
+  {
+      order --;
+  }
+  else
+  {
+    order ++;
+  }
+  oderfilter(order);
+  
+});
+async function oderfilter(order)
+{
+    let result  = await $.ajax({
+        url:"{{route('order.filter')}}",
+        type:"GET",
+        data:{order:order},
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result.data.original,false)
+    }
+}
 
-        });
-        async function oderfilter(order) {
-            let result = await $.ajax({
-                url: "{{ route('order.filter') }}",
-                type: "GET",
-                data: {
-                    order: order
-                },
-                dataType: "json"
-
-            });
-            if (result.stat == true) {
-                createhtmlgrid(result.data.original, false)
-            }
-        }
-
-        $(".my_check").on("click", function() {
+$(".my_check").on("click", function () {
             var val = $(this).val();
             //console.log($(this).val());
             price(val)
         });
-
-        async function price(val) {
-
-           // alert(1)
-            let lower = $("#lower").val();
-            let maximum = $('#upper').val();
-            let color = $('#color').val();
-            let shape = val;
-            let lower1 = $('#lower1').val();
-            let max1 = $('#upper1').val();
-            let lower2 = $('#lower2').val();
-            let max2 = $('#upper2').val();
-            let range = $('#priceRangeHidden').val();
+        
+async function price(val)
+{
+    let lower  = $("#lower").val();
+    let maximum =$('#upper').val();
+    let color = $('#color').val();
+    let shape = val;
+    let lower1 = $('#lower1').val();
+    let max1 = $('#upper1').val();
 
 
-            console.log(range);
+    console.log(lower1);
 
-            let result = await $.ajax({
-                url: "{{ route('price.filter') }}",
-                type: "GET",
-                data: {
-                    min: lower,
-                    max: maximum,
-                    color: color,
-                    shape: shape,
-                    lower1: lower1,
-                    max1: max1,
-                    lower2: lower2,
-                    max2: max2,
-                    range:range
-                },
-                dataType: "json"
-
-            });
-            if (result.stat == true) {
-
-                createhtmlgrid(result.data.original, true)
-            }
+    let result  = await $.ajax({
+        url:"{{route('price.filter')}}",
+        type:"GET",
+        data:{min:lower,max:maximum,color:color,shape:shape,lower1:lower1,max1:max1},
+        dataType: "json"
+       
+    });
+    if(result.stat == true){
+       
+        createhtmlgrid(result.data.original,true)
+    }
 
 
-        }
+}
 
 
+    
+async function lengthwisedata(id)
+{
+    let result  = await $.ajax({
+        url:"{{route('page.length')}}",
+        type:"GET",
+        data:{page_length:id},
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result)
+    }
+    console.log(result)
+}
+$(document).ready(function () {
+          
+    loaddata();
+});
+async function loaddata()
+{
+    let result  = await $.ajax({
+        url:"{{route('all.product')}}",
+        type:"GET",
+        dataType: "json"
+       
+    });
+    if(result.stat == true)
+    {
+        createhtmlgrid(result)
+    }
+   
+    
+}
+var count = 1;
+function createhtmlgrid(result,flag = false)
+{
+    var html =``;
+    let data = result['data'];
+    
+$.each(data, function(index, value) {
 
-        async function lengthwisedata(id) {
-            let result = await $.ajax({
-                url: "{{ route('page.length') }}",
-                type: "GET",
-                data: {
-                    page_length: id
-                },
-                dataType: "json"
-
-            });
-            if (result.stat == true) {
-                createhtmlgrid(result)
-            }
-            //console.log(result)
-        }
-        $(document).ready(function() {
-
-            loaddata();
-        });
-        async function loaddata() {
-            let result = await $.ajax({
-                url: "{{ route('all.product') }}",
-                type: "GET",
-                dataType: "json"
-
-            });
-            if (result.stat == true) {
-                createhtmlgrid(result)
-            }
-
-
-        }
-        var count = 1;
-
-        function createhtmlgrid(result, flag = false) {
-            var html = ``;
-            let data = result['data'];
-
-            $.each(data, function(index, value) {
-
-                html += `<div class="col-lg-3 col-md-4 col-sm-6">
+    html += `<div class="col-lg-3 col-md-4 col-sm-6">
         <div class="single_product">
             <div class="product_thumb">
                 <a class="primary_img" href="${value.product_details}"><img src="${value.image_src}" alt=""></a>
@@ -1555,82 +1598,86 @@
     </div>`;
 
 
+  
+});
 
-            });
+$("#all").html(html);
 
-            $("#all").html(html);
-
-            var table = '';
-            $.each(data, function(index, value) {
-               // console.log('result', data)
-
-                table += `<tr>
+var table = '';
+$.each(data,function(index,value){
+    console.log('result',data)
+    
+  table +=`<tr>
             <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>
                 <td>${(!value.title)?'N/A':value.title}</td>
                 <td>${(!value.shape)?'N/A':value.shape}</td>
                 <td>${value.price}</td>
                 <td>${(!value.color)?'N/A':value.color}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Carat') : ""}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Cut') : ""}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Clarity') : ""}</td>
+                ${value.products.length>0?
+                    $.each(value.products, function(i, e) {
+                        // var year = value.products[i].aid;
+                        // console.log(year)
+                        // var model = value.products[i].attribute_values;
+                       `<td>${ value.products[i].aid == 18? value.products[i].attribute_values:'NA'}</td>
+                        <td>${ value.products[i].aid == 8? value.products[i].attribute_values:'NA'}</td>
+                        <td>${ value.products[i].aid == 9? value.products[i].attribute_values:'NA'}</td>`
+                    }):
+                    `<td>${(!value.carat)?'N/A':value.carat}</td>
+                     <td>${(!value.cuts)?'N/A':value.cuts}</td>
+                     <td>${(!value.clearity)?'N/A':value.clearity}</td>`
+                }
             </tr>`;
-            });
-            $("#table").html(table);
+    });
+    $("#table").html(table);
 
 
-            var start = 1;
-            var end = result.total_pages;
+var start = 1;
+var end = result.total_pages;
 
-            var pagination = `<div class="pagination">
+var pagination = `<div class="pagination">
                    <ul>`;
-            if (result.total_pages <= count) {
-                pagination += `<li class="next"><a href="javascript:paginelink(${count - 1})">Prev</a></li>`;
-            }
-            for (let i = start; i <= end; i++) {
-
-                pagination +=
-                    `<li id ="paging_${i}" class =${(count == i)?"current":''}><a  href="javascript:paginelink(${i})">${i}</a></li>`;
-
-
-            }
-            if (count > 1) {
-                pagination +=
-                    `<li class="next"><a href="javascript:paginelink(${count + 1})">next</a></li><li><a href="javascript:paginelink(${count + 1})">&gt;&gt;</a></li></ul></div>`;
-            }
-            if (flag == false) {
-                $(".pagiante-custome").html(pagination);
-                $(".pagiante-custome").show();
-            } else {
-                $(".pagiante-custome").hide();
-            }
-        }
-        async function paginelink(page) {
-            let page_length = $('#short').val();
-
-            let result = await $.ajax({
-                url: "{{ route('page') }}",
-                type: "GET",
-                data: {
-                    page: page,
-                    length: page_length
-                },
-
-
-            });
-            if (result.stat == true) {
-                count = page;
-                createhtmlgrid(result.data.original)
-            }
-        }
-
-
-        function foods(foods,name) {
-            return `
-            ${foods.map(food =>  food.attribute.name == name?  food.attribute_values:''
-            ).join("")}
-            `;
-        }
-    </script>
+if(result.total_pages <= count)
+{
+    pagination +=`<li class="next"><a href="javascript:paginelink(${count - 1})">Prev</a></li>`;
+}
+for(let i = start; i <= end; i++)
+{
+   
+        pagination +=`<li id ="paging_${i}" class =${(count == i)?"current":''}><a  href="javascript:paginelink(${i})">${i}</a></li>`;
+    
+   
+}
+if(count > 1)
+{
+    pagination +=`<li class="next"><a href="javascript:paginelink(${count + 1})">next</a></li><li><a href="javascript:paginelink(${count + 1})">&gt;&gt;</a></li></ul></div>`;
+}
+    if(flag == false)
+    {
+        $(".pagiante-custome").html(pagination);
+        $(".pagiante-custome").show();
+    }
+    else{
+        $(".pagiante-custome").hide();
+    }
+}
+async function paginelink(page)
+{
+    let page_length = $('#short').val();
+    
+    let result  = await $.ajax({
+        url:"{{route('page')}}",
+        type:"GET",
+        data:{page:page,length:page_length},
+       
+       
+    });
+    if(result.stat == true)
+    {
+        count = page;
+        createhtmlgrid(result.data.original)
+    }
+}
+</script>
 
 
-@endsection
+@endsection 

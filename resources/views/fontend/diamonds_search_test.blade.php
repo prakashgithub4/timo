@@ -47,6 +47,67 @@
                                     </label>
                                 </div>
                             @endforeach
+
+                            {{-- <div class="indi_select">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div>
+                        <div class="indi_select w-20">
+                            <label>
+                                <input type="checkbox">
+                                <span><span>Round</span><span></span></span>
+                            </label>
+                        </div> --}}
                         </div>
                     </div>
                 </div>
@@ -114,9 +175,7 @@
                     <div class="cutbox">
                         <div class="slider-box">
                             <label for="cut">Cut</label>
-                            <input type="slide" id="priceRange" readonly>
-                            <input type="hidden" id="priceRangeHidden" readonly>
-
+                            <input type="text" id="priceRange" readonly>
                             <div id="price-range" class="slider"></div>
                             <div class="cut_box_main">
                                 <div class="cut_box"></div>
@@ -238,20 +297,20 @@
                                             <!-- <span class="price-title">FILTER</span> -->
                                             <div class="price-wrap-1 mb-2">
 
-                                                <input id="one2" readonly>
+                                                <input id="one2">
                                                 <label for="one2">%</label>
                                             </div>
                                             <div class="price-wrap_line">-</div>
                                             <div class="price-wrap-2">
 
-                                                <input id="two2" readonly>
+                                                <input id="two2">
                                                 <label for="two2">%</label>
 
                                             </div>
                                         </div>
                                         <div class="price-field">
-                                            <input type="range" min="0" max="100" value="5" id="lower2" onchange="price(null)">
-                                            <input type="range" min="0" max="100" value="100" id="upper2" onchange="price(null)">
+                                            <input type="range" min="0" max="100" value="5" id="lower2">
+                                            <input type="range" min="0" max="100" value="100" id="upper2">
                                         </div>
 
                                     </fieldset>
@@ -1428,20 +1487,15 @@
         });
 
         async function price(val) {
-
-           // alert(1)
             let lower = $("#lower").val();
             let maximum = $('#upper').val();
             let color = $('#color').val();
             let shape = val;
             let lower1 = $('#lower1').val();
             let max1 = $('#upper1').val();
-            let lower2 = $('#lower2').val();
-            let max2 = $('#upper2').val();
-            let range = $('#priceRangeHidden').val();
 
 
-            console.log(range);
+            console.log(lower1);
 
             let result = await $.ajax({
                 url: "{{ route('price.filter') }}",
@@ -1452,10 +1506,7 @@
                     color: color,
                     shape: shape,
                     lower1: lower1,
-                    max1: max1,
-                    lower2: lower2,
-                    max2: max2,
-                    range:range
+                    max1: max1
                 },
                 dataType: "json"
 
@@ -1483,7 +1534,7 @@
             if (result.stat == true) {
                 createhtmlgrid(result)
             }
-            //console.log(result)
+            console.log(result)
         }
         $(document).ready(function() {
 
@@ -1562,7 +1613,7 @@
 
             var table = '';
             $.each(data, function(index, value) {
-               // console.log('result', data)
+                console.log('result', data)
 
                 table += `<tr>
             <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>
@@ -1570,9 +1621,15 @@
                 <td>${(!value.shape)?'N/A':value.shape}</td>
                 <td>${value.price}</td>
                 <td>${(!value.color)?'N/A':value.color}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Carat') : ""}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Cut') : ""}</td>
-                <td>${value.products.length>0 ? foods(value.products,'Clarity') : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,18) : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,8) : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,9) : ""}</td>
+                
+                // ${value.products.length>0?foods(value.products) :
+                //     `<td>${(!value.carat)?'N/A':value.carat}</td>
+                //              <td>${(!value.cuts)?'N/A':value.cuts}</td>
+                //              <td>${(!value.clearity)?'N/A':value.clearity}</td>`
+                // }
             </tr>`;
             });
             $("#table").html(table);
@@ -1624,11 +1681,14 @@
         }
 
 
-        function foods(foods,name) {
+        function foods(foods) {
             return `
-            ${foods.map(food =>  food.attribute.name == name?  food.attribute_values:''
-            ).join("")}
-            `;
+${foods.map(food =>  food.aid == 18?  `<td>${food.attribute_values}</td>`:
+                     food.aid == 8?  `<td>${food.attribute_values}</td>`:
+                     food.aid == 9?  `<td>${food.attribute_values}</td>`:
+                     `<td>NA</td>`
+).join("")}
+`;
         }
     </script>
 

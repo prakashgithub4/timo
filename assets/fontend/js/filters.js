@@ -105,7 +105,12 @@ $(function() {
       max: 100, 
       values: [0, 100], 
       slide: function(event, ui)
-      {$("#priceRange").val(ui.values[0] + " - " + ui.values[1]);}
+      {
+      
+       $("#priceRange").val(ui.values[0] + " - " + ui.values[1]);  
+       $("#priceRangeHidden").val(ui.values[0] + "," + ui.values[1]);   
+      price(null);
+    }
     });
     $("#priceRange").val($("#price-range").slider("values", 0) + " - " + $("#price-range").slider("values", 1));
 
