@@ -159,6 +159,7 @@
                         <div class="slider-box">
                             <label for="priceRange2">Clarity</label>
                             <input type="text" id="priceRange2" readonly>
+                            <input type="hidden" id="clarity" />
                             <div id="price-range2" class="slider"></div>
                             <div class="cut_box_main">
                                 <div class="cut_box1"></div>
@@ -188,6 +189,7 @@
                                 <div class="slider-box">
                                     <label for="priceRange3">Polish</label>
                                     <input type="text" id="priceRange3" readonly>
+                                    <input type="hidden" id="polish" />
                                     <div id="price-range3" class="slider"></div>
                                     <div class="cut_box_main">
                                         <div class="cut_box3"></div>
@@ -202,6 +204,8 @@
                                 <div class="slider-box">
                                     <label for="priceRange4">Symnetry</label>
                                     <input type="text" id="priceRange4" readonly>
+                                    <input type="hidden" id="symnetry" />
+
                                     <div id="price-range4" class="slider"></div>
                                     <div class="cut_box_main">
                                         <div class="cut_box3"></div>
@@ -216,6 +220,8 @@
                                 <div class="slider-box">
                                     <label for="priceRange5">Fluorescence</label>
                                     <input type="text" id="priceRange5" readonly>
+                                    <input type="hidden" id="fluorescence" />
+
                                     <div id="price-range5" class="slider"></div>
                                     <div class="cut_box_main">
                                         <div class="cut_box5"></div>
@@ -1440,8 +1446,13 @@
             let max2 = $('#upper2').val();
             let range = $('#priceRangeHidden').val();
 
+            let fluorescence = $('#fluorescence').val();
+            let clarity = $('#clarity').val();
+            let polish = $('#polish').val();
+            let symnetry = $('#symnetry').val();
 
-            console.log(range);
+
+            //console.log(range);
 
             let result = await $.ajax({
                 url: "{{ route('price.filter') }}",
@@ -1455,7 +1466,11 @@
                     max1: max1,
                     lower2: lower2,
                     max2: max2,
-                    range:range
+                    range:range,
+                    fluorescence:fluorescence,
+                    clarity:clarity,
+                    polish:polish,
+                    symnetry:symnetry
                 },
                 dataType: "json"
 

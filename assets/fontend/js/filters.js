@@ -132,7 +132,10 @@ $(function() {
         max: 100, 
         values: [0, 100], 
         slide: function(event, ui)
-        {$("#priceRange2").val(ui.values[0] + " - " + ui.values[1]);}
+        {$("#priceRange2").val(ui.values[0] + " - " + ui.values[1]);
+        $("#clarity").val(ui.values[0] + "," + ui.values[1]);
+        price(null);
+    }
       });
       $("#priceRange2").val($("#price-range2").slider("values", 0) + " - " + $("#price-range2").slider("values", 1));
 
@@ -143,7 +146,10 @@ $(function() {
         max: 100, 
         values: [0, 100], 
         slide: function(event, ui)
-        {$("#priceRange3").val(ui.values[0] + " - " + ui.values[1]);}
+        {$("#priceRange3").val(ui.values[0] + " - " + ui.values[1]);
+        $("#polish").val(ui.values[0] + "," + ui.values[1]);
+        price(null);
+      }
       });
       $("#priceRange3").val($("#price-range3").slider("values", 0) + " - " + $("#price-range3").slider("values", 1));
 
@@ -154,7 +160,10 @@ $(function() {
         max: 100, 
         values: [0, 100], 
         slide: function(event, ui)
-        {$("#priceRange4").val(ui.values[0] + " - " + ui.values[1]);}
+        {$("#priceRange4").val(ui.values[0] + " - " + ui.values[1]);
+        $("#symnetry").val(ui.values[0] + "," + ui.values[1]);
+        price(null);
+    }
       });
       $("#priceRange4").val($("#price-range4").slider("values", 0) + " - " + $("#price-range4").slider("values", 1));
 
@@ -165,7 +174,10 @@ $(function() {
         max: 100, 
         values: [0, 100], 
         slide: function(event, ui)
-        {$("#priceRange5").val(ui.values[0] + " - " + ui.values[1]);}
+        {$("#priceRange5").val(ui.values[0] + " - " + ui.values[1]);
+        $("#fluorescence").val(ui.values[0] + "," + ui.values[1]);
+        price(null);
+    }
       });
       $("#priceRange5").val($("#price-range5").slider("values", 0) + " - " + $("#price-range5").slider("values", 1));
     

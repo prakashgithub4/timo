@@ -52,18 +52,22 @@ class FilterController extends Controller
         $lower2 = $price['lower2'];
         $max2 = $price['max2'];
         $range = $price['range'];
-        $data = $this->search(null, null, $min, $max, $color, $shape, $lower1, $max1, $lower2, $max2, $range);
+        $clarity = $price['clarity'];
+        $fluorescence = $price['fluorescence'];
+        $Symnetry = $price['Symnetry'];
+        $polish = $price['polish'];
+        $data = $this->search(null, null, $min, $max, $color, $shape, $lower1, $max1, $lower2, $max2, $range,$clarity, $fluorescence, $Symnetry,$polish);
         return response()->json(['stat' => true, "data" => $data]);
     }
     public function orderfilter(Request $request)
     {
         $urldata = $request->query();
         $order = $urldata['order'];
-        $data = $this->search(null, null, null, null, null, null, null, null, null, null, null, $order);
+        $data = $this->search(null, null, null, null, null, null, null, null, null, null, null,null, null, null, null, $order);
         return response()->json(['stat' => true, 'data' => $data]);
     }
 
-    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$order = 0)
+    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$clarity=null, $fluorescence=null, $Symnetry=null, $polish=null,$order = 0)
     {
         /** Calculate Pagination **/
         $pageSize = ($pageSize == 0) ? $this->pageSize : $pageSize;
@@ -112,6 +116,26 @@ class FilterController extends Controller
 
             $range_array = explode(',', $range);
             $attribute = $allProduct->where('attributes.name', 'Cut')->whereBetween('attribute_values',[$range_array[0], $range_array[1]]);
+        }
+        if (!is_null($fluorescence) && !is_null($fluorescence)) {
+
+            $range_array = explode(',', $fluorescence);
+            $attribute = $allProduct->where('attributes.name', 'Fluorescence')->whereBetween('attribute_values',[$range_array[0], $range_array[1]]);
+        }
+        if (!is_null($clarity) && !is_null($clarity)) {
+
+            $range_array = explode(',', $clarity);
+            $attribute = $allProduct->where('attributes.name', 'Clarity')->whereBetween('attribute_values',[$range_array[0], $range_array[1]]);
+        }
+        if (!is_null($polish) && !is_null($polish)) {
+
+            $range_array = explode(',', $polish);
+            $attribute = $allProduct->where('attributes.name', 'Polish')->whereBetween('attribute_values',[$range_array[0], $range_array[1]]);
+        }
+        if (!is_null($symnetry) && !is_null($symnetry)) {
+
+            $range_array = explode(',', $symnetry);
+            $attribute = $allProduct->where('attributes.name', 'Symnetry')->whereBetween('attribute_values',[$range_array[0], $range_array[1]]);
         }
 
         if ($order ==  0) {
