@@ -1577,7 +1577,7 @@
 
             var table = '';
             $.each(data, function(index, value) {
-               // console.log('result', data)
+                console.log('result', data)
 
                 table += `<tr>
             <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>

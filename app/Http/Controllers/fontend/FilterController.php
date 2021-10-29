@@ -54,7 +54,7 @@ class FilterController extends Controller
         $range = $price['range'];
         $clarity = $price['clarity'];
         $fluorescence = $price['fluorescence'];
-        $Symnetry = $price['Symnetry'];
+        $Symnetry = $price['symnetry'];
         $polish = $price['polish'];
         $data = $this->search(null, null, $min, $max, $color, $shape, $lower1, $max1, $lower2, $max2, $range,$clarity, $fluorescence, $Symnetry,$polish);
         return response()->json(['stat' => true, "data" => $data]);
@@ -67,7 +67,7 @@ class FilterController extends Controller
         return response()->json(['stat' => true, 'data' => $data]);
     }
 
-    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$clarity=null, $fluorescence=null, $Symnetry=null, $polish=null,$order = 0)
+    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$clarity=null, $fluorescence=null, $symnetry=null, $polish=null,$order = 0)
     {
         /** Calculate Pagination **/
         $pageSize = ($pageSize == 0) ? $this->pageSize : $pageSize;
@@ -199,7 +199,7 @@ class FilterController extends Controller
                 // 'cuts' => (isset($attribute_values['Cut'])) ? $attribute_values['Cut'] : [],
                 // 'clearity' => (isset($attribute_values['Clarity'])) ? $attribute_values['Clarity'] : [],
                 'products' => $attribute,
-                'compair_array' => $compair_array
+               // 'compair_array' => $compair_array
 
             ];
         }
