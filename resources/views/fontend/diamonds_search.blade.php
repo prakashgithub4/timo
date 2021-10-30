@@ -855,13 +855,16 @@
                                     <thead>
                                         <tr>
                                             <th>Wish List</th>
-                                            <th class="order">Title</th>
                                             <th class="order">Shape</th>
                                             <th class="order">Price</th>
                                             <th class="order">Color</th>
                                             <th class="order">Carat</th>
                                             <th class="order">Cut</th>
                                             <th class="order">Clarity</th>
+                                            <th class="order">Polish</th>
+                                            <th class="order">Symnetry</th>
+                                            <th  class="order">Fluorescence</th>
+                                             <th  class="order">Depth</th>
                                         </tr>
                                     </thead>
                                     <tbody id="table">
@@ -1581,13 +1584,16 @@
 
                 table += `<tr>
             <th scope="row"><label class="wishList_call"><input type="checkbox" onclick='addwishlist(${value.id})'><span></span></label></th>
-                <td>${(!value.title)?'N/A':value.title}</td>
                 <td>${(!value.shape)?'N/A':value.shape}</td>
                 <td>${value.price}</td>
                 <td>${(!value.color)?'N/A':value.color}</td>
                 <td>${value.products.length>0 ? foods(value.products,'Carat') : ""}</td>
                 <td>${value.products.length>0 ? foods(value.products,'Cut') : ""}</td>
                 <td>${value.products.length>0 ? foods(value.products,'Clarity') : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,'Polish') : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,'Symnetry') : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,'Fluorescence') : ""}</td>
+                <td>${value.products.length>0 ? foods(value.products,'Depth %') : ""}</td>
             </tr>`;
             });
             $("#table").html(table);
