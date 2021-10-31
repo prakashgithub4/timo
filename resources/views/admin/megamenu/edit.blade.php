@@ -63,7 +63,7 @@
 
                                                 <div class="form-group col-md-4" 
                                                     id="menu_product_icon">
-                                                    
+                                                    <input type="hidden" name="hidden_file" value="" />
 
                                                     <label for="name">{{ __(' SUB CATEGORY ICON ') }}(15 x 15)</label>
                                                     <input type="file" name="sub_category_icon" class="form-control"
@@ -73,42 +73,6 @@
                                                         @enderror
                                                    
                                                        <img src="{{asset('public/uploads/subcat_icons/'.$editsubmenu->icon)}}" height="54" width="54" alt="{{$editsubmenu->name}}"/>
-                                                  
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="form-group col-md-4">
-                                                </div>
-
-                                                <div class="form-group col-md-4" 
-                                                    id="menu_product_icon">
-                                                 
-
-                                                    <label for="name">{{ __(' Description ') }}</label>
-                                                    <textarea name="description" class="form-control">
-                                                        {{$editsubmenu->description}}
-                                                    </textarea>
-                                                      
-                                                  
-                                                </div>
-                                            </div>
-
-                                            <div class="row">
-                                                <div class="form-group col-md-4">
-                                                </div>
-
-                                                <div class="form-group col-md-4" 
-                                                    id="menu_product_icon">
-
-                                                    <label for="name">{{ __(' Banner ') }}</label>
-                                                    <input type="file" name="sub_banner" class="form-control"
-                                                        placeholder=" subcategory name">
-                                                        @error('sub_category_icon')
-                                                           <small style="color:red">{{ $message }}</small>
-                                                        @enderror
-                                                   
-                                                       <img src="{{asset('public/uploads/subcat_banner/'.$editsubmenu->banner_image)}}" height="54" width="54" alt="{{$editsubmenu->name}}"/>
                                                   
                                                 </div>
                                             </div>

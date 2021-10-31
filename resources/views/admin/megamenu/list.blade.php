@@ -8,11 +8,11 @@ Menu Sub Category
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Menu Sub Category</h1>
+                <h1>Mega Menu Sub Category</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="javascript:void(0);">Slider</a></li>">Menu Sub Category</a></li>
+                    <li class="breadcrumb-item"><a href="javascript:void(0);"></a></li>Mega Menu Sub Category</a></li>
                    
                 </ol>
             </div>
@@ -37,40 +37,42 @@ Menu Sub Category
                     @endif
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <label><a href="{{route('admin.productSubCategory.add') }}" class="btn btn-success">Add</a></label>
+                        <label><a href="{{route('admin.megamenu.category.add') }}" class="btn btn-success">Add</a></label>
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>
                                     <th>Sl/No</th>
-                                    <th>Menu</th>
-                                    <th>Sub Category</th>
-                                    <th>Menu Type</th>
-                                    <th>icon</th>
-                                    <th>Action</th>
+                                    <th>Mega Menu Category</th>
+                                    <th>Mega Menu Sub Category</th>
+                                   
 
                                 </tr>
                             </thead>
                             <tbody>
-                              @php $count = 1; @endphp
+                               
                               @foreach($productSubCategory as $key=>$productSubCategory_item)
-                                 @foreach ($productSubCategory_item['submenus'] as $submenu)
+                             
+                                
                                      
                                 
                                 <tr>
-                                    <td>{{$count}}</td>
-                                    <td>{{$productSubCategory_item->menu_name}}</td>
-                                    <td>{{$submenu->name}}</td>
-                                    <th>{{($submenu->is_mega_category == 'true')?"(Mega Menu Category)":"(Sub Menu)"}}</th>
-                                    <td>@if(!is_null($submenu->icon))<img height="54" width="54" src="{{asset('public/uploads/subcat_icons/'.$submenu->icon)}}" alt="{{$productSubCategory_item->menu_name}}"/>@else N/A @endif</td>
+                                    
+                                    <td>{{$key + 1}}</td>
+                                    <td>{{$productSubCategory_item->name}}</td>
                                     <td>
+                                        <ol>
+                                        @foreach($productSubCategory_item['megamenu'] as $megacat)
+                                        <li>{{$megacat->name}}</li>
+                                        @endforeach
+                                        </ol>
+                                    </td>
+                                    {{-- <td>
                                         <a href='{{route('admin.menu.subcat.edit',$submenu->id)}}' class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;
                                         <a onclick="return confirm('Are you sure?')" href="{{route('admin.menu.subcat.delete',$submenu->id)}}"
                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
-                                    </td>
+                                    </td> --}}
                                 </tr>
-                                @php $count ++; @endphp
-                                @endforeach
                                 @endforeach
                                 </tfoot>
                         </table>

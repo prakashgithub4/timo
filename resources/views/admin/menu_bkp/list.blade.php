@@ -47,8 +47,8 @@
                                     <th>Menu Title</th>
                                     <th>Status</th>
                                     <th>Mega Menu</th>
-                                    <th>Side On</th>
-                                    <th>Top</th>
+                                    <th>Set On Head</th>
+                                    <th>Set On Side</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -57,10 +57,32 @@
                                 <tr>
                                     <td>{{$key+1}}</td>
                                     <td>{{$menu_item->menu_name}}</td>
-                                    <td><button type="button" class="btn btn-success" onclick="changestatus({{$menu_item->id}},'{{$menu_item->status}}')">{{($menu_item->status == 'active') ?'Active':'Inactive'}}</button></td>
-                                    <td><button type="button" class="btn btn-success" onclick="settingmenu({{$menu_item->id}},'{{$menu_item->mega}}','{{route('admin.menu.megamenu',$menu_item->id)}}')">{{($menu_item->mega == 0) ?'No':'Yes'}}</button></td>
-                                    <td><button type="button" class="btn btn-success" onclick="settingmenu({{$menu_item->id}},'{{$menu_item->side_on}}','{{route('admin.menu.side',$menu_item->id)}}')">{{($menu_item->side_on == 0) ?'No':'Yes'}}</button></td>
-                                    <td><button type="button" class="btn btn-success"  onclick="settingmenu({{$menu_item->id}},'{{$menu_item->top}}','{{route('admin.menu.top',$menu_item->id)}}')">{{($menu_item->top == 0) ?'No':'Yes'}}</button></td>
+                                    <td> <?php if($menu_item->status=="inactive") {?>
+                                        <a class='badge badge-warning' href="{{url('/admin/menu/status/'.$menu_item->id.'/active')}}">Inactive</a>
+                                        <?php } else {?>
+                                        <a class='badge badge-success' href="{{url('/admin/menu/status/'.$menu_item->id.'/inactive')}}">Active</a>
+                                        <?php }?>
+                                        </td>
+
+                                    <td><?php if($menu_item->mega=="0") {?>
+                                        <a class='badge badge-warning' href="{{url('/admin/menu/set-on-top/'.$menu_item->id.'/1')}}">Inactive</a>
+                                        <?php } else {?>
+                                        <a class='badge badge-success' href="{{url('/admin/menu/set-on-top/'.$menu_item->id.'/0')}}">Active</a>
+                                        <?php }?></td>
+                                    
+                                    <td><?php if($menu_item->head_on=="0") {?>
+                                    <a class='badge badge-warning' href="{{url('/admin/menu/set-on-head/'.$menu_item->id.'/1')}}">Inactive</a>
+                                    <?php } else {?>
+                                    <a class='badge badge-success' href="{{url('/admin/menu/set-on-head/'.$menu_item->id.'/0')}}">Active</a>
+                                    <?php }?></td>
+
+                                    <td><?php if($menu_item->side_on=="0") {?>
+                                        <a class='badge badge-warning' href="{{url('/admin/menu/set-on-side/'.$menu_item->id.'/1')}}">Inactive</a>
+                                        <?php } else {?>
+                                        <a class='badge badge-success' href="{{url('/admin/menu/set-on-side/'.$menu_item->id.'/0')}}">Active</a>
+                                        <?php }?>
+                                    </td>
+                                    
                                     <td><a href='{{route('admin.menu.edit',$menu_item->id)}}' class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.menu.delete',$menu_item->id)}}"
                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
@@ -87,7 +109,6 @@
 
 @endsection
 @section('script')
-
 <script>
     $(function() {
         // $("#example1").DataTable({
@@ -106,40 +127,5 @@
 
         });
     });
-    async function changestatus(id,status)
-    {
-        var finalstatus  = (status == 'active')?'inactive':'active';
-       const url = "{{url('admin/menu/status')}}/"+id;
-       const result = await $.ajax({
-           url:url,
-           type:"GET",
-           data:{
-              menu_id:id,
-             status:""+finalstatus+""
-           }
-       });
-       if(result.stat == true)
-       {
-        alert(result.message)
-        location.replace("{{route('admin.menu')}}")
-       }
-      
-    }
-    async function settingmenu(id,value,route)
-    {
-       const response = await $.ajax({
-           url:route,
-           type:"GET",
-           data:{
-               id:id,
-               value:(value == 0)?1:0,
-           }
-       })
-       if(response.stat == true)
-       {
-           alert(response.message)
-           location.replace("{{route('admin.menu')}}")
-       }
-    }
 </script>
 @endsection

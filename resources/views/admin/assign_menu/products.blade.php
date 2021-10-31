@@ -180,7 +180,7 @@
      html +=`<option value=''selected >Select</option>`;
      $.each(response.data,function(index,item){
       
-        html +=`<option value ='${item.product_sub_category_id}'>${item.sub_category_name}</option>`
+        html +=`<option value ='${item.id}'>${item.name}</option>`
      });
     $("#sub_menu").html(html);
     
