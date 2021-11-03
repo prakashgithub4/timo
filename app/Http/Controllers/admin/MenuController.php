@@ -38,7 +38,7 @@ class MenuController extends Controller
         if ($request->id == 0) {
             $this->validate($request, [
                 'menu_name' => 'required',
-                'banner'=>['image', 'mimes:jpeg,png', 'max:2048']
+                'banner'=>['required','image', 'mimes:jpeg,png', 'max:2048']
             ]);
             if ($request->hasFile('banner')) {
                 $menu_banner = $this->Uploadfile($request->file('banner'), 'uploads/subcat_banner');
@@ -256,7 +256,7 @@ class MenuController extends Controller
                 'menu_id' => 'required',
                 'types' => 'required',
                 'mega_menu_cat' => 'required',
-                'banner_image'=>['image', 'mimes:jpeg,png', 'max:2048']
+                'banner_image'=>['required','image', 'mimes:jpeg,png', 'max:2048']
             ]);
             if ($request->hasFile('banner_image')) {
                 $subcat_banner = $this->Uploadfile($request->file('banner_image'), 'uploads/subcat_banner');
@@ -275,7 +275,7 @@ class MenuController extends Controller
                 'types' => 'required',
                 'sub_category_name' => 'required',
                 'sub_category_icon' => ['image', 'mimes:jpeg,png', 'max:2048'],
-                'banner_image'=>['image', 'mimes:jpeg,png', 'max:2048']
+                'banner_image'=>['required','image', 'mimes:jpeg,png', 'max:2048']
             ]);
             if ($request->hasFile('sub_category_icon')) {
                 $subcat_logo = $this->Uploadfile($request->file('sub_category_icon'), 'uploads/subcat_icons');
@@ -364,5 +364,13 @@ class MenuController extends Controller
     {
         $productSubCategory = Menu_sub_category::with('megamenu')->where('is_mega_category',true)->get();
         return view('admin.megamenu.list',compact('productSubCategory'));
+    }
+    public function removemega_sub(Request $request)
+    {
+        $query = $request->query();
+        $subcategory = Menu_sub_category::find($query['id']);
+        $subcategory->mega_parent_id = 0;
+        $subcategory->save();
+        return response()->json(['stat'=>true,'message'=>"meaga menu sub category has been removed"]);
     }
 }

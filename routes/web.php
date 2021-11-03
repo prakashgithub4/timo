@@ -123,10 +123,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::get('menu-sub-category/delete/{id}', 'MenuController@deleteSubmenu')->name('admin.menu.subcat.delete');
   Route::post('menu-sub-category/save', 'MenuController@saveSubcategory')->name('admin.saveSubcategory.save');
   Route::post('menu-sub-category-update', 'MenuController@updateSubcat')->name('admin.update.subcat');
+
   /** Add mega menu category */
   Route::get('mega-menu-category-add','MenuController@addmegamenucategory')->name('admin.megamenu.category.add');
   Route::post('mega-menu-category-save','MenuController@savemegamenucategory')->name('admin.megamenu.category.save');
   Route::get('mega-menu-category-list','MenuController@allmegasubcategory')->name('admin.mega.menu.cat.list');
+  Route::get('mega-menu-category-sub','MenuController@removemega_sub')->name('admin.mega.menu.cat.sub');
 
   /** Mega Menu */
 

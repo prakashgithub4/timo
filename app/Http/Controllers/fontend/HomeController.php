@@ -22,9 +22,12 @@ class HomeController extends Controller
         $this->home= $home;
         $this->slide= $slide;
         $this->minute = 10;
+      // echo"<pre>";print_r(menuhelper()); exit;
     }
     public function index()
     {   
+        //echo"<pre>";print_r($menu); exit;
+
         $slider = $this->slide->getSlider();
         $category = $this->home->getLatestCategory();
         $secondcategories = $this->home->getLatestCategory(3,3);

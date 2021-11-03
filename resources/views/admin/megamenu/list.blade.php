@@ -63,6 +63,7 @@ Menu Sub Category
                                         <ol>
                                         @foreach($productSubCategory_item['megamenu'] as $megacat)
                                         <li>{{$megacat->name}}</li>
+                                        <li><button class="badge badge-danger" onclick="removesubmenu({{$megacat->id}})">X</button></li>
                                         @endforeach
                                         </ol>
                                     </td>
@@ -94,6 +95,21 @@ Menu Sub Category
 
 @endsection
 @section('script')
+<script>
+    async function removesubmenu(id)
+    {
+      const result = await $.ajax({
+         url:"{{route('admin.mega.menu.cat.sub')}}",
+         type:'GET',
+         data:{id:id}
+      });
+      if(result.stat == true)
+      {
+          alert(result.message)
+          location.reload();
+      }
+    }
+</script>
 <script>
     $(function() {
         // $("#example1").DataTable({
