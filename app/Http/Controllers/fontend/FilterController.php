@@ -56,18 +56,26 @@ class FilterController extends Controller
         $fluorescence = $price['fluorescence'];
         $Symnetry = $price['symnetry'];
         $polish = $price['polish'];
-        $data = $this->search(null, null, $min, $max, $color, $shape, $lower1, $max1, $lower2, $max2, $range,$clarity, $fluorescence, $Symnetry,$polish);
+        $data = $this->search(null, null, $min, $max, $color, $shape, $lower1, $max1, $lower2, $max2, $range,$clarity, $fluorescence, $Symnetry,$polish,null);
         return response()->json(['stat' => true, "data" => $data]);
     }
     public function orderfilter(Request $request)
     {
         $urldata = $request->query();
         $order = $urldata['order'];
-        $data = $this->search(null, null, null, null, null, null, null, null, null, null, null,null, null, null, null, $order);
+        $data = $this->search(null, null, null, null, null, null, null, null, null, null, null,null, null, null, null,null, $order);
         return response()->json(['stat' => true, 'data' => $data]);
     }
 
-    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$clarity=null, $fluorescence=null, $symnetry=null, $polish=null,$order = 0)
+    public function FilterBy360filter(Request $request)
+    {
+        $urldata = $request->query();
+        $filter360 = $urldata['is_360'];
+        $data = $this->search(null, null, null, null, null, null, null, null, null, null, null,null, null, null, null, $filter360);
+        return response()->json(['stat' => true, 'data' => $data]);
+    }
+
+    public  function search($page = 1, $pageSize = 0, $min = null, $max = null, $color = null, $shape = null, $lower1 = null, $max1 = null, $lower2 = null, $max2 = null, $range=null,$clarity=null, $fluorescence=null, $symnetry=null, $polish=null,$filter360=null,$order = 0)
     {
         /** Calculate Pagination **/
         $pageSize = ($pageSize == 0) ? $this->pageSize : $pageSize;
@@ -144,6 +152,13 @@ class FilterController extends Controller
             $allProduct = $allProduct->orderBy('products.id', 'DESC');
         }
 
+        if($filter360 == 1){
+            $allProduct->where('is_360', 1);
+        }
+        else{
+            $allProduct->where('is_360', 0);
+
+        }
 
 
         $allProduct = $allProduct->where('published', 'TRUE')
