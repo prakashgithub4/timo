@@ -151,6 +151,24 @@
                                             <option value="0" {{ isset($getProduct) ? $getProduct->is_purchased=='0' ? 'selected' : '' : '' }}>Not Purchased</option>
                                         </select>
                                 </div>
+
+                                <div class="form-group">
+                                    <div class="quck_check">
+                                        <label class="i360">
+
+                                            @if(isset($getProduct) && $getProduct->is_360==1)
+                                                <input type="checkbox" name="is_360" value="{{ isset($getProduct) ? $getProduct->is_360:1 }}" checked="checked" id="is_360" class="is_360" >
+                                        
+                                            @else
+                                                <input type="checkbox" name="is_360" value="1" id="is_360" class="is_360" >
+                                            
+                                            @endif
+                                            <span><img src="{{ asset('assets/fontend/img/icon/360.png') }}" style="width: 40px;">
+                                                Available</span>
+                
+                                        </label>
+                                    </div>
+                                </div>
                             </div>
                             <!-- /.card-body -->
                             <div class="card-footer">
@@ -323,8 +341,6 @@ CKEDITOR.replace( 'long_description', {
         $("#value_attr").append(html);
        
      }
-
     
->>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
     </script>
 @endsection

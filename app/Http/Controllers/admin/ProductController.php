@@ -490,8 +490,9 @@ class ProductController extends Controller
         //     'published' => 'required',
         // ]);
         $attribute = array();
+        //dd($request->all());
        // $atrributekey = array();
-        if(count($request->attribute_id) > 0){
+        if(isset($request->attribute_id)&&count($request->attribute_id) > 0){
           foreach($request->attribute_id as $key=>$attributes)
           {
             //$atrributekey[]= $request->attribute_id[$key];
@@ -528,7 +529,6 @@ class ProductController extends Controller
             'type' => $request->type,
             'tags' => $request->tags,
             'vendor' => $request->vendor,
-            'attribute_values'=>$attribute_values,
             //'attribute'=>isset($atrributekey) ? json_encode($atrributekey) :[]
        
         );
@@ -549,9 +549,8 @@ class ProductController extends Controller
             $product->tags = $input_array['tags'];
             $product->vendor = $input_array['vendor'];
             $product->long_description = $input_array['long_description'];
-            $product->attribute_values = $input_array['attribute_values'];
             //$product->attribute = $input_array['attribute'];
-            $product->is_360 = $input_array['360view'];
+            $product->is_360 = $request['is_360']==1?1:0;
             $product->save();
 
 
