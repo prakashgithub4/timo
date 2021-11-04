@@ -551,7 +551,7 @@ class ProductController extends Controller
             $product->long_description = $input_array['long_description'];
             $product->attribute_values = $input_array['attribute_values'];
             //$product->attribute = $input_array['attribute'];
-
+            $product->is_360 = $input_array['360view'];
             $product->save();
 
 

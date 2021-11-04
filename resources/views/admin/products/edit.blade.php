@@ -301,7 +301,6 @@ CKEDITOR.replace( 'long_description', {
             });
         });
 
-<<<<<<< HEAD
         function showattributeform(select)
      {
         let inputfield = [];
@@ -320,15 +319,11 @@ CKEDITOR.replace( 'long_description', {
                        </div>`;
           }
         });
-<<<<<<< HEAD
+
         $("#value_attr").append(html);
        
      }
-=======
 
-    
->>>>>>> 893368232e54833f117fd8a315793429c4c95f49
-=======
     
 >>>>>>> c82def6a08314725533e62ce2318eb5e848f09c8
     </script>
