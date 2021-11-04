@@ -40,13 +40,14 @@ class ProductController extends Controller
   public function edit($id = null)
   {
       $attributes = Attribute::all();
+
       if (is_null($id)) {
           return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-          $attribute = Attribute::all();
+         
 
-          return view('admin.products.edit', compact('getProduct','attribute'));
+          return view('admin.products.edit', compact('getProduct','attributes'));
       }
   }
 

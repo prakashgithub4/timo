@@ -42,7 +42,8 @@
                             @foreach ($shape as $v)
                                 <div class="indi_select w-20">
                                     <label>
-                                        <input type="checkbox" name="shapes[]" value="<?php echo $v->id; ?>" class="my_check">
+                                        <input type="checkbox" name="shapes[]" value="<?php echo $v->id; ?>"
+                                            class="my_check">
                                         <span><span>{{ $v->name }}</span><span></span></span>
                                     </label>
                                 </div>
@@ -175,8 +176,8 @@
                     </div>
                 </div>
                 <!-- <div class="showHide_btn">
-                        <button class="followbtn">More Filters</button>
-                    </div> -->
+                            <button class="followbtn">More Filters</button>
+                        </div> -->
             </div>
             <div class="more_filter_blk">
                 <div class="showHide_btn">
@@ -256,8 +257,10 @@
                                             </div>
                                         </div>
                                         <div class="price-field">
-                                            <input type="range" min="0" max="100" value="5" id="lower2" onchange="price(null)">
-                                            <input type="range" min="0" max="100" value="100" id="upper2" onchange="price(null)">
+                                            <input type="range" min="0" max="100" value="5" id="lower2"
+                                                onchange="price(null)">
+                                            <input type="range" min="0" max="100" value="100" id="upper2"
+                                                onchange="price(null)">
                                         </div>
 
                                     </fieldset>
@@ -269,34 +272,35 @@
             </div>
             <div class="table_block">
                 <!-- <div class="row pt-4 pb-4">
-                        <div class="col-6">
-                            <div class="show_opt">
-                                <span class="list_show active">List</span>
-                                <span class="grid_show ml-4">Visual</span>
+                            <div class="col-6">
+                                <div class="show_opt">
+                                    <span class="list_show active">List</span>
+                                    <span class="grid_show ml-4">Visual</span>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-6 d-flex justify-content-end">
-                            <div class="option_list">
-                                <label>Item per page</label>
-                                <select>
-                                    <option selected>all</option>
-                                    <option>24</option>
-                                </select>
+                            <div class="col-6 d-flex justify-content-end">
+                                <div class="option_list">
+                                    <label>Item per page</label>
+                                    <select>
+                                        <option selected>all</option>
+                                        <option>24</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                    </div> -->
+                        </div> -->
                 <div class="row mt-5">
                     <div class="col-12">
                         <div class="shop_toolbar">
                             <div class="list_button">
                                 <ul class="nav" role="tablist">
                                     <li>
-                                        <a class="" data-toggle="tab" href="#large" role="tab" aria-controls="large"
-                                            aria-selected="false"><i class="ion-grid"></i></a>
+                                        <a class="" data-toggle="tab" href="#large" role="tab"
+                                            aria-controls="large" aria-selected="false"><i class="ion-grid"></i></a>
                                     </li>
                                     <li>
                                         <a data-toggle="tab" href="#list" role="tab" aria-controls="list"
-                                            aria-selected="true" class="active"><i class="ion-ios-list-outline"></i> </a>
+                                            aria-selected="true" class="active"><i
+                                                class="ion-ios-list-outline"></i> </a>
                                     </li>
                                 </ul>
                             </div>
@@ -863,8 +867,8 @@
                                             <th class="order">Clarity</th>
                                             <th class="order">Polish</th>
                                             <th class="order">Symnetry</th>
-                                            <th  class="order">Fluorescence</th>
-                                             <th  class="order">Depth</th>
+                                            <th class="order">Fluorescence</th>
+                                            <th class="order">Depth</th>
                                         </tr>
                                     </thead>
                                     <tbody id="table">
@@ -1438,7 +1442,7 @@
 
         async function price(val) {
 
-           // alert(1)
+            // alert(1)
             let lower = $("#lower").val();
             let maximum = $('#upper').val();
             let color = $('#color').val();
@@ -1469,11 +1473,11 @@
                     max1: max1,
                     lower2: lower2,
                     max2: max2,
-                    range:range,
-                    fluorescence:fluorescence,
-                    clarity:clarity,
-                    polish:polish,
-                    symnetry:symnetry
+                    range: range,
+                    fluorescence: fluorescence,
+                    clarity: clarity,
+                    polish: polish,
+                    symnetry: symnetry
                 },
                 dataType: "json"
 
@@ -1642,14 +1646,6 @@
                 count = page;
                 createhtmlgrid(result.data.original)
             }
-        }
-
-
-        function foods(foods,name) {
-            return `
-            ${foods.map(food =>  food.attribute.name == name?  food.attribute_values:''
-            ).join("")}
-            `;
         }
     </script>
 
