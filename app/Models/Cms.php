@@ -11,4 +11,10 @@ class Cms extends Model
     protected $table ='cms';
     protected $fillable =['title', 'description','slug' ,'status', 'created_at', 'updated_at','cid'];
     
+
+
+    public function categories()
+    {
+        return $this->belongsTo('App\Models\CmsCategory','cid','id');
+    }
 }

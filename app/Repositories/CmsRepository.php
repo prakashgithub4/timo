@@ -23,7 +23,7 @@ class CmsRepository implements CmsInterface
     }
 
     public function _getCms(){
-        return Cms::all();
+        return Cms::with('categories')->get();
     }
 
     public function _add($data)

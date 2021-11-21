@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Coupon;
-use App\Models\Coupon_Apply;
 use GuzzleHttp\Cookie\SetCookie;
 use App\Models\Product;
+use App\Models\Menu;
+use App\Models\Menu_sub_category;
 
 if(!function_exists('home_discount'))
 {
@@ -142,11 +142,11 @@ if(!function_exists('cart_list'))
         $cartproduct = [];
         if(!empty($userdata)) 
         {
-          $cartproduct = \App\Models\Cart::select('carts.product_id','carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.user_id',\Auth::user()->id)->get();
+          $cartproduct = \App\Models\Cart::select('products.id','carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.user_id',\Auth::user()->id)->get();
         }
         else if(@$_COOKIE['device'])
         {
-          $cartproduct = \App\Models\Cart::select('carts.product_id','carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.device_id',$_COOKIE['device'])->get();
+          $cartproduct = \App\Models\Cart::select('carts.id','carts.sub_total','products.image_src','products.seo_title','carts.qty','carts.price')->join('products', 'products.id', '=', 'carts.product_id')->where('carts.device_id',$_COOKIE['device'])->get();
         }
         return $cartproduct;
     }
@@ -207,13 +207,13 @@ if(!function_exists('price_rang'))
                                                ->first();
                                           
           $old_price_with_percent = ceil((@$product->cost_per_item * @$price_range->differance)/100);
-        
-           if(!empty($price_range))
+         // print_r($old_price_with_percent); exit;
+           if(!empty($price_range)&&$old_price_with_percent!=0)
            {
              return array('old_price'=>$product->cost_per_item + $old_price_with_percent,'current_price'=>$product->cost_per_item - $old_price_with_percent);
            }
           
-
+          return array('old_price'=>$product->cost_per_item,'current_price'=>$product->cost_per_item);
        }
        
     }
@@ -303,7 +303,18 @@ if(!function_exists('recent_products'))
     }
 }
 
-if(!function_exists('recent_products'))
+if(!function_exists('clean'))
+  {
+    function clean($string) {
+      $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+      $string = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+      $string = strtolower($string); // Convert to lowercase
+   
+      return $string;
+    }
+  }
+
+ if(!function_exists('pricefilterrange'))
 {
     function pricefilterrange()
     {
@@ -312,35 +323,83 @@ if(!function_exists('recent_products'))
       return array('min'=>$min,'max'=>$max);
     }
   }
-// if(!function_exists('recent_products'))
-// {
-//    function checkcupon()
-//    {
-//      $userdata = \Auth::user();
-//      if(!empty($userdata)&&$userdata->user_type =='customer')
-//      {
-//          $coupon_apply = Coupon_Apply::where('user_id',$userdata->id)->first();
-//          if(!empty($coupon_apply))
-//          {
-//            return true;
-//          }
-//          else
-//          {
-//            return false;
-//          }
-//      }
-//      else
-//      {
-//         $coupon_apply = Coupon_Apply::where('device_id',$_COOKIE['device'])->first();
-//         if(!empty($coupon_apply))
-//         {
-//           return true;
-//         }
-//         else
-//         {
-//           return false;
-//         }
-//      }
-     
-//    }
-// }
+
+  if (!function_exists('menuhelper')) {
+  function menuhelper($ontop = '0', $onside = '0')
+  {
+
+    $menu = Menu::with(['megasub', 'submenus']);
+    if ($ontop != '0') {
+      $menu = $menu->where('top','=',$ontop);
+    }
+    if ($onside != '0') {
+      $menu = $menu->where('side_on', $onside);
+    }
+    $menu = $menu->where('status', 'active')->get();
+    $main = [];
+    $msub = [];
+    $sub4 = [];
+    $mega = [];
+    $mega_menu_sub = Menu_sub_category::with('megamenu')->get();
+    foreach ($mega_menu_sub as $megasu) {
+      foreach ($megasu->megamenu as $item) {
+        $msub[$item->mega_parent_id][] = [
+          'name' => $item->name,
+          'id' => $item->id,
+          'icon' => !is_null($item->icon)?asset('public/uploads/subcat_icons/' . $item->icon):asset('assets/fontend/img/nav-round.png'),
+        ];
+      }
+
+      if ($megasu->is_sub_category == 'true') {
+        $sub4[$megasu->menu_id][] = [
+          "name" => $megasu->name,
+          "id" => $megasu->id,
+          "icon" =>!is_null($megasu->icon)?asset('public/uploads/subcat_icons/' . $megasu->icon):asset('assets/fontend/img/nav-round.png')
+        ];
+      }
+    }
+
+
+    foreach ($menu as $menus) { 
+
+      if ($menus->mega == 1) {
+
+        foreach ($menus->megasub as $sub) {
+          if ($sub->is_mega_category == 'true') {
+            $mega[$sub->menu_id][] = [
+              'menu_name' => $sub->name,
+              'id' => $sub->id,
+              'sub' => isset($msub[$sub->id]) ? $msub[$sub->id] : [],
+
+            ];
+          }
+          
+        }
+      
+        $main[] = [
+          'menu_name' => $menus->menu_name,
+          "id" => $menus->id,
+          "isMega"=>($menus->mega=='1')?1:0,
+          "num_of_mega_menu"=>isset($mega[$menus->id]) ? count($mega[$menus->id]) :0,
+          "mega_sub"=>isset($mega[$menus->id]) ? $mega[$menus->id] :[],
+         
+        ];
+      } else {
+
+        $main[] = [
+          'menu_name' => $menus->menu_name,
+          "id" => $menus->id,
+          "isMega"=>($menus->mega == '0')?0:1,
+          "num_of_mega_menu"=>0,
+          'mega_sub'=>[],
+          "sub" => isset($sub4[$menus->id])?$sub4[$menus->id]:[],          
+        ];
+      }
+    }
+    return $main;
+  }
+}
+
+
+
+?>
