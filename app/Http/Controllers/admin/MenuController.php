@@ -108,7 +108,8 @@ class MenuController extends Controller
     /** Assign menu */
     public function products_menu_assignview()
     {
-        $menus = Menu::all();
+        $menus = Menu::with('submenus')->get();
+       //echo"<pre>"; print_r($menus[0]->submenus); exit;
         return view('admin.assign_menu.products',compact('menus'));
     }
 
@@ -140,20 +141,20 @@ class MenuController extends Controller
   
       if (empty($request->input('search.value'))) {
 
-        $products = Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','product_sub_category.sub_category_name')
+        $products = Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','menu_sub_category.name')
           ->leftjoin('menus','menus.id','=','products.menu')
-          ->leftjoin('product_sub_category','product_sub_category.product_sub_category_id','=','products.sub_menu')
+          ->leftjoin('menu_sub_category','menu_sub_category.id','=','products.menu')
           ->offset($start)
           ->limit($limit)
           ->orderBy($order, $dir)
           ->get();
-
+     
     
       } else {
         $search = $request->input('search.value');
-        $products =  Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','product_sub_category.sub_category_name')
+        $products = Product::select('products.id','products.seo_title','products.image_src','menus.menu_name','menu_sub_category.name')
         ->leftjoin('menus','menus.id','=','products.menu')
-        ->leftjoin('product_sub_category','product_sub_category.product_sub_category_id','=','menus.id')
+        ->leftjoin('menu_sub_category','menu_sub_category.id','=','products.menu')
         ->where('products.id', 'LIKE', "%{$search}%")
         ->orWhere('products.seo_title', 'LIKE', "%{$search}%")
         ->offset($start)
@@ -166,17 +167,21 @@ class MenuController extends Controller
           ->orWhere('title', 'LIKE', "%{$search}%")
           ->count();
       }
+  //echo"<pre>";print_r($products); exit;
   
       $data = array();
       if (!empty($products)) {
         foreach ($products as $key=>$product) {
          // $show =  route('posts.show', $post->id);
          // $edit =  route('posts.edit', $post->id);
+        
+         
+         
          
           $nestedData['SL'] =  "<input  type='checkbox' class='menu_item'  value='".$product->id."'/>  ".($key+1);
           $nestedData['title'] = $product->seo_title; 
-          $nestedData['menu'] =  (is_null($product->menu_name)) ? 'N/A' : $product->menu_name;
-          $nestedData['sub_menu'] =(is_null($product->sub_category_name)) ?'N/A' : $product->sub_category_name;
+          $nestedData['menu'] =  (is_null($product->menu_name)) ?  : $product->menu_name;
+          $nestedData['sub_menu'] =(is_null($product->name)) ?'N/A' : $product->name;
           $nestedData['Image'] ="<img src='".$product->image_src."' height='100' width='100'>";
           $nestedData['options'] = "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>";
           $data[] = $nestedData;
@@ -202,17 +207,8 @@ class MenuController extends Controller
     public function updatemenu(Request $request)
     {
         $product_ids = is_null($request->product_ids) ?[] : $request->product_ids;
-        
         $menu_id = $request->menu_id;
-        $sub_menu = $request->sub_menu;
-       
-        if(is_null($menu_id))
-        {
-            return response()->json(['stat'=>false,'message'=>'Please choose either menu','data'=>[]]);
-        }
-        
-        else
-        {
+       // $sub_menu = $request->sub_menu;
             if(count($product_ids) > 0)
             {
                 $i = 0;
@@ -220,7 +216,6 @@ class MenuController extends Controller
                 {
                     $product = Product::find($product_ids[$i]);
                     $product->menu = $menu_id;
-                    $product->sub_menu = $sub_menu;
                     $product->save();
                     $i++;
                 }
@@ -231,7 +226,7 @@ class MenuController extends Controller
                 return response()->json(['stat'=>false,'message'=>'Please choose each of these products','data'=>[]]);
             }
         
-        }
+        
     }
 
    

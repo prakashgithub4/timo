@@ -296,6 +296,9 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('products/list/all','ApiProductController@index');
   Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
 
+  /** Product Menu Detail */
+  Route::get('menu-details/{menu_id?}','FilterController@product_menu_details')->name('menu.details');
+
 
   /** paypal  */
   Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'PaypalController@payWithPaypal',));

@@ -95,84 +95,84 @@ class ProductController extends Controller
   }
   public function allproducts(Request $request)
   {
-    $columns = array(
-      0 => 'id',
-      1 =>'Handle',
-      2 =>'Code',
-      3 =>'Title',
-      4 =>'Vendor',
-      5 =>'Type',
-      6=> 'Tags',
-      7=>'Published',
-      8=>'Is Purchased',
-      8=>'Gender',
-      9=>'Image',
-      10=>'Action',
-      11=>'Shipping Cost'
-    );
+      $columns = array(
+        0 => 'id',
+        1 =>'Handle',
+        2 =>'Code',
+        3 =>'Title',
+        4 =>'Vendor',
+        5 =>'Type',
+        6=> 'Tags',
+        7=>'Published',
+        8=>'Is Purchased',
+        8=>'Gender',
+        9=>'Image',
+        10=>'Action',
+        11=>'Shipping Cost'
+      );
 
-    $totalData = Product::count();
+      $totalData = Product::count();
 
-    $totalFiltered = $totalData;
+      $totalFiltered = $totalData;
 
-    $limit = $request->input('length');
-    $start = $request->input('start');
-    $order = $columns[$request->input('order.0.column')];
-    $dir = $request->input('order.0.dir');
+      $limit = $request->input('length');
+      $start = $request->input('start');
+      $order = $columns[$request->input('order.0.column')];
+      $dir = $request->input('order.0.dir');
 
-    if (empty($request->input('search.value'))) {
-      $products = Product::offset($start)
-        ->limit($limit)
-        ->orderBy($order, $dir)
-        ->get();
-    } else {
-      $search = $request->input('search.value');
-      $products =  Product::where('id', 'LIKE', "%{$search}%")
-        ->orWhere('title', 'LIKE', "%{$search}%")
-        ->offset($start)
-        ->limit($limit)
-        ->orderBy($order, $dir)
-        ->get();
+      if (empty($request->input('search.value'))) {
+        $products = Product::offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
+      } else {
+        $search = $request->input('search.value');
+        $products =  Product::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('title', 'LIKE', "%{$search}%")
+          ->offset($start)
+          ->limit($limit)
+          ->orderBy($order, $dir)
+          ->get();
 
-      $totalFiltered = Product::where('id', 'LIKE', "%{$search}%")
-        ->orWhere('title', 'LIKE', "%{$search}%")
-        ->count();
-    }
-
-    $data = array();
-    if (!empty($products)) {
-      foreach ($products as $key=>$product) {
-       // $show =  route('posts.show', $post->id);
-       // $edit =  route('posts.edit', $post->id);
-        $publish_status = ($product->published == 'TRUE')?1:0;
-        $nestedData['id'] =  $product->id;
-        $nestedData['handle'] = $product->handle;
-        $nestedData['code'] = $product->variant_SKU;
-        $nestedData['title'] = $product->title;
-        $nestedData['vendor'] = $product->vendor;
-        $nestedData['Shipping'] = "<input type ='text' size =5 value=".$product->shipping_cost." onblur='changeshipping(".$product->id.",this.value)' />";
-        $nestedData['type'] = $product->type;
-        $nestedData['tags'] = $product->tags;
-        $nestedData['published'] = "<button class='btn btn-info' id='published_".$product->id."' onclick='ispublished(".$product->id.",".$publish_status.")'>".$product->published."</button>";
-        $nestedData['is Purchase'] = "<input type='button' class='btn btn-success' onclick='isPurchased(".$product->id.",".$product->is_purchased.",this)' value = ".(($product->is_purchased == 1) ? 'False' : 'True')." />";
-        $nestedData['gender'] = $product->gender;
-        $nestedData['image_src'] ="<img src='".$product->image_src."' height='100' width='100'>";
-        $nestedData['options'] = 
-        "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>
-         <a href='".route('admin.product.edit',$product->id)."' class='btn btn-info'><i class='far fa-edit'></i></button>
-        ";
-        $data[] = $nestedData;
+        $totalFiltered = Product::where('id', 'LIKE', "%{$search}%")
+          ->orWhere('title', 'LIKE', "%{$search}%")
+          ->count();
       }
-    }
 
-    $json_data = array(
-      "draw"            => intval($request->input('draw')),
-      "recordsTotal"    => intval($totalData),
-      "recordsFiltered" => intval($totalFiltered),
-      "data"            => $data
-    );
+      $data = array();
+      if (!empty($products)) {
+        foreach ($products as $key=>$product) {
+        // $show =  route('posts.show', $post->id);
+        // $edit =  route('posts.edit', $post->id);
+          $publish_status = ($product->published == 'TRUE')?1:0;
+          $nestedData['id'] =  $product->id;
+          $nestedData['handle'] = $product->handle;
+          $nestedData['code'] = $product->variant_SKU;
+          $nestedData['title'] = $product->title;
+          $nestedData['vendor'] = $product->vendor;
+          $nestedData['Shipping'] = "<input type ='text' size =5 value=".$product->shipping_cost." onblur='changeshipping(".$product->id.",this.value)' />";
+          $nestedData['type'] = $product->type;
+          $nestedData['tags'] = $product->tags;
+          $nestedData['published'] = "<button class='btn btn-info' id='published_".$product->id."' onclick='ispublished(".$product->id.",".$publish_status.")'>".$product->published."</button>";
+          $nestedData['is Purchase'] = "<input type='button' class='btn btn-success' onclick='isPurchased(".$product->id.",".$product->is_purchased.",this)' value = ".(($product->is_purchased == 1) ? 'False' : 'True')." />";
+          $nestedData['gender'] = $product->gender;
+          $nestedData['image_src'] ="<img src='".$product->image_src."' height='100' width='100'>";
+          $nestedData['options'] = 
+          "<a href='".route('admin.galleries',$product->id)."' class='btn btn-info'><i class='far fa-images'></i></button>
+          <a href='".route('admin.product.edit',$product->id)."' class='btn btn-info'><i class='far fa-edit'></i></button>
+          ";
+          $data[] = $nestedData;
+        }
+      }
 
-    echo json_encode($json_data);
+      $json_data = array(
+        "draw"            => intval($request->input('draw')),
+        "recordsTotal"    => intval($totalData),
+        "recordsFiltered" => intval($totalFiltered),
+        "data"            => $data
+      );
+
+      echo json_encode($json_data);
   }
 
   public function changepublishedstatus($id,$status)

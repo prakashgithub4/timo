@@ -288,7 +288,7 @@ if (!function_exists('menuhelper')) {
           if ($sub->is_mega_category == 'true') {
             $mega[$sub->menu_id][] = [
               'menu_name' => $sub->name,
-              'sub_id' => $sub->id,
+              'id' => $sub->id,
               'sub' => isset($msub[$sub->id]) ? $msub[$sub->id] : [],
 
             ];

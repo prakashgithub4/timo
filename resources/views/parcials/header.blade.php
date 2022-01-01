@@ -202,11 +202,11 @@
                                     <div class="main_menu">
                                         <nav>
                                             <ul>
-                                                <li class="active"><a href="#">Home</a></li>
+                                                <li class="active"><a href="{{ url('/') }}">Home</a></li>
                                                
                                                 @foreach ($menu as $menus)
                                                     @if (isset($menus['isMega']) && $menus['isMega'] == 1)
-                                                        <li><a href="#">{{ $menus['menu_name'] }}  @if ($menus['num_of_mega_menu'] > 0)<i
+                                                        <li><a href="{{route('menu.details',$menus['id'])}}">{{ $menus['menu_name'] }}  @if ($menus['num_of_mega_menu'] > 0)<i
                                                                     class="fa fa-angle-down"></i> @endif</a>
                                                            
                                                      @if ($menus['num_of_mega_menu'] > 0)
@@ -216,11 +216,11 @@
 
                                                                     @foreach ($menus['mega_sub'] as $mega)
 
-                                                                        <li>{{ $mega['menu_name'] }}<a href="#"></a>
+                                                                        <li><a href="{{route('menu.details',$mega['id'])}}">{{ $mega['menu_name'] }}</a>
                                                                             <ul>
                                                                                 @foreach ($mega['sub'] as $mega_sub)
-                                                                                    <li><a href="#"><img
-                                                                                                src="{{ $mega_sub['icon'] }}"
+                                                                                    <li><a href="{{route('menu.details',$mega_sub['id'])}}"><img
+                                                                                                src="{{ isset($mega_sub['icon'])?$mega_sub['icon']:asset('assets/fontend/img/nav-round.png') }}"
                                                                                                 alt="{{ $mega_sub['name'] }}" style="height: 24px; width:26px;">{{ $mega_sub['name'] }}</a>
                                                                                     </li>
                                                                                    
@@ -233,13 +233,13 @@
                                                       @endif  
                                                         </li>
                                                     @elseif (isset($menus['isMega'])&&$menus['isMega'] == 0)
-                                                        <li><a href="blog.html">{{ $menus['menu_name'] }}
+                                                        <li><a href="{{route('menu.details',$menus['id'])}}">{{ $menus['menu_name'] }}
                                                                 @if (count($menus['sub']) > 0) <i class="fa fa-angle-down"></i>@endif</a>
                                                             @if (count($menus['sub']) > 0)
                                                                 <ul class="sub_menu pages">
                                                                     @foreach ($menus['sub'] as $sub)
-                                                                        <li><a href="#"><img
-                                                                                    src="{{ $sub['icon'] }}"
+                                                                        <li><a href="{{route('menu.details',$sub['id'])}}"><img
+                                                                                    src="{{ isset($sub['icon'])?$sub['icon']:asset('assets/fontend/img/nav-round.png') }}"
                                                                                     alt="{{ $sub['name'] }}" style="height: 24px; width:26px;">{{ $sub['name'] }}</a>
                                                                         </li>
                                                                     @endforeach

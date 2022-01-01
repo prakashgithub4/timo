@@ -4,11 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-<<<<<<< HEAD
     "content-hash": "bc7154bd3afedfc62c4a584ec8c20105",
-=======
-    "content-hash": "a0e6e328d657a329f52edff2e7717f97",
->>>>>>> payple
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1286,7 +1282,6 @@
         },
         {
             "name": "laravel/framework",
-<<<<<<< HEAD
             "version": "v8.64.0",
             "source": {
                 "type": "git",
@@ -1297,18 +1292,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/framework/zipball/3337c029e1bb31d9712d27437cc27010ba302c9e",
                 "reference": "3337c029e1bb31d9712d27437cc27010ba302c9e",
-=======
-            "version": "v8.63.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/framework.git",
-                "reference": "8f3d280f36a427730c8c8fa34316c79eed38781e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/8f3d280f36a427730c8c8fa34316c79eed38781e",
-                "reference": "8f3d280f36a427730c8c8fa34316c79eed38781e",
->>>>>>> payple
                 "shasum": ""
             },
             "require": {
@@ -1466,11 +1449,7 @@
                 "issues": "https://github.com/laravel/framework/issues",
                 "source": "https://github.com/laravel/framework"
             },
-<<<<<<< HEAD
             "time": "2021-10-12T13:43:13+00:00"
-=======
-            "time": "2021-10-05T14:04:25+00:00"
->>>>>>> payple
         },
         {
             "name": "laravel/serializable-closure",
@@ -1999,72 +1978,6 @@
                 }
             ],
             "time": "2021-09-25T08:23:19+00:00"
-<<<<<<< HEAD
-=======
-        },
-        {
-            "name": "league/omnipay",
-            "version": "v3.2.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/thephpleague/omnipay.git",
-                "reference": "38f66a0cc043ed51d6edf7956d6439a2f263501f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/omnipay/zipball/38f66a0cc043ed51d6edf7956d6439a2f263501f",
-                "reference": "38f66a0cc043ed51d6edf7956d6439a2f263501f",
-                "shasum": ""
-            },
-            "require": {
-                "omnipay/common": "^3.1",
-                "php": "^7.2|^8.0",
-                "php-http/discovery": "^1.14",
-                "php-http/guzzle7-adapter": "^1"
-            },
-            "require-dev": {
-                "omnipay/tests": "^3|^4"
-            },
-            "type": "metapackage",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.2.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Adrian Macneil",
-                    "email": "adrian@adrianmacneil.com"
-                },
-                {
-                    "name": "Barry vd. Heuvel",
-                    "email": "barryvdh@gmail.com"
-                }
-            ],
-            "description": "Omnipay payment processing library",
-            "homepage": "https://omnipay.thephpleague.com/",
-            "keywords": [
-                "checkout",
-                "creditcard",
-                "omnipay",
-                "payment"
-            ],
-            "support": {
-                "issues": "https://github.com/thephpleague/omnipay/issues",
-                "source": "https://github.com/thephpleague/omnipay/tree/v3.2.1"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/barryvdh",
-                    "type": "github"
-                }
-            ],
-            "time": "2021-06-05T11:34:12+00:00"
->>>>>>> payple
         },
         {
             "name": "maatwebsite/excel",
@@ -3428,7 +3341,6 @@
             "time": "2021-03-09T07:35:15+00:00"
         },
         {
-<<<<<<< HEAD
             "name": "nette/schema",
             "version": "v1.2.2",
             "source": {
@@ -3445,26 +3357,6 @@
             "require": {
                 "nette/utils": "^2.5.7 || ^3.1.5 ||  ^4.0",
                 "php": ">=7.1 <8.2"
-=======
-            "name": "php-http/httplug",
-            "version": "2.2.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-http/httplug.git",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-http/httplug/zipball/191a0a1b41ed026b717421931f8d3bd2514ffbf9",
-                "reference": "191a0a1b41ed026b717421931f8d3bd2514ffbf9",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1 || ^8.0",
-                "php-http/promise": "^1.1",
-                "psr/http-client": "^1.0",
-                "psr/http-message": "^1.0"
->>>>>>> payple
             },
             "require-dev": {
                 "friends-of-phpspec/phpspec-code-coverage": "^4.1",
@@ -3503,7 +3395,6 @@
                 "http"
             ],
             "support": {
-<<<<<<< HEAD
                 "issues": "https://github.com/nette/schema/issues",
                 "source": "https://github.com/nette/schema/tree/v1.2.2"
             },
@@ -3525,32 +3416,6 @@
             },
             "require": {
                 "php": ">=7.2 <8.2"
-=======
-                "issues": "https://github.com/php-http/httplug/issues",
-                "source": "https://github.com/php-http/httplug/tree/master"
-            },
-            "time": "2020-07-13T15:43:23+00:00"
-        },
-        {
-            "name": "php-http/message",
-            "version": "1.12.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-http/message.git",
-                "reference": "39eb7548be982a81085fe5a6e2a44268cd586291"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message/zipball/39eb7548be982a81085fe5a6e2a44268cd586291",
-                "reference": "39eb7548be982a81085fe5a6e2a44268cd586291",
-                "shasum": ""
-            },
-            "require": {
-                "clue/stream-filter": "^1.5",
-                "php": "^7.1 || ^8.0",
-                "php-http/message-factory": "^1.0.2",
-                "psr/http-message": "^1.0"
->>>>>>> payple
             },
             "provide": {
                 "php-http/message-factory-implementation": "1.0"
@@ -3601,7 +3466,6 @@
                 "psr-7"
             ],
             "support": {
-<<<<<<< HEAD
                 "issues": "https://github.com/nette/utils/issues",
                 "source": "https://github.com/nette/utils/tree/v3.2.5"
             },
@@ -3619,25 +3483,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/50953a2691a922aa1769461637869a0a2faa3f53",
                 "reference": "50953a2691a922aa1769461637869a0a2faa3f53",
-=======
-                "issues": "https://github.com/php-http/message/issues",
-                "source": "https://github.com/php-http/message/tree/1.12.0"
-            },
-            "time": "2021-08-29T09:13:12+00:00"
-        },
-        {
-            "name": "php-http/message-factory",
-            "version": "v1.0.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/php-http/message-factory.git",
-                "reference": "a478cb11f66a6ac48d8954216cfed9aa06a501a1"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/php-http/message-factory/zipball/a478cb11f66a6ac48d8954216cfed9aa06a501a1",
-                "reference": "a478cb11f66a6ac48d8954216cfed9aa06a501a1",
->>>>>>> payple
                 "shasum": ""
             },
             "require": {
@@ -3675,17 +3520,10 @@
                 "uri"
             ],
             "support": {
-<<<<<<< HEAD
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
                 "source": "https://github.com/nikic/PHP-Parser/tree/v4.13.0"
             },
             "time": "2021-09-20T12:20:58+00:00"
-=======
-                "issues": "https://github.com/php-http/message-factory/issues",
-                "source": "https://github.com/php-http/message-factory/tree/master"
-            },
-            "time": "2015-12-19T14:08:53+00:00"
->>>>>>> payple
         },
         {
             "name": "php-http/promise",
@@ -7477,7 +7315,6 @@
         },
         {
             "name": "facade/ignition",
-<<<<<<< HEAD
             "version": "2.15.0",
             "source": {
                 "type": "git",
@@ -7488,18 +7325,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/facade/ignition/zipball/3ee6e94815462bcf09bca0efc1c9069685df8da3",
                 "reference": "3ee6e94815462bcf09bca0efc1c9069685df8da3",
-=======
-            "version": "2.14.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/facade/ignition.git",
-                "reference": "c6126e291bd44ad3fe482537a145fc70e3320598"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/facade/ignition/zipball/c6126e291bd44ad3fe482537a145fc70e3320598",
-                "reference": "c6126e291bd44ad3fe482537a145fc70e3320598",
->>>>>>> payple
                 "shasum": ""
             },
             "require": {
@@ -7563,11 +7388,7 @@
                 "issues": "https://github.com/facade/ignition/issues",
                 "source": "https://github.com/facade/ignition"
             },
-<<<<<<< HEAD
             "time": "2021-10-11T15:24:06+00:00"
-=======
-            "time": "2021-10-01T12:58:45+00:00"
->>>>>>> payple
         },
         {
             "name": "facade/ignition-contracts",
@@ -7811,7 +7632,6 @@
         },
         {
             "name": "laravel/sail",
-<<<<<<< HEAD
             "version": "v1.12.0",
             "source": {
                 "type": "git",
@@ -7822,18 +7642,6 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/laravel/sail/zipball/80f6cd93844e87ebc2e7310f9a9b9917473f5eb0",
                 "reference": "80f6cd93844e87ebc2e7310f9a9b9917473f5eb0",
-=======
-            "version": "v1.11.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/sail.git",
-                "reference": "5c91d33949e43500dc1d49abc5d7c2ffb6c96f44"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/5c91d33949e43500dc1d49abc5d7c2ffb6c96f44",
-                "reference": "5c91d33949e43500dc1d49abc5d7c2ffb6c96f44",
->>>>>>> payple
                 "shasum": ""
             },
             "require": {
@@ -7880,11 +7688,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-<<<<<<< HEAD
             "time": "2021-10-12T15:38:11+00:00"
-=======
-            "time": "2021-10-01T13:32:17+00:00"
->>>>>>> payple
         },
         {
             "name": "mockery/mockery",

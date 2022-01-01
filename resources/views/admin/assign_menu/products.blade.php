@@ -43,17 +43,24 @@
                         <select class="form-control" id="menu_id" onchange="chosemenu(this.value)">
                           <option value="" selected disabled>Select</option>
                           @foreach ($menus as $key=>$item)
-                            <option value="{{$item->id}}">{{$item->menu_name}}</option>
+                            <option value="{{$item->id}}">{{$item->menu_name}}&nbsp;&nbsp;<strong>(Main Menu)</strong></option>
+                            @foreach ($item->submenus as $subs)
+                              @if($subs->mega_parent_id == 0)
+                            <option value="{{$subs->id}}">{{$subs->name}}&nbsp;&nbsp;<strong>(Mega Menu)</strong></option>
+                            @else
+                            <option value="{{$subs->id}}">{{$subs->name}}&nbsp;&nbsp;<strong>(Sub menu)</strong></option>
+                            @endif
+                            @endforeach
                           @endforeach
                         </select>
                       </div>
 
-                      <div class="col-md-6">
+                      {{-- <div class="col-md-6">
                         <label>Sub Menu</label>
                        <select class="form-control" id="sub_menu">
                          <option disabled>Select</option>
                        </select>
-                     </div>
+                     </div> --}}
                      <div class="col-md-6">
                       <button type="button" onclick="update()" class="btn btn-success" style="margin-top: 2%">Add</button>
                     </div>
@@ -164,33 +171,33 @@
             });
         });
     });
-   async function chosemenu(id)
-   {
-    try{
-      let response = await $.ajax({
-       url:"{{route('assign.product.subcategory')}}",
-       type:"get",
-       data:{
+  //  async function chosemenu(id)
+  //  {
+  //   try{
+  //     let response = await $.ajax({
+  //      url:"{{route('assign.product.subcategory')}}",
+  //      type:"get",
+  //      data:{
        
-        "id":id
-       }
-     });
-    // console.log(response.data)
-    var html = '';
-     html +=`<option value=''selected >Select</option>`;
-     $.each(response.data,function(index,item){
+  //       "id":id
+  //      }
+  //    });
+  //   // console.log(response.data)
+  //   var html = '';
+  //    html +=`<option value=''selected >Select</option>`;
+  //    $.each(response.data,function(index,item){
       
-        html +=`<option value ='${item.id}'>${item.name}</option>`
-     });
-    $("#sub_menu").html(html);
+  //       html +=`<option value ='${item.id}'>${item.name}</option>`
+  //    });
+  //   $("#sub_menu").html(html);
     
-    }
-    catch(error){
-      console.log(error);
-    }
+  //   }
+  //   catch(error){
+  //     console.log(error);
+  //   }
      
      
-   }
+  //  }
    async function update()
    {
      var menu_id = $("#menu_id").val();
