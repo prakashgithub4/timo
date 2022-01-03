@@ -39,4 +39,9 @@ class CmsRepository implements CmsInterface
     {
         return Cms::find($id)->delete();
     }
+
+    public function viewCms($title)
+    {
+        return Cms::where('slug', $title)->first();
+    }
 }

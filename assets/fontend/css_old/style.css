@@ -395,7 +395,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 /* 01. header css here*/
 .sticky-header.sticky {
   position: fixed;
-  z-index: 999;
+  z-index: 99;
   width: 100%;
   top: 0;
   background: rgba(255, 255, 255, 0.9);
@@ -522,7 +522,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   color: #e02423;
 }
 .offcanvas_main_menu li ul.sub-menu {
-  padding-left: 0px;
+  padding-left: 20px;
 }
 .Offcanvas_footer {
   margin-top: 50px;
@@ -1615,7 +1615,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   border: 1px solid #ebebeb;
   transform: perspective(600px) rotateX(-90deg);
   transform-origin: 0 0 0;
-  left: -208%;
+  left: 0;
   right: auto;
   opacity: 0;
   visibility: hidden;
@@ -1628,14 +1628,13 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 .main_menu nav > ul > li > ul.mega_menu > li {
   width: 33%;
   float: left;
-  margin-bottom: 15px;
 }
 
 .main_menu nav > ul > li > ul.mega_menu > li > a {
   text-transform: uppercase;
   color: #242424;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
 }
 .main_menu nav > ul > li > ul.mega_menu > li > a:hover {
   color: #e02423;
@@ -5189,9 +5188,8 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
 
 .quick_button {
   position: absolute;
-  bottom: auto;
-  top: 15px;
-  left: auto;
+  bottom: 15px;
+  left: 15px;
   right: 15px;
   border-radius: 3px;
   opacity: 0;
@@ -5199,10 +5197,10 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {
   transition: 0.3s;
 }
 .quick_button a {
-  line-height: 35px;
+  line-height: 45px;
   background: #3e3e3e;
   color: #ffffff;
-  padding: 2px 15px;
+  padding: 0 10px;
   font-weight: normal;
   border-radius: 2px;
   -webkit-border-radius: 2px;
@@ -11349,7 +11347,7 @@ margin-top: 0;
 }
 
 .error_section {
-  padding-bottom: 0px;
+  padding-bottom: 120px;
   padding-top: 61px;
 }
 @media only screen and (max-width: 767px) {

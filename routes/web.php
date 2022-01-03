@@ -298,4 +298,9 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   /** Paypal */
   Route::get('paymentsuccess', 'PaymentController@payment_success');
   Route::get('paymenterror', 'PaymentController@payment_error');
+
+  Route::get('contact', 'CMsController@contact');
+  Route::get('about-us', 'CMsController@about');
+  Route::get('faqs', 'CMsController@faq');
+
 });
