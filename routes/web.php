@@ -105,15 +105,32 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::post('slider/add', 'SliderController@saveSlider')->name('admin.slider.save');
 
   /** MENU */
-  Route::get('menu', 'MenuController@index');
+  Route::get('menu', 'MenuController@index')->name('admin.menu');
   Route::get('menu/add', 'MenuController@addOrEdit')->name('admin.menu.add');
   Route::get('menu/edit/{id}', 'MenuController@addOrEdit')->name('admin.menu.edit');
   Route::get('menu/delete/{id}', 'MenuController@deleteMenu')->name('admin.menu.delete');
   Route::post('menu/add', 'MenuController@saveMenu')->name('admin.menu.save');
-  Route::get('menu/status/{id}/{id2}', 'MenuController@status')->name('admin.menu.status');
-  Route::get('menu/set-on-top/{id}/{id2}', 'MenuController@setOnTop')->name('admin.menu.top');
-  Route::get('menu/set-on-head/{id}/{id2}', 'MenuController@setOnHead')->name('admin.menu.head');
-  Route::get('menu/set-on-side/{id}/{id2}', 'MenuController@setOnSide')->name('admin.menu.side');
+  Route::get('menu/status/{id?}', 'MenuController@changeStatus')->name('admin.menu.status');
+  Route::get('menu/set-mega-menu/{id}', 'MenuController@setMegamenu')->name('admin.menu.megamenu');
+  Route::get('menu/set-on-head/{id}', 'MenuController@setOnTop')->name('admin.menu.top');
+  Route::get('menu/set-on-side/{id}', 'MenuController@setOnSide')->name('admin.menu.side');
+
+
+  /** MENU SUB CATEGORY */
+  Route::get('menu-sub-category', 'MenuController@subcatList')->name('submenus');
+  Route::get('menu-sub-category/add', 'MenuController@addsubmenu')->name('admin.productSubCategory.add');
+  Route::get('menu-sub-category/edit/{id}', 'MenuController@editsubmenu')->name('admin.menu.subcat.edit');
+  Route::get('menu-sub-category/delete/{id}', 'MenuController@deleteSubmenu')->name('admin.menu.subcat.delete');
+  Route::post('menu-sub-category/save', 'MenuController@saveSubcategory')->name('admin.saveSubcategory.save');
+  Route::post('menu-sub-category-update', 'MenuController@updateSubcat')->name('admin.update.subcat');
+
+  /** Add mega menu category */
+  Route::get('mega-menu-category-add','MenuController@addmegamenucategory')->name('admin.megamenu.category.add');
+  Route::post('mega-menu-category-save','MenuController@savemegamenucategory')->name('admin.megamenu.category.save');
+  Route::get('mega-menu-category-list','MenuController@allmegasubcategory')->name('admin.mega.menu.cat.list');
+  Route::get('mega-menu-category-sub','MenuController@removemega_sub')->name('admin.mega.menu.cat.sub');
+
+  /** Mega Menu */
 
   /** menu assign*/
   Route::get('admin/assign/menu', 'MenuController@products_menu_assignview')->name('admin.assign.menu');
@@ -121,21 +138,15 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::get('menu/submenus/', 'MenuController@getsubmenus')->name('assign.product.subcategory');
   Route::post('menu/add/products', 'MenuController@updatemenu')->name('assign.menu.products');
 
-  /** MENU CATEGORY */
-  Route::get('menu-category', 'ProductCategoryController@index');
-  Route::get('menu-category/add', 'ProductCategoryController@addOrEdit')->name('admin.productCategory.add');
-  Route::get('menu-category/edit/{id}', 'ProductCategoryController@addOrEdit')->name('admin.productCategory.edit');
-  Route::get('menu-category/delete/{id}', 'ProductCategoryController@delete')->name('admin.productCategory.delete');
-  Route::post('menu-category/add', 'ProductCategoryController@saveMenuCategory')->name('admin.productCategory.save');
-  Route::get('menu-category/megamenu/{id}/{id2}', 'ProductCategoryController@megaMenu')->name('admin.productCategory.status');
+  // /** MENU CATEGORY */
+  // Route::get('menu-category', 'ProductCategoryController@index');
+  // Route::get('menu-category/add', 'ProductCategoryController@addOrEdit')->name('admin.productCategory.add');
+  // Route::get('menu-category/edit/{id}', 'ProductCategoryController@addOrEdit')->name('admin.productCategory.edit');
+  // Route::get('menu-category/delete/{id}', 'ProductCategoryController@delete')->name('admin.productCategory.delete');
+  // Route::post('menu-category/add', 'ProductCategoryController@saveMenuCategory')->name('admin.productCategory.save');
+  // Route::get('menu-category/megamenu/{id}/{id2}', 'ProductCategoryController@megaMenu')->name('admin.productCategory.status');
 
-  /** MENU SUB CATEGORY */
-  Route::get('menu-sub-category', 'SubCategoryController@index');
-  Route::get('menu-sub-category/add', 'SubCategoryController@addOrEdit')->name('admin.productSubCategory.add');
-  Route::get('menu-sub-category/edit/{id}', 'SubCategoryController@addOrEdit')->name('admin.productSubCategory.edit');
-  Route::get('menu-sub-category/delete/{id}', 'SubCategoryController@delete')->name('admin.productSubCategory.delete');
-  Route::post('menu-sub-category/add', 'SubCategoryController@saveMenuCategory')->name('admin.productSubCategory.save');
-  Route::get('menudata', 'SubCategoryController@menuData')->name('admin.productSubCategory.menudata');
+  
 
   /**Subscribers **/
   Route::get('subscribers', 'SubscriberController@index')->name('admin.subscribers');
@@ -287,8 +298,10 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('products/list/all','ApiProductController@index');
   Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
 
-  //suggestions
+  /** Product Menu Detail */
+  Route::get('menu-details/{menu_id?}','FilterController@product_menu_details')->name('menu.details');
   Route::get('autocomplete-search', 'ProductController@autocompleteSearch')->name('autocomplete.search');
+
 
   /** paypal  */
   Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'PaypalController@payWithPaypal',));

@@ -14,7 +14,7 @@
     }
     
     $(window).on('load', function () {
-        dataBackgroundImage();
+       // dataBackgroundImage();
     });
     
     /*---stickey menu---*/

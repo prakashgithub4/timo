@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Attribute;
-use App\Models\Color;
-use App\Models\Shape;
-use App\Models\ProductAttributeMapping as PA;
+use App\Models\Menu;
+use App\Models\Menu_sub_category;
 
 class FilterController extends Controller
 {
@@ -219,5 +218,43 @@ class FilterController extends Controller
             ];
         }
         return response()->json(['stat' => true, "data" => $result, 'total_pages' => $number_of_page]);
+    }
+    
+    public function product_menu_details($menu_id)
+    {
+        $menuDetails = Menu::find($menu_id);
+        $submenuDetails = Menu_sub_category::find($menu_id);
+        if(!empty($menuDetails))
+        {
+            $menuarray =[
+                "menu_name"=>$menuDetails->menu_name,
+                "banner"=>$menuDetails->banner,
+                "description"=>$menuDetails->description
+            ];
+        }
+        else
+        {
+            $menuarray =[
+                "menu_name"=>$submenuDetails->name,
+                "banner"=>$submenuDetails->banner_image,
+                "description"=>$submenuDetails->description
+            ];
+        }
+        
+     
+        $products= Product::select([
+                            'products.id',
+                            'products.seo_title',
+                            'products.seo_description',
+                            'products.type',
+                            'products.image_src'
+                            ])
+                       ->leftjoin('menus','products.menu','=','menus.id')
+                       ->leftjoin('menu_sub_category','products.menu','=','menu_sub_category.id')
+                       ->where('menus.id','=',$menu_id)
+                       ->orWhere('menu_sub_category.id','=',$menu_id)
+                       ->paginate($this->pageSize);
+        
+       return view('fontend.menudetails',compact('products','menuarray'));
     }
 }

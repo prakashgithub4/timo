@@ -43,29 +43,34 @@ Menu Sub Category
                                 <tr>
                                     <th>Sl/No</th>
                                     <th>Menu</th>
-                                    <th>Category</th>
                                     <th>Sub Category</th>
+                                    <th>Menu Type</th>
                                     <th>icon</th>
                                     <th>Action</th>
 
                                 </tr>
                             </thead>
                             <tbody>
-                              
+                              @php $count = 1; @endphp
                               @foreach($productSubCategory as $key=>$productSubCategory_item)
+                                 @foreach ($productSubCategory_item['submenus'] as $submenu)
+                                     
+                                
                                 <tr>
-                                    <td>{{$key+1}}</td>
+                                    <td>{{$count}}</td>
                                     <td>{{$productSubCategory_item->menu_name}}</td>
-                                    <td>{{$productSubCategory_item->product_category}}</td>
-                                    <td>{{$productSubCategory_item->sub_category_name}}</td>
-                                    <td>@if(!is_null($productSubCategory_item->icon))<img src="{{asset('public/uploads/subcat_icons/'.$productSubCategory_item->icon)}}"/>@else N/A @endif</td>
+                                    <td>{{$submenu->name}}</td>
+                                    <th>{{($submenu->is_mega_category == 'true')?"(Mega Menu Category)":"(Sub Menu)"}}</th>
+                                    <td>@if(!is_null($submenu->icon))<img height="54" width="54" src="{{asset('public/uploads/subcat_icons/'.$submenu->icon)}}" alt="{{$productSubCategory_item->menu_name}}"/>@else N/A @endif</td>
                                     <td>
-                                        <a href='{{route('admin.productSubCategory.edit',$productSubCategory_item->product_sub_category_id)}}' class="btn btn-info btn-sm"><i
+                                        <a href='{{route('admin.menu.subcat.edit',$submenu->id)}}' class="btn btn-info btn-sm"><i
                                                 class="fas fa-edit"></i></a>&nbsp;
-                                        <a onclick="return confirm('Are you sure?')" href="{{route('admin.productSubCategory.delete',$productSubCategory_item->product_sub_category_id)}}"
+                                        <a onclick="return confirm('Are you sure?')" href="{{route('admin.menu.subcat.delete',$submenu->id)}}"
                                             class="btn btn-danger btn-sm"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>
+                                @php $count ++; @endphp
+                                @endforeach
                                 @endforeach
                                 </tfoot>
                         </table>

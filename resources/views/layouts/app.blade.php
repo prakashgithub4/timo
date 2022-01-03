@@ -28,7 +28,8 @@
 <body class="clicked">
     <div class="off_canvars_overlay">
     </div>
-    <div class="Offcanvas_menu Offcanvas_two offcanvas_three">
+    @include('parcials.sidebar')
+    {{-- <div class="Offcanvas_menu Offcanvas_two offcanvas_three">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -94,7 +95,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <div class="home_three_body_wrapper">
 
         @include('parcials.header')

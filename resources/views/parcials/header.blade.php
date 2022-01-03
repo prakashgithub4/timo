@@ -199,74 +199,56 @@
                                         <a href="{{ url('/') }}"><img
                                                 src="{{ asset('assets/fontend/img/logo/logo.png') }}" alt=""></a>
                                     </div>
+                                    @php $ontop = '1'; $menu = menuhelper($ontop); @endphp
                                     <div class="main_menu">
                                         <nav>
                                             <ul>
                                                 <li class="active"><a href="{{ url('/') }}">Home</a></li>
-                                                <?php $mymenu = \App\Models\Menu::where('head_on', '1')->offset(0)->limit(7)->get(); ?>
+                                               
+                                                @foreach ($menu as $menus)
+                                                    @if (isset($menus['isMega']) && $menus['isMega'] == 1)
+                                                        <li><a href="{{route('menu.details',$menus['id'])}}">{{ $menus['menu_name'] }}  @if ($menus['num_of_mega_menu'] > 0)<i
+                                                                    class="fa fa-angle-down"></i> @endif</a>
+                                                           
+                                                     @if ($menus['num_of_mega_menu'] > 0)
+                                                            
+                                                            <ul class="mega_menu">
+                                                                @if (isset($menus['mega_sub']))
 
-                                                @foreach ($mymenu as $menu)
-                                                    @if ($menu->mega == 1)
-                                                        <li><a href="javascript:void(0)">{{ $menu->menu_name }} <i
-                                                                    class="fa fa-angle-down"></i></a>
-                                                            <?php $menuCategory = \App\Models\ProductCategory::where('menu_id', $menu->id)->get(); ?>
+                                                                    @foreach ($menus['mega_sub'] as $mega)
 
-                                                            @if (count($menuCategory) > 0)
-                                                                <ul class="mega_menu">
-                                                                    @foreach ($menuCategory as $menu_cat)
-                                                                        {{-- @if ($menu_cat->mega_menu == 1) --}}
-                                                                        <li><a
-                                                                                href="javascript:void(0)">{{ $menu_cat->product_category }}</a>
-                                                                            <?php $menuSubCategory = \App\Models\ProductSubCategory::where('menu_id', $menu->id)
-                                                                                ->where('product_category_id', $menu_cat->product_category_id)
-                                                                                ->get(); ?>
+                                                                        <li><a href="{{route('menu.details',$mega['id'])}}">{{ $mega['menu_name'] }}</a>
                                                                             <ul>
-                                                                                @foreach ($menuSubCategory as $mSC)
-                                                                                    <li><a href="javascript:void(0)">@if (is_null($mSC->icon))<img src="{{ asset('assets/fontend/img/nav-round.png') }}" alt="">@else <img src="{{ asset('public/uploads/subcat_icons/' . $mSC->icon) }}">@endif
-                                                                                            {{ $mSC->sub_category_name }}</a>
+                                                                                @foreach ($mega['sub'] as $mega_sub)
+                                                                                    <li><a href="{{route('menu.details',$mega_sub['id'])}}"><img
+                                                                                                src="{{ isset($mega_sub['icon'])?$mega_sub['icon']:asset('assets/fontend/img/nav-round.png') }}"
+                                                                                                alt="{{ $mega_sub['name'] }}" style="height: 24px; width:26px;">{{ $mega_sub['name'] }}</a>
                                                                                     </li>
+                                                                                   
                                                                                 @endforeach
                                                                             </ul>
                                                                         </li>
-                                                                        {{-- @endif --}}
+                                                                    @endforeach
+                                                                @endif
+                                                            </ul>
+                                                      @endif  
+                                                        </li>
+                                                    @elseif (isset($menus['isMega'])&&$menus['isMega'] == 0)
+                                                        <li><a href="{{route('menu.details',$menus['id'])}}">{{ $menus['menu_name'] }}
+                                                                @if (count($menus['sub']) > 0) <i class="fa fa-angle-down"></i>@endif</a>
+                                                            @if (count($menus['sub']) > 0)
+                                                                <ul class="sub_menu pages">
+                                                                    @foreach ($menus['sub'] as $sub)
+                                                                        <li><a href="{{route('menu.details',$sub['id'])}}"><img
+                                                                                    src="{{ isset($sub['icon'])?$sub['icon']:asset('assets/fontend/img/nav-round.png') }}"
+                                                                                    alt="{{ $sub['name'] }}" style="height: 24px; width:26px;">{{ $sub['name'] }}</a>
+                                                                        </li>
                                                                     @endforeach
                                                                 </ul>
                                                             @endif
                                                         </li>
-                                                    @else
-                                                        <?php $menuCategory = \App\Models\ProductCategory::where('menu_id', $menu->id)->get(); ?>
-                                                        @if (count($menuCategory) == 0)
-                                                            <li><a href="javascript:void(0)">{{ $menu->menu_name }}
-                                                                </a>
-                                                            @else
-                                                            <li><a href="javascript:void(0)">{{ $menu->menu_name }}
-                                                                    <i class="fa fa-angle-down"></i></a>
-                                                                <ul class="sub_menu pages">
-                                                                    @if (count($menuCategory) > 0)
-                                                                        @foreach ($menuCategory as $mCat)
-                                                                        <li class="menu-item-has-children">
-
-                                                                            {{-- <a href="#">{{$mCat->product_category}}</a> --}}
-                                                                                <?php $menuSubCategory = \App\Models\ProductSubCategory::where('menu_id', $menu->id)
-                                                                                    ->where('product_category_id', $mCat->product_category_id)
-                                                                                    ->get(); ?>
-                                                                                      @if(count($menuSubCategory)>0)
-                                                                                      @foreach($menuSubCategory as $mSC)
-                                                                                      <li><a href="javascript:void(0)">@if(is_null($mSC->icon))<img src="{{asset('assets/fontend/img/nav-round.png')}}" alt="">@else <img src="{{asset('public/uploads/subcat_icons/'.$mSC->icon)}}">@endif
-                                                                                          {{$mSC->sub_category_name}}</a></li>
-                                                                                      @endforeach
-                                                                                @endif
-                                                                        </li>
-                                                                        @endforeach
-                                                                    @endif
-                                                                </ul>
-                                                        @endif
-                                                        </li>
                                                     @endif
                                                 @endforeach
-
-                                            </ul>
-                                            </li>
                                             </ul>
                                         </nav>
                                     </div>

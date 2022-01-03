@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\Menu;
+use App\Models\ProductSubCategory;
 use Log;
 
 class MenuRepository
@@ -27,6 +28,9 @@ class MenuRepository
 
     public function _delete($id)
     {
+      
+        $submenu = ProductSubCategory::where('menu_id',$id)->get();
+        print_r($submenu); exit;
         return Menu::find($id)->delete();
     }
     

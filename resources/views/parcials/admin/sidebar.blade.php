@@ -177,6 +177,44 @@ $cms_titles = cms();
               </a>
               <ul class="nav nav-treeview">
                   <li class="nav-item">
+                      <a href="{{route('admin.menu')}}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p> Menu</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{route('submenus')}}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Sub Menus</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{route('admin.mega.menu.cat.list')}}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p> Mega Menu Category</p>
+                      </a>
+                  </li>
+
+                  <li class="nav-item">
+                      <a href="{{ route('admin.assign.menu') }}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Add Menu Products</p>
+                      </a>
+                  </li>
+              </ul>
+          </li>
+            {{-- <li class="nav-item">
+              <a href="#" class="nav-link">
+                  <i class="nav-icon fas  fa-bars"></i>
+                  <p>
+                      Menus
+                      <i class="fas fa-angle-left right"></i>
+                  </p>
+              </a>
+              <ul class="nav nav-treeview">
+                  <li class="nav-item">
                       <a href="{{ url('admin/menu') }}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p> Menu</p>
@@ -204,7 +242,7 @@ $cms_titles = cms();
                       </a>
                   </li>
               </ul>
-          </li>
+          </li> --}}
             <li class="nav-item">
                 <a href="#" class="nav-link">
                     <i class="nav-icon fas fa-layer-group"></i>

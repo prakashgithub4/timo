@@ -48,41 +48,32 @@
                                                     placeholder=" menu name"
                                                     value="{{ isset($getMenu) ? $getMenu->menu_name : '' }}"
                                                     required >
-                                                @error('menu')
+                                                @error('menu_name')
                                                     <small style="color:red">{{ $message }}</small>
                                                 @enderror
                                             </div>
-                                     
 
-
-                                            <div class="form-group colmd-6">
-                                            <label for="horns">STATUS</label>
-                                            @if(!empty($getMenu))
-                                             @if($getMenu->status=='active')   
-                                            <input type="checkbox" id="Status" name="status" class="form-control" checked value="1">
-                                            @else
-                                            <input type="checkbox" id="Status" name="status" class="form-control" value="1">
-                                            @endif
-                                            @else
-                                            <input type="checkbox" id="Status" name="status" class="form-control" value="1" checked>
-                                            @endif
-
+                                            <div class="form-group col-md-6">
+                                                
+                                                <label for="name">{{ __('DESCRIPTION') }} </label>
+                                                <textarea  name="description" class="form-control" id="description">
+                                                    {{ isset($getMenu) ? $getMenu->description : '' }}
+                                                </textarea>
+                                                
                                             </div>
-                                            <!--<div class="form-group colmd-6">
-                                            <label for="horns">MEGA MENU</label>
-                                        @if(!empty($getMenu))
-                                            @if($getMenu->mega=='1')   
-                                            <input type="checkbox" id="" name="mega" class="form-control" value="1" checked>
-                                            @else 
-                                            <input type="checkbox" id="" name="mega" class="form-control" value="1" >
+
+                                            <div class="form-group col-md-6">
+                                                
+                                                <label for="name">{{ __('BANNER') }}</label>
+                                                <input type="file" name="banner" class="form-control" id="banner"/>
+                                                @error('banner')
+                                                    <small style="color:red">{{ $message }}</small>
+                                                @enderror
+                                            </div>
+                                            @if(isset($getMenu->banner))
+                                                <img src="{{asset('public/uploads/subcat_banner/'.$getMenu->banner)}}" height="54" width="54" alt="{{$getMenu->menu_name}}"/>
                                             @endif
-                                        @else
-                                        <input type="checkbox" id="" name="mega" class="form-control" value="1" >
-                                        @endif
                                             
-                                            </div>-->
-
-
                                             
                                         </div>
 
