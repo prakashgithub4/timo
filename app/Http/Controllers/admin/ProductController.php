@@ -20,7 +20,8 @@ use App\Models\Gift;
 use App\Repositories\AttributRepository;
 use App\Models\ProductAttributeMapping as PAMapping;
 use App\Models\ProductAttribute;
-
+use App\Models\Animated;
+use File;
 class ProductController extends Controller
 {
   //
@@ -40,14 +41,12 @@ class ProductController extends Controller
   public function edit($id = null)
   {
       $attributes = Attribute::all();
-
       if (is_null($id)) {
           return view('admin.products.edit',compact('attributes'));
       } else {
           $getProduct = $this->product->_edit($id);
-         
-
-          return view('admin.products.edit', compact('getProduct','attributes'));
+          $getThreeSixtyImages = Animated::where('product_id','=',$id)->get();
+          return view('admin.products.edit', compact('getProduct','attributes','getThreeSixtyImages'));
       }
   }
 
@@ -359,7 +358,7 @@ class ProductController extends Controller
         $publish_status = ($product->published == 'TRUE')?1:0;
         $nestedData['SL'] =  $key + 1;
         $nestedData['title'] = $product->seo_title;
-     //   $nestedData['attribute'] = $ahtml;
+        $nestedData['image'] = '<img src='.$product->image_src." height ='100' width='120' alt=".$product->seo_title.">";
         $nestedData['color'] = $chtml;
         $nestedData['category'] = $cahtml;
         $nestedData['shape'] = $shtml;
@@ -490,7 +489,6 @@ class ProductController extends Controller
         //     'published' => 'required',
         // ]);
         $attribute = array();
-        //dd($request->all());
        // $atrributekey = array();
         if(isset($request->attribute_id)&&count($request->attribute_id) > 0){
           foreach($request->attribute_id as $key=>$attributes)
@@ -529,6 +527,7 @@ class ProductController extends Controller
             'type' => $request->type,
             'tags' => $request->tags,
             'vendor' => $request->vendor,
+            'attribute_values'=>$attribute_values,
             //'attribute'=>isset($atrributekey) ? json_encode($atrributekey) :[]
        
         );
@@ -537,7 +536,7 @@ class ProductController extends Controller
             return redirect('admin/products')->with('success', 'Product Added successfully');
         } else {
             // $this->colors->_update($request->id, $input_array);
-
+           
             //Saving Attributes
             $product = Product::find($request->id);
             $product->title = $input_array['title'];
@@ -549,13 +548,106 @@ class ProductController extends Controller
             $product->tags = $input_array['tags'];
             $product->vendor = $input_array['vendor'];
             $product->long_description = $input_array['long_description'];
+            $product->attribute_values = $input_array['attribute_values'];
             //$product->attribute = $input_array['attribute'];
-            $product->is_360 = $request['is_360']==1?1:0;
             $product->save();
-
-
-
+            $remove_records = Animated::where('product_id','=',$product->id)->get();
+            // $file_array = $request->file('360_images');
+         
+            //  if(isset($file_array)&&count($file_array) <= 30)
+            //  {
+            //      foreach($file_array as $key=>$images)
+            //       { 
+            //            $name1 = $images->getClientOriginalName();
+            //            $ext = explode('.',$name1)[1];
+            //            $name = "pem_".$key.".".$ext;
+            //            if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
+            //            {
+            //              $path = public_path().'/uploads/'.$product->seo_title;
+            //              $images->move($path.'/', $name); 
+            //              chmod($path."/".$name, 0777); 
+            //              $imgData[] = $name;
+            //              $add360_images = new \App\Models\Animated();
+            //              $add360_images->product_id = $request->id;
+            //              $add360_images->image = $imgData[$key];
+            //              $add360_images->added_by = \Auth::user()->id;
+            //              $add360_images->save();
+            //            }
+            //            else
+            //            {
+            //             return redirect('admin/product/edit/'.$request->id)->with('success', 'File format is not Supported');
+            //            }
+                      
+            //       }
+            //     }
+            //     else if(isset($file_array)&&count($file_array) >= 30)
+            //     {
+            //        return redirect('admin/product/edit/'.$request->id)->with('success', 'Please upload below then 30 file');
+            //     }
+            //     else if(count($remove_records) > 1) {
+            //       return redirect('admin/product/edit/'.$request->id)->with('success', 'Please remove previous 360 images');
+            //     }
             return redirect('admin/products')->with('success', 'Product has been updated successfully');
         }
     }
+    public function removeAllThreeSixtyImages($product_id)
+    {
+       $medias =  Animated::distinct('image')->where('product_id','=',$product_id)->pluck('image');
+       $product = Product::select('seo_title')->first();
+           foreach($medias as $key=>$item)
+            {
+            if(File::exists(public_path('uploads/'.$product->seo_title.'/'.$medias[$key]))){
+                File::delete(public_path('uploads/'.$product->seo_title.'/'.$medias[$key]));
+              }
+         }
+      
+       $threesixtyImages = Animated::where('product_id','=',$product_id)->delete();
+       return redirect('admin/products')->with('success', '360 Images has been Deleted successfully');
+    }
+
+    public function upload(Request $request)
+    {
+     
+            //Saving Attributes
+
+           // dd($request->all());
+            $product = Product::find($request->id);
+            $file_array = $request->file('360_images');
+            $remove_records = Animated::where('product_id','=',$product->id)->get();
+
+             if(isset($file_array)&&count($file_array) <= 30)
+             {
+                 foreach($file_array as $key=>$images)
+                  { 
+                       $name1 = $images->getClientOriginalName();
+                       $ext = explode('.',$name1)[1];
+                       $name = "pem_".$key.".".$ext;
+                       if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
+                       {
+                         $path = public_path().'/uploads/'.$product->seo_title;
+                         $images->move($path.'/', $name); 
+                         chmod($path."/".$name, 0777); 
+                         $imgData[] = $name;
+                         $add360_images = new \App\Models\Animated();
+                         $add360_images->product_id = $request->id;
+                         $add360_images->image = $imgData[$key];
+                         $add360_images->added_by = \Auth::user()->id;
+                         $add360_images->save();
+                       }
+                       else
+                       {
+                        return redirect('admin/product/edit/'.$request->id)->with('success', 'File format is not Supported');
+                       }
+                      
+                  }
+                }
+                else if(isset($file_array)&&count($file_array) >= 30)
+                {
+                   return redirect('admin/product/edit/'.$request->id)->with('success', 'Please upload below then 30 file');
+                }
+                else if(count($remove_records) > 1) {
+                  return redirect('admin/product/edit/'.$request->id)->with('success', 'Please remove previous 360 images');
+                }
+        }
+    
 }

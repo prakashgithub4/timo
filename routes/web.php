@@ -221,7 +221,12 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::get('add/product-filter', 'ProductFilterController@add')->name('admin.product_filter.add');
   Route::post('product-filter/save', 'ProductFilterController@save')->name('admin.product_filter.save');
   Route::get('product-filter/edit/{id?}', 'ProductFilterController@add')->name('admin.product_filter.edit');
-  Route::get('product-filter/delete/{id}', 'ProductFilterController@delete')->name('admin.product_filter.deleted');
+  Route::get('product-filter/delete/{id}', 'ProductController@delete')->name('admin.product_filter.deleted');
+
+
+  Route::get('remove/thresixty/{id}', 'ProductController@removeAllThreeSixtyImages')->name('admin.remove');
+  Route::post('product/upload', 'ProductController@upload')->name('admin.product.upload');
+
 });
 Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('/', 'HomeController@index')->name('home');
