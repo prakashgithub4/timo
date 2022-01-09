@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    var lowerSlider = document.querySelector('#lower');
+var lowerSlider = document.querySelector('#lower');
 var  upperSlider = document.querySelector('#upper');
 var lowerSlider1 = document.querySelector('#lower1');
 var  upperSlider1 = document.querySelector('#upper1');
@@ -32,6 +32,7 @@ upperSlider.oninput = function () {
     }
     document.querySelector('#two').value=this.value
 };
+
 
 
 upperSlider1.oninput = function () {
@@ -97,74 +98,7 @@ lowerSlider2.oninput = function () {
 
 
 
-$(function() {
-    $("#price-range").slider({
-      step: 25,
-      range: true, 
-      min: 0, 
-      max: 100, 
-      values: [0, 100], 
-      slide: function(event, ui)
-      {$("#priceRange").val(ui.values[0] + " - " + ui.values[1]);}
-    });
-    $("#priceRange").val($("#price-range").slider("values", 0) + " - " + $("#price-range").slider("values", 1));
 
-    $("#price-range1").slider({
-        step: 12.5,
-        range: true, 
-        min: 0, 
-        max: 100, 
-        values: [0, 100], 
-        slide: function(event, ui)
-        {$("#priceRange1").val(ui.values[0] + " - " + ui.values[1]);}
-      });
-      $("#priceRange1").val($("#price-range1").slider("values", 0) + " - " + $("#price-range1").slider("values", 1));
-
-      $("#price-range2").slider({
-        step: 12.5,
-        range: true, 
-        min: 0, 
-        max: 100, 
-        values: [0, 100], 
-        slide: function(event, ui)
-        {$("#priceRange2").val(ui.values[0] + " - " + ui.values[1]);}
-      });
-      $("#priceRange2").val($("#price-range2").slider("values", 0) + " - " + $("#price-range2").slider("values", 1));
-
-      $("#price-range3").slider({
-        step: 33.33,
-        range: true, 
-        min: 0, 
-        max: 100, 
-        values: [0, 100], 
-        slide: function(event, ui)
-        {$("#priceRange3").val(ui.values[0] + " - " + ui.values[1]);}
-      });
-      $("#priceRange3").val($("#price-range3").slider("values", 0) + " - " + $("#price-range3").slider("values", 1));
-
-      $("#price-range4").slider({
-        step: 33.33,
-        range: true, 
-        min: 0, 
-        max: 100, 
-        values: [0, 100], 
-        slide: function(event, ui)
-        {$("#priceRange4").val(ui.values[0] + " - " + ui.values[1]);}
-      });
-      $("#priceRange4").val($("#price-range4").slider("values", 0) + " - " + $("#price-range4").slider("values", 1));
-
-      $("#price-range5").slider({
-        step: 20,
-        range: true, 
-        min: 0, 
-        max: 100, 
-        values: [0, 100], 
-        slide: function(event, ui)
-        {$("#priceRange5").val(ui.values[0] + " - " + ui.values[1]);}
-      });
-      $("#priceRange5").val($("#price-range5").slider("values", 0) + " - " + $("#price-range5").slider("values", 1));
-    
-  });
 
 // filter js
 

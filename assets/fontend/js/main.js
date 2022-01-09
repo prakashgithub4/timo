@@ -14,7 +14,7 @@
     }
     
     $(window).on('load', function () {
-       // dataBackgroundImage();
+        dataBackgroundImage();
     });
     
     /*---stickey menu---*/
@@ -205,7 +205,7 @@
     /*---blog column3 activation---*/
     $('.blog_column3').owlCarousel({
         autoplay: true,
-		loop: true,
+		    loop: true,
         nav: true,
         autoplay: false,
         autoplayTimeout: 8000,
@@ -214,39 +214,42 @@
         margin: 30,
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
         responsiveClass:true,
-		responsive:{
-				0:{
-				items:1,
-			},
-            768:{
-				items:2,
-			},
-            992:{
-				items:3,
-			},
-		  
-        }
-    });
+    		responsive:{
+    				0:{
+    				items:1,
+    			},
+                768:{
+    				items:2,
+    			},
+                992:{
+    				items:3,
+    			},
+    		  
+            }
+        });
 
-    $('.recentview').owlCarousel({
+    $('.recentview .owl-carousel').owlCarousel({
         autoplay: true,
         loop: true,
-        nav: true,
+        nav: false,
         autoplay: false,
         autoplayTimeout: 8000,
         items: 4,
         dots:false,
-        margin:0,
+        margin:10,
         navText: ['<i class="fa fa-angle-left"></i>','<i class="fa fa-angle-right"></i>'],
         responsiveClass:true,
     responsive:{
         0:{
         items:1,
-      },
-            768:{
+        },
+        575:{
         items:2,
-      },
-            992:{
+       },
+        768:{
+        items:2,
+       },
+        992:{
         items:4,
       },
       
@@ -256,7 +259,7 @@
     /*---blog active activation---*/
     $('.blog_thumb_active').owlCarousel({
         autoplay: true,
-		loop: true,
+		    loop: true,
         nav: true,
         autoplay: false,
         autoplayTimeout: 8000,

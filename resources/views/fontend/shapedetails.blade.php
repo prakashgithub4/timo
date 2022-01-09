@@ -31,7 +31,7 @@ Shape Details
                         <h1>{{$shape_details->name}} Cut Diamonds</h1>
                         <p>{{strip_tags($shape_details->description)}}</p>
                         <div class="view__work">
-                            <a href="#">SHOP ALL ROUND CUT DIAMONDS  <i class="fa fa-angle-right"></i></a>
+                            <a href="{{route('diamonds.search')}}">SHOP ALL ROUND CUT DIAMONDS  <i class="fa fa-angle-right"></i></a>
                         </div>  
                     </div>
                 </div>

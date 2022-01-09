@@ -1,27 +1,25 @@
 <!doctype html>
 <html class="no-js" lang="en">
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
-
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>@yield('title')</title>
-    <meta name="description" content="">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="theme-color" content="#661f2f">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <meta name="robots" content="index">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">    
+    <title>@yield('title')</title>
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/fontend/img/favicon.ico') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/plugins.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/fontend/css/degview.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
+    <link rel="stylesheet" href="{{ asset('assets/fontend/css/dataTables.bootstrap4.min.css')}}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/fontend/css/custom.css')}}">
-    <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css"> 
-    
-    <style>
-    img.lazy {
-        width: 700px; 
-        height: 467px; 
-        display: block;
-    }
-</style>
+    <link rel="stylesheet" href="{{ asset('assets/fontend/css/responsive.css')}}">
 
 </head>
 
@@ -29,80 +27,11 @@
     <div class="off_canvars_overlay">
     </div>
     @include('parcials.sidebar')
-    {{-- <div class="Offcanvas_menu Offcanvas_two offcanvas_three">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="canvas_open">
-                        <a href="javascript:void(0)"><span>All</span><i class="ion-navicon"></i></a>
-                    </div>
-                    <div class="Offcanvas_menu_wrapper">
-                        <a href="{{url('/')}}"><img src="{{ asset('assets/fontend/img/logo/logo.png') }}" alt=""
-                                class="leftlogo"></a>
-                        <div class="canvas_close">
-                            <a href="javascript:void(0)"><i class="ion-android-close"></i></a>
-                        </div>
-                        <div class="welcome_text text-center mb-3">
-                            <p>Free shipping on all domestic orders with coupon code <span>“Ti Amo Diamonds-2021”</span>
-                            </p>
-                        </div>
-                        <div id="menu" class="text-left ">
-                            <ul class="offcanvas_main_menu">
-                                <li class="menu-item-has-children active">
-                                    <a href="{{url('/')}}">Home</a>
-                                </li>
-                                <?php  $mymenu= \App\Models\Menu::where('side_on', '1')->offset(0)->limit(14)->get();?>
-                                @foreach($mymenu as $menu)
-                                <li class="menu-item-has-children">
-                                    <a href="#">{{$menu->menu_name}}</a>
-                                    <?php  $menuCategory= \App\Models\ProductCategory::where('menu_id', $menu->id)->get();?>
-                                    @if(count($menuCategory)>0)
-                                    <ul class="sub-menu">
-                                        @foreach($menuCategory as $menu_cat)
-                                        <li class="menu-item-has-children">
-                                            <a href="#">{{$menu_cat->product_category}}</a>
-                                            <?php  $menuSubCategory= \App\Models\ProductSubCategory::where('menu_id', $menu->id)->where('product_category_id',$menu_cat->product_category_id)->get();?>
-                                            
-                                            @if(count($menuSubCategory)>0)
-                                            <ul class="sub-menu">
-                                                @foreach($menuSubCategory as $mSC)
-                                                <li><a href="javascript:void(0)">@if(is_null($mSC->icon))<img src="{{asset('assets/fontend/img/nav-round.png')}}" alt="">@else <img src="{{asset('public/uploads/subcat_icons/'.$mSC->icon)}}">@endif
-                                                    {{$mSC->sub_category_name}}</a></li>
-                                                @endforeach
-                                            
-                                            </ul>
-                                            @endif
-                                        </li>
-                                        @endforeach
-                                    </ul>
-                                    @endif
-                                </li>
-                                @endforeach
-                               
-                            </ul>
-                        </div>
-                        <!-- <div class="Offcanvas_footer">
-                            <span><a href="#"><i class="fa fa-envelope-o"></i> demo@example.com</a></span>
-                            <ul>
-                                <li class="facebook"><a href="#"><i class="fa fa-facebook"></i></a></li>
-                                <li class="twitter"><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li class="pinterest"><a href="#"><i class="fa fa-pinterest-p"></i></a></li>
-                                <li class="google-plus"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                                <li class="linkedin"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-                            </ul>
-                        </div> -->
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <div class="home_three_body_wrapper">
-
         @include('parcials.header')
         @yield('banner')
         @yield('content')
         @include('parcials.footer')
-
         <div class="modal fade" id="modal_box" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
@@ -120,26 +49,38 @@
             </div>
         </div>
         <div>
-             <script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
-
-            <script src="{{ asset('assets/fontend/js/plugins.js') }}"></script>
-            <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-            <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-            <!-- Main JS -->
-            <script src="{{ asset('assets/fontend/js/main.js') }}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.2/jquery.validate.min.js"></script>
-            <script src="{{asset('assets/fontend/js/jquery.toast.js')}}"></script>
-            <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-           <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.min.js')}}"></script>
+            <script type="text/javascript" src="{{ asset('assets/fontend/js/jquery-3.5.1.min.js') }}"></script>            
+            <script type="text/javascript" src="{{ asset('assets/fontend/js/plugins.js') }}"></script>            
+            <script type="text/javascript" src="{{ asset('assets/fontend/js/main.js') }}"></script>       
+            <script type="text/javascript" src="{{ asset('assets/fontend/js/jquery.validate.min.js') }}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.toast.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/sweetalert.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.min.js')}}"></script>
             <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.lazy.plugins.min.js')}}"></script>
-            {{-- <script type="text/javascript" src="{{asset('assets/fontend/js/custom.js')}}"></script> --}}
-            <script type="text/javascript" src="{{asset('assets/fontend/js/filters.js')}}"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
-
-          
-
-            
+            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.dataTables.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/dataTables.bootstrap4.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/popper.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/bootstrap.min.js')}}"></script>
+            <script type="text/javascript" src="{{asset('assets/fontend/js/jquery.threesixty.js')}}"></script>
+            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@mladenilic/threesixty.js/dist/threesixty.js"></script>
             @yield('script')
+            <script>
+                var input = document.getElementById("search");
+                input.addEventListener("keyup", function(event) { 
+                 if (event.keyCode === 13) { 
+
+                   clickToSearch();
+                 }
+
+                })
+            </script>
+            <script>
+               function clickToSearch()
+               {
+                let search = $("#search").val();
+                window.location ="{{url('/product-search')}}/"+search.toString();
+               }
+            </script>
             <script>
                 function onchangeqty(qty)
                 {
@@ -273,11 +214,11 @@
                                         <div class="modal_social">
                                             <h2>Share this product</h2>
                                             <ul>
-                                                <li><a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fproduct.com/"><i class="fa fa-facebook"></i></a></li>
-                                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>\
-                                                <li><a href="#"><i class="fa fa-pinterest"></i></a></li>\
-                                                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>\
-                                                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>\
+                                                <li><a onclick="shared('facebook',${response.data.id})" href="https://www.facebook.com/sharer/sharer.php?u=${response.data.url}"><i class="fa fa-facebook"></i></a></li>
+                                                <li><a onclick="shared('twitter',${response.data.id})" href="https://twitter.com/share?url=${response.data.url}&amp;text=Simple%20Share%20Buttons&amp;hashtags=simplesharebuttons"><i class="fa fa-twitter"></i></a></li>
+                                    
+                                                
+                                                <li><a onclick="shared('linkedin',${response.data.id})" href="http://www.linkedin.com/shareArticle?mini=true&amp;url=${response.data.url}"><i class="fa fa-linkedin"></i></a></li>\
                                             </ul>
                                         </div>
                                     </div>
@@ -403,7 +344,7 @@
             upadatecartwithuserid();
             updatecompairlist();
         });
-        async function updatecompairlist()
+         async function updatecompairlist()
         {
             let result = await $.ajax({
                   url:"{{route('compair.list.update')}}",
@@ -433,16 +374,20 @@
                     var subtotal = 0;
                     var subwithqty = 1;
                      $("#cart_count").text(result.cartdetails.length);
+                     if(result.cartdetails.length > 0)
+                     {
+
+
                      html +=`<div class="cart-bx">`;
                     $.each(result.cartdetails, function(index, value) {
                         subwithqty = parseFloat(value.price) * parseFloat(value.qty);
                         subtotal = parseFloat(subtotal) + parseFloat(subwithqty);
                         html += `<div class="cart_item" id="cart_${value.id}">
                                    <div class="cart_img">
-                                       <a href="#"><img src="${value.image_src}" alt=""></a>
+                                       <a href="${value.product_link}"><img src="${value.image_src}" alt=""></a>
                                    </div>
                                     <div class="cart_info">
-                                        <a href="#">${value.seo_title}</a>
+                                        <a href="${value.product_link}">${value.seo_title}</a>
                                         <span class="quantity">Qty: ${value.qty}</span>
                                         <span class="price_cart">$ ${value.price.toFixed(2)}</span>
                                     </div>
@@ -451,12 +396,18 @@
                                     </div>
                                 </div>`;
                     });
-                    html +=`</div>`;
+                        html +=`</div>`;
+                      }
+                     else 
+                    {
+                        html += `<img src="{{asset('assets/fontend/img/empty-cart.png')}}" alt="">
+                                 <h2>No Cart Available</h2>`;
+                    }
                     $("#total_price").text("$ " + subtotal.toFixed(2));
                     if (result.cartdetails.length > 0) {
                         html += `<div class="cart_total">
                                     <span>Subtotal:</span>
-                                    <span id ="total_price">$ ${subtotal.toFixed(2)}</span>
+                                    <span id ="total_price">$${subtotal.toFixed(2)}</span>
                                 </div> 
                                
                                 <div class="mini_cart_footer">
@@ -464,7 +415,7 @@
                                         <a href="{{ route('user.cart') }}">View cart</a>
                                     </div>
                                     <div class="cart_button checkout">
-                                        <a class="active" href="{{route('checkout')}}">Checkout</a>
+                                        <a class="active" href="{{route('checkout')}} ">Checkout</a>
                                     </div>
 
                                 </div>`;
@@ -488,13 +439,18 @@
                         'cart_id': id
                     },
                 })
-               
+                console.log(result);
                 if (result.status == true) {
                     $("#cart_" + id).remove();
                     $(".cart_"+ id).remove();
                     if(result.cartdetails.length == 0)
-                    {
-                        $("#clear_cart").remove();
+                    {    
+
+                         $("#clear_cart").html(`<div id="cart" class="emty-section">
+                                                    <img src="{{asset('assets/fontend/img/empty-cart.png')}}" alt="">
+                                                    <h2>No Cart Available</h2>
+                                     </div>`);
+                        
                     }
                     
                   //  let cartcal = $("#count_cart").val();
@@ -505,7 +461,10 @@
                     var html = '';
                     var subtotal = 0;
                     var subwithqty = 1;
+                     if(result.cartdetails.length > 0)
+                    {
                     html +=`<div class="cart-bx">`;
+                   
                     $.each(result.cartdetails, function(index, value) {
                        
                         subwithqty = parseFloat(value.price) * parseFloat(value.qty);
@@ -513,10 +472,10 @@
 
                         html += `<div class="cart_item" id="cart_${value.id}">
                                    <div class="cart_img">
-                                       <a href="#"><img src="${value.image_src}" alt=""></a>
+                                       <a href="${value.product_link}"><img src="${value.image_src}" alt=""></a>
                                    </div>
                                     <div class="cart_info">
-                                        <a href="#">${value.seo_title}</a>
+                                        <a href="${value.product_link}">${value.seo_title}</a>
                                         <span class="quantity">Qty: ${value.qty}</span>
                                         <span class="price_cart">$ ${value.price.toFixed(2)}</span>
                                     </div>
@@ -526,11 +485,20 @@
                                 </div>`;
                     });
                     html +=`</div>`;
+                    }
+                    else
+                    {
+                        html += `<div id="cart" class="emty-cart">
+                            <img src="{{asset('assets/fontend/img/empty-cart.png')}}" alt="">
+                            <h2>No Cart Available</h2>
+                        </div>`;
+                    }
+                    
                     $("#total_price").text("$ " + subtotal.toFixed(2));
                     if (result.cartdetails.length > 0) {
                         html += `<div class="cart_total">
                                     <span>Subtotal:</span>
-                                    <span id ="total_price">$ ${subtotal.toFixed(2)}</span>
+                                    <span id ="total_price">$${subtotal.toFixed(2)}</span>
                                 </div> 
                                
                                 <div class="mini_cart_footer">
@@ -544,7 +512,9 @@
                                 </div>`;
                     }
 
-                    $("#cart").html(html);
+                   
+                    
+                     $("#cart").html(html);
                     $(".cart_"+id).removeClass('added_btn');
                     $(".cart_"+id).attr("title",'Add to Cart');
                     
@@ -555,8 +525,7 @@
             }
         }
     </script>
-    <script type="text/javascript">
-        
+    <script type="text/javascript">        
            function add_to_cart(p_id, w_id = null) {
             $.ajax({
                 type: "POST",
@@ -602,12 +571,12 @@
                            
                             html += `<div class="cart_item" id="cart_${value.id}">
                                    <div class="cart_img">
-                                       <a href="#"><img src="${value.image_src}" alt=""></a>
+                                       <a href="${value.product_link}"><img src="${value.image_src}" alt=""></a>
                                    </div>
                                     <div class="cart_info">
-                                        <a href="#">${value.seo_title}</a>
+                                        <a href="${value.product_link}">${value.seo_title}</a>
                                         <span class="quantity">Qty: ${value.qty}</span>
-                                        <span class="price_cart">$ ${value.price.toFixed(2)}</span>
+                                        <span class="price_cart">$${value.price.toFixed(2)}</span>
                                     </div>
                                     <div class="cart_remove">
                                         <a href="javascript:removecart(${value.id})"><i class="ion-android-close"></i></a>
@@ -618,7 +587,7 @@
                         $("#total_price").text("$ " + subtotal.toFixed(2));
                         html += `<div class="cart_total">
                                     <span>Subtotal:</span>
-                                    <span id ="total_price">$ ${subtotal.toFixed(2)}</span>
+                                    <span id ="total_price">$${subtotal.toFixed(2)}</span>
                                 </div> 
                                
                                 <div class="mini_cart_footer">
@@ -683,20 +652,75 @@
          
         }
     </script>
-    <script type="text/javascript">
-        var route = "{{route('autocomplete.search')}}";
-    
-        $('#search').typeahead({
-            source: function (query, process) {
-                return $.get(route, {
-                    query: query
-                }, function (data) {
-                    return process(data);
+    <script>
+    async function shared(media,productId)
+    {
+       
+         const result = await $.ajax({
+                    url: "{{ route('product-shared') }}",
+                    type: 'post',
+                    data: {
+                        "_token": '{{ csrf_token() }}',
+                        "media":media,
+                        "productId":productId
+                        
+                    },
                 });
-            }
+        
+    }
+</script>
+ <script>
+    $(document).ready(function(){
+        var $threeSixty = $('.threesixty');
+
+        $threeSixty.threeSixty({
+            dragDirection: 'horizontal',
+            useKeys: true,
+            draggable: true
         });
-    </script>
+
+        $('.next').click(function(){
+            $threeSixty.nextFrame();
+        });
+
+        $('.prev').click(function(){
+            $threeSixty.prevFrame();
+        });
+
+        $threeSixty.on('down', function(){
+            $('.ui, h1, h2, .label, .examples').stop().animate({opacity:0}, 300);
+        });
+
+        $threeSixty.on('up', function(){
+            $('.ui, h1, h2, .label, .examples').stop().animate({opacity:1}, 500);
+        });
+    });
+    threesixty.play();
+</script>
+<script>
+    async function suggestion(name)
+    {
+     const result = await $.ajax({
+            url: "{{ route('product.suggestion') }}",
+            type: 'get',
+            data: {
+                "name":name,
+            },
+        });
     
+     var html = `<ul class="serpro">`
+     $.each(result.data, function(index, value) {
+        if(index <= 10) {
+             html +=`<li><a href="${value.url}">${value.name}</a></li>`;
+        }
+       
+     })
+     html +=`<ul>`
+     $("#suggestion").html(html);
+     
+    }
+
+</script>
 </body>
 
 </html>

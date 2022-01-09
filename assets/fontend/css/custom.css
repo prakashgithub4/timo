@@ -1172,3 +1172,58 @@ table.dataTable td, table.dataTable th{
 .table.dt-responsive tbody tr th{
     border-right: 1px solid #d2d2d2;
 }
+
+/*-------360 View----*/
+.degview{
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1;
+  cursor: pointer;
+}
+.product_details .product-details-tab{position: relative;}
+.degviewmodal .modal-header{
+  padding: 0px;
+}
+.degviewmodal .modal-header .btn-close{
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  z-index: 999;
+  border: none;
+  height: 30px;
+  width: 30px;
+  border-radius: 50px;
+  color: #fff;
+  background-color: #c11f1e;
+  font-size: 22px;
+}
+.degviewmodal .modal-body{
+  padding: 0px;
+}
+.degviewmodal .modal-content{border:none;}
+body .threesixty-wrapper img{cursor: pointer;}
+.degviewmodal {
+  top: 50% !important;
+  transform: translate(0, -44%);
+  -webkit-transform: translate(0, -44%);
+  -moz-transform: translate(0, -44%);
+  -o-transform: translate(0, -44%);
+  }
+  .serpro{
+  	position: absolute;
+  	background-color: #fff;
+  	/*padding: 15px;*/
+  	left: auto;
+  	z-index: 9;
+  	top: 52px;
+  	width: 22%;
+  	right: 22%;
+  }
+.serpro li{
+padding: 2px 15px;
+}
+.serpro li a{display: block; width: 100%;}
+.serpro li a:hover{
+	color: #e02423;
+}
