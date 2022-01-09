@@ -298,6 +298,7 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('product/lengthwis/display','FilterController@getPagelengthwisedata')->name('page.length');
   Route::get('page','FilterController@pageLink')->name('page');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
+  Route::get('threesixty/products/{threesixty?}','FilterController@getThreesixtyProducts')->name('threesixty.products');
 
   Route::get('diamonds/price','FilterController@filter')->name('price_filter');
 

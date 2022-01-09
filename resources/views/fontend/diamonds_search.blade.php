@@ -11,7 +11,7 @@ Diamond Search
             <div class="col-lg-4 col-md-6 col-sm-12 col-12">
                 <div class="quck_check">
                     <label class="i360">
-                        <input type="checkbox">
+                        <input type="checkbox" id="isThreesixty">
                         <span><img src="{{asset('assets/fontend/img/icon/360.png')}}" style="width: 40px;"> Available</span>
                         
                     </label>
@@ -467,7 +467,28 @@ Diamond Search
   });
     </script>
 
-    
+    <script>
+        $(document).ready(function(){
+            $("#isThreesixty").click(function(){
+                let isThreeSixty = this.checked ? 1 : 0;
+                 getThreeSixtyData(isThreeSixty)
+            })
+        })
+        async function getThreeSixtyData(isThreesixty) {
+          try {
+              let url = "{{url('threesixty/products')}}/"+isThreesixty
+             const response = await $.ajax({
+                 url:url,
+                 type:'Get',
+             });
+           //  console.log(response.data.original.data);
+             createhtmlgrid(response.data.original,true)
+          }
+          catch(err){
+              console.log(err)
+          }
+        }
+    </script>
 <script>
     var shapes = [];
     async function shape(s_id,check)

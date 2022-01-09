@@ -336,7 +336,7 @@
                 headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                 success: (data) => {
                     alert('Images has been uploaded');
-                    window.location.reload();
+                     window.location.reload();
                 },
                 error: function(data) {
                     console.log(data);

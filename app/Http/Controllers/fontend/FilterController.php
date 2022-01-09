@@ -129,7 +129,7 @@ class FilterController extends Controller
 
 
 
-    public  function search($page = 1, $pageSize = 0,$min=null,$max = null,$order = 0,$shapeId = null,$attribute=null)
+    public  function search($page = 1, $pageSize = 0,$min=null,$max = null,$order = 0,$shapeId = null,$attribute=null, $isThreesixty = 0)
     {
 
         /** Calculate Pagination **/
@@ -149,7 +149,7 @@ class FilterController extends Controller
         $allProduct = \DB::table('products')
             ->select(['products.id','shapes.id as sid','shapes.name as sname','products.seo_title','shapes.logo as slogo','products.seo_description',
              'products.type', 'products.image_src','shapes.name as shape','colors.name as color',
-             'products.attribute_values','products.cost_per_item'
+             'products.attribute_values','products.cost_per_item','products.is_threesixty'
          ])->leftjoin('product_attribute_mapping','products.id','=','product_attribute_mapping.pid')
            // ->leftjoin('attributes','product_attribute_mapping.aid','=','attributes.id')
             ->leftjoin('shapes','shapes.id','=','products.shape')
@@ -176,6 +176,9 @@ class FilterController extends Controller
         {
             $allProduct = $allProduct->whereBetween('product_attribute_mapping.attribute_values',[$attribute['min'],$attribute['max']]);
         }
+        if($isThreesixty == 1) {
+            $allProduct = $allProduct->where('products.is_threesixty','=',$isThreesixty);
+        }
       
         if($order ==  0)
         {
@@ -185,6 +188,7 @@ class FilterController extends Controller
         {
             $allProduct = $allProduct->orderBy('products.id','DESC');
         }
+       
        
 
 
@@ -341,5 +345,18 @@ class FilterController extends Controller
           }
           $products = $products->paginate(15);
           return view('fontend.search',compact('products'));
+    }
+
+    public function getThreesixtyProducts($threesixty = null) {
+       
+        if($threesixty == 1) {
+            $allproducts = $this->search(null,null,null,null,null,null,null,$threesixty);
+            return response()->json(["data"=>$allproducts]);
+        }
+        else {
+            $allproducts = $this->search();
+            return response()->json(["data"=>$allproducts]);
+        }
+       
     }
 }
