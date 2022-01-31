@@ -32,11 +32,11 @@ class CMsController extends Controller
     //     return view('frontend.contact');
     // }
 
-    public function dynamic($id=null)
+    public function dynamic($slug=null)
     {
        
-        if($id!=null){
-            $result = Cms::where('id','=',decrypt($id))->get()->toArray();
+        if($slug!=null){
+            $result = Cms::where('slug','=',decrypt($slug))->get()->toArray();
            // print_r($result);
            // exit();
             if($result){

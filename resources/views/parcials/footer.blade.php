@@ -39,14 +39,14 @@
                             ?>
 
                                 <ul>
-                                   <?php  foreach($tmp as $row){ ?>
+                                   {{-- <?php  foreach($tmp as $row){ ?>
                                         <li><a href="{{ url('dynamic/'. encrypt($row->id)) }}">{{$row->title}}</a></li>
-                                    <?php } ?>
-                                    {{-- <li><a href="#">Contact Us</a></li>
+                                    <?php } ?> --}}
+                                    <li><a href="#">Contact Us</a></li>
                                     <li><a href="#">FAQs</a></li>
-                                    <li><a href="{{ route('dynamics') }}">Help Topics</a></li>
-                                    <li><a href="#">Sell Your Diamonds</a></li>
-                                    <li><a href="#">Refer a Friend</a></li> --}}
+                                    <li><a href="{{ url('dynamic/'. encrypt('help-and-topics')) }}">Help Topics</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('sell-yours-diamonds')) }}">Sell Your Diamonds</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('refer-a-friend')) }}">Refer a Friend</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -72,13 +72,12 @@
                             <h3>About Ti Amo Diamonds</h3>
                             <div class="footer_menu">
                                 <ul>
-                                    <li><a href="#">What We Believe</a></li>
-                                    <li><a href="#">Customer Reviews</a></li>
-                                    <li><a href="#">Quality & Value</a></li>
-                                    <li><a href="#">Blue Nile Blog</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('what-we-believe')) }}">What We Believe</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('quality-and-value')) }}">Quality & Value</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('tiamo-blog')) }}">TiAmo Blog</a></li>
                                     <li><a href="#">Careers</a></li>
-                                    <li><a href="#">Locations</a></li>   
-                                    <li><a href="#">Give Us Your Feedback</a></li>
+                                    <li><a href="{{ url('dynamic/'. encrypt('locations')) }}">Locations</a></li>   
+                                    <li><a href="{{ url('dynamic/'. encrypt('give-us-your-feedback')) }}">Give Us Your Feedback</a></li>
                                 </ul>
                             </div>
                         </div>
