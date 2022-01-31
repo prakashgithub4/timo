@@ -33,6 +33,8 @@
   <link rel="stylesheet" href="{{ asset('assets/dist/css/custom.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/fontend/css/jquery.toast.css')}}">
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/dist/img/favicon.ico') }}/">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
@@ -134,6 +136,7 @@
 <script src="{{asset('assets/dist/js/pages/dashboard.js')}}"></script>
 <script src="//cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>
 <script src="{{asset('assets/fontend/js/jquery.toast.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.js"></script>
 
 </body>
 </html>

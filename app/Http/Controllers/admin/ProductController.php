@@ -551,7 +551,7 @@ class ProductController extends Controller
             $product->attribute_values = $input_array['attribute_values'];
             //$product->attribute = $input_array['attribute'];
             $product->save();
-            $remove_records = Animated::where('product_id','=',$product->id)->get();
+            //$remove_records = Animated::where('product_id','=',$product->id)->get();
             // $file_array = $request->file('360_images');
          
             //  if(isset($file_array)&&count($file_array) <= 30)
@@ -615,13 +615,17 @@ class ProductController extends Controller
             $file_array = $request->file('360_images');
             $remove_records = Animated::where('product_id','=',$product->id)->get();
 
+
+            $remove_records = Animated::where('product_id','=',$product->id)->get();
+            $file_array = $request->file('360_images');
+         
              if(isset($file_array)&&count($file_array) <= 30)
              {
                  foreach($file_array as $key=>$images)
                   { 
                        $name1 = $images->getClientOriginalName();
                        $ext = explode('.',$name1)[1];
-                       $name = "pem_".$key.".".$ext;
+                       $name = "pem_".time().".".$ext;
                        if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
                        {
                          $path = public_path().'/uploads/'.$product->seo_title;
@@ -636,18 +640,21 @@ class ProductController extends Controller
                        }
                        else
                        {
-                        return redirect('admin/product/edit/'.$request->id)->with('success', 'File format is not Supported');
+                        return response()->json(['status'=>false,'message'=>"File format is not Supported"]);
                        }
                       
                   }
+                  return response()->json(['status'=>'success','message'=>"File Uploaded"]);
                 }
                 else if(isset($file_array)&&count($file_array) >= 30)
                 {
-                   return redirect('admin/product/edit/'.$request->id)->with('success', 'Please upload below then 30 file');
+                  return response()->json(['status'=>false,'message'=>"Please upload below then 30 file"]);
                 }
-                else if(count($remove_records) > 1) {
-                  return redirect('admin/product/edit/'.$request->id)->with('success', 'Please remove previous 360 images');
-                }
-        }
+                // else if(count($remove_records) > 1) {
+                //   return response()->json(['status'=>false,'message'=>"Please remove previous 360 images"]);
+                // }
+
+         }         
+             
     
 }

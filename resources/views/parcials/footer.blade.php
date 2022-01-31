@@ -31,14 +31,22 @@
                         <div class="widgets_container widget_menu">
                             <h3>Information</h3>
                             <div class="footer_menu">
+
+                               <?php  $tmp = \App\Models\Cms::whereHas('categories', function ($query) {
+                                $query->where('name','=','Information');
+                            })->get();
+                           
+                            ?>
+
                                 <ul>
-                                    <li><a href="#">Contact Us</a></li>
+                                   <?php  foreach($tmp as $row){ ?>
+                                        <li><a href="{{ url('dynamic/'. encrypt($row->id)) }}">{{$row->title}}</a></li>
+                                    <?php } ?>
+                                    {{-- <li><a href="#">Contact Us</a></li>
                                     <li><a href="#">FAQs</a></li>
-                                    <li><a href="#">Help Topics</a></li>
-                                    <li><a href="#">Order Status</a></li>
-                                    <li><a href="#">Returns</a></li>
+                                    <li><a href="{{ route('dynamics') }}">Help Topics</a></li>
                                     <li><a href="#">Sell Your Diamonds</a></li>
-                                    <li><a href="#">Refer a Friend</a></li>
+                                    <li><a href="#">Refer a Friend</a></li> --}}
                                 </ul>
                             </div>
                         </div>
@@ -49,12 +57,12 @@
                             <div class="footer_menu">
                                 <ul>
                                     <li><a href="#">My Account</a></li>
-                                    <li><a href="#">Contact</a></li>
                                     <li><a href="#">Wishlist</a></li>
                                     <li><a href="#">Portfolio</a></li>
-                                    <li><a href="#">Checkout</a></li>
-                                    <li><a href="#">Frequently Questions</a></li>
+                                    <li><a href="{{route('checkout')}}">Checkout</a></li>
                                     <li><a href="#">Order Status</a></li>
+                                    <li><a href="#">Returns</a></li>
+
                                 </ul>
                             </div>
                         </div>

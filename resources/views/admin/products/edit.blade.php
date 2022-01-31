@@ -173,7 +173,7 @@
                                             <div class="row">
                                                 @foreach ($getThreeSixtyImages as $key => $item)
                                                     <div class="col-1">
-                                                        <img src="{{ asset('public/uploads/' . $getProduct->seo_title . '/' . $item->image) }}"
+                                                        <img src="{{ asset('public/uploads/'.$getProduct->seo_title.'/'. $item->image) }}"
                                                             alt="Cinque Terre" width="90" height="90">
                                                     </div>
                                                 @endforeach
@@ -316,32 +316,53 @@
             var formData = new FormData();
             var id = $("#product").val();
             var ins = document.getElementById("360_images").files.length;
-				for (var x = 0; x < ins; x++) {
+
+            var fileName = $("#360_images").val();
+
+            if(fileName){
+                for (var x = 0; x < ins; x++) {
 					formData.append(
 						"360_images[]",
 						document.getElementById("360_images").files[x]
 					);
 				}
 
-            formData.append('TotalImages', ins);
-            formData.append('id', id);
+                formData.append('TotalImages', ins);
+                formData.append('id', id);
 
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('admin/product/upload') }}",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success: (data) => {
-                    alert('Images has been uploaded');
-                    window.location.reload();
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
+                $.ajax({
+                    type: 'POST',
+                    url: "{{ url('admin/product/upload') }}",
+                    data: formData,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                    success: (data) => {
+                        let content = data.message;
+                        
+                        $.dialog({
+                            title: 'Success!',
+                            content: content,
+                        });
+
+                        if(data.status != false){
+                            window.location.reload();
+                        }
+                       
+                    },
+                    error: function(data) {
+                        console.log(data);
+                    }
+                });
+            }
+            else{
+                $.alert({
+                    title: 'Alert!',
+                    content: 'Please Select  Image',
+                });
+            }
+				
         });
     </script>
     <script>

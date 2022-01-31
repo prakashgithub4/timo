@@ -320,5 +320,6 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('contact', 'CMsController@contact');
   Route::get('about-us', 'CMsController@about');
   Route::get('faqs', 'CMsController@faq');
+  Route::get('dynamic/{id?}', 'CMsController@dynamic')->name('dynamics');
 
 });

@@ -51,7 +51,7 @@
                                     <td>{{$key+1}}</td>
                                     <td>{{$item->name}}</td>
                                     <td><a href='{{route('admin.cms_category.edit',$item->id)}}' class="btn btn-info"><i
-                                                class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.cms.deleted',$item->id)}}"
+                                                class="fas fa-edit"></i></a>&nbsp;<a onclick="return confirm('Are you sure?')" href="{{route('admin.cms_category.deleted',$item->id)}}"
                                             class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                     </td>
                                 </tr>

@@ -4,6 +4,7 @@ use GuzzleHttp\Cookie\SetCookie;
 use App\Models\Product;
 use App\Models\Menu;
 use App\Models\Menu_sub_category;
+use Illuminate\Support\Facades\Crypt;
 
 if (!function_exists('home_discount')) {
   function home_discount($price)
@@ -337,4 +338,22 @@ if(!function_exists('clean'))
       $max = \App\Models\Product::max('cost_per_item');
       return array('min'=>$min,'max'=>$max);
     }
+}
+
+if(!function_exists('encrypt'))
+{
+  function encrypt($id)
+  {
+    $encrypt = Crypt::encryptString($id);
+    return $encrypt;
+  }
+}
+
+if(!function_exists('decrypt'))
+{
+  function decrypt($id)
+  {
+    $encrypt = Crypt::decryptString($id);
+    return $encrypt;
+  }
 }
