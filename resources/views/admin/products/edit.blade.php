@@ -327,6 +327,7 @@
 					);
 				}
 
+<<<<<<< HEAD
                 formData.append('TotalImages', ins);
                 formData.append('id', id);
 
@@ -363,6 +364,27 @@
                 });
             }
 				
+=======
+            formData.append('TotalImages', ins);
+            formData.append('id', id);
+
+            $.ajax({
+                type: 'POST',
+                url: "{{ url('admin/product/upload') }}",
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false,
+                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+                success: (data) => {
+                    alert('Images has been uploaded');
+                     window.location.reload();
+                },
+                error: function(data) {
+                    console.log(data);
+                }
+            });
+>>>>>>> master
         });
     </script>
     <script>

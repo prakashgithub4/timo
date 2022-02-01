@@ -275,6 +275,8 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   /** product details */
   Route::get('product/{id}', 'ProductController@index')->name('product');
   Route::get('shape/detail/{id?}/{slug?}', 'ShapeController@index')->name('shape.details');
+   /** Share product **/
+   Route::post('product/shared','FilterController@shareproduct')->name('product-shared');
   /**compair **/
   Route::get('compair/', 'CompairController@index')->middleware('customer')->name('compair');
   Route::post('compair/add', 'CompairController@addtocmpair')->name('compair.add');
@@ -295,9 +297,10 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::post('diamonds/get/pagelengthwise/diamonds','FilterController@getPagelengthwisedata')->name('lengthwise.data');
   Route::get('product/lengthwis/display','FilterController@getPagelengthwisedata')->name('page.length');
   Route::get('page','FilterController@pageLink')->name('page');
-  Route::get('price-filter','Filtercontroller@priceFilter')->name('price.filter');
   Route::get('diamonds/order-filter','FilterController@orderfilter')->name('order.filter');
-  Route::get('360-filter','Filtercontroller@FilterBy360filter')->name('360.filter');
+  Route::get('threesixty/products/{threesixty?}','FilterController@getThreesixtyProducts')->name('threesixty.products');
+
+  Route::get('diamonds/price','FilterController@filter')->name('price_filter');
 
   /** products with api  */
   Route::get('products/list/all','ApiProductController@index');
@@ -321,5 +324,9 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   Route::get('about-us', 'CMsController@about');
   Route::get('faqs', 'CMsController@faq');
   Route::get('dynamic/{id?}', 'CMsController@dynamic')->name('dynamics');
+
+  /** Product Search**/
+  Route::get('/product-search/{slug?}','FilterController@productsearch')->name('product-search');
+  Route::get('/product-suggestion','FilterController@suggestionProducts')->name('product.suggestion');
 
 });

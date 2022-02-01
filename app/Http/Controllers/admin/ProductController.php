@@ -600,8 +600,10 @@ class ProductController extends Controller
                 File::delete(public_path('uploads/'.$product->seo_title.'/'.$medias[$key]));
               }
          }
-      
        $threesixtyImages = Animated::where('product_id','=',$product_id)->delete();
+       $product = Product::find($product_id);
+       $product->is_threesixty = '0';
+       $product->save();
        return redirect('admin/products')->with('success', '360 Images has been Deleted successfully');
     }
 
@@ -644,7 +646,11 @@ class ProductController extends Controller
                        }
                       
                   }
-                  return response()->json(['status'=>'success','message'=>"File Uploaded"]);
+                
+                  $product = Product::find($product->id);
+                  $product->is_threesixty = '1';
+                  $product->save();
+                 
                 }
                 else if(isset($file_array)&&count($file_array) >= 30)
                 {
