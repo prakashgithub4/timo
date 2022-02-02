@@ -478,45 +478,7 @@ class ProductController extends Controller
 
     public function update(Request $request)
     {
-     
-       // $userid = \Auth::user()->id;
-        
-        // $request->validate([
-        //     'handle' => 'required',
-        //     'title' => 'required',
-        //     'body' => 'required',
-        //     'long_description' => 'required',
-        //     'published' => 'required',
-        // ]);
-        $attribute = array();
-       // $atrributekey = array();
-        if(isset($request->attribute_id)&&count($request->attribute_id) > 0){
-          foreach($request->attribute_id as $key=>$attributes)
-          {
-            //$atrributekey[]= $request->attribute_id[$key];
-            $attribute[] = ['value'=>$request->attribute_value[$key],'attribute_id'=>$request->attribute_id[$key]];
-            $check_attribute = ProductAttribute::where(['pid'=>$request->id,'aid'=>$request->attribute_id[$key]])->first();
-            if(empty($check_attribute))
-            {
-              $product_attribute =  new ProductAttribute();
-              $product_attribute->pid = $request->id;
-              $product_attribute->aid = $request->attribute_id[$key];
-              $product_attribute->attribute_values = $request->attribute_value[$key];
-              $product_attribute->save();
-            }
-            else
-            {
-              $check_attribute->pid = $request->id;
-              $check_attribute->aid = $request->attribute_id[$key];
-              $check_attribute->attribute_values = $request->attribute_value[$key];
-              $check_attribute->save();
-            }
-          
-          }
-        }
-       
-        $attribute_values = isset($attribute) ? json_encode($attribute) :[];
-       
+
         $input_array = array(
             'title' => $request->title,
             'handle' => $request->handle,
@@ -527,68 +489,33 @@ class ProductController extends Controller
             'type' => $request->type,
             'tags' => $request->tags,
             'vendor' => $request->vendor,
-            'attribute_values'=>$attribute_values,
-            //'attribute'=>isset($atrributekey) ? json_encode($atrributekey) :[]
-       
+            'attribute_values'=>$request->attribute_ids,
+            'variant_inventory_qty'=>$request->qty
         );
-        if ($request->id == 0) {
-            
-            return redirect('admin/products')->with('success', 'Product Added successfully');
-        } else {
-            // $this->colors->_update($request->id, $input_array);
-           
             //Saving Attributes
             $product = Product::find($request->id);
             $product->title = $input_array['title'];
             $product->handle = $input_array['handle'];
-            $product->body = $input_array['body'];
+          //  $product->body = $input_array['body'];
             $product->published = $input_array['published'];
             $product->is_purchased = $input_array['is_purchased'];
             $product->type = $input_array['type'];
-            $product->tags = $input_array['tags'];
-            $product->vendor = $input_array['vendor'];
+            //$product->tags = $input_array['tags'];
+            //$product->vendor = $input_array['vendor'];
+            $product->variant_inventory_qty = $input_array['variant_inventory_qty'];
             $product->long_description = $input_array['long_description'];
-            $product->attribute_values = $input_array['attribute_values'];
+            $product->attribute_values = json_encode($input_array['attribute_values']);
             //$product->attribute = $input_array['attribute'];
             $product->save();
-            //$remove_records = Animated::where('product_id','=',$product->id)->get();
-            // $file_array = $request->file('360_images');
-         
-            //  if(isset($file_array)&&count($file_array) <= 30)
-            //  {
-            //      foreach($file_array as $key=>$images)
-            //       { 
-            //            $name1 = $images->getClientOriginalName();
-            //            $ext = explode('.',$name1)[1];
-            //            $name = "pem_".$key.".".$ext;
-            //            if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
-            //            {
-            //              $path = public_path().'/uploads/'.$product->seo_title;
-            //              $images->move($path.'/', $name); 
-            //              chmod($path."/".$name, 0777); 
-            //              $imgData[] = $name;
-            //              $add360_images = new \App\Models\Animated();
-            //              $add360_images->product_id = $request->id;
-            //              $add360_images->image = $imgData[$key];
-            //              $add360_images->added_by = \Auth::user()->id;
-            //              $add360_images->save();
-            //            }
-            //            else
-            //            {
-            //             return redirect('admin/product/edit/'.$request->id)->with('success', 'File format is not Supported');
-            //            }
-                      
-            //       }
-            //     }
-            //     else if(isset($file_array)&&count($file_array) >= 30)
-            //     {
-            //        return redirect('admin/product/edit/'.$request->id)->with('success', 'Please upload below then 30 file');
-            //     }
-            //     else if(count($remove_records) > 1) {
-            //       return redirect('admin/product/edit/'.$request->id)->with('success', 'Please remove previous 360 images');
-            //     }
+            foreach($request->attribute_ids  as $key=>$item) {
+              $product_attribute =  new ProductAttribute();
+              $product_attribute->pid = $request->id;
+              $product_attribute->aid = $item;
+              $product_attribute->attribute_values =$request->attribute_value[$key];
+              $product_attribute->save();
+            }
+
             return redirect('admin/products')->with('success', 'Product has been updated successfully');
-        }
     }
     public function removeAllThreeSixtyImages($product_id)
     {
@@ -660,7 +587,98 @@ class ProductController extends Controller
                 //   return response()->json(['status'=>false,'message'=>"Please remove previous 360 images"]);
                 // }
 
-         }         
+         }
+         
+         public function importProductApi() {
+           try{
+               $response = $this->getProducts();
+               foreach($response as $key=>$products)
+               {
+                $result []=[
+                      'stock_no'=> encrypt($products->Stock_No),
+                      'image_src'=>$products->ImageLink,
+                      'seo_title'=>$products->Diamond_Type,
+                      'current_price'=>number_format($products->Buy_Price, 2, '.', ''),
+                      'old_price'=>number_format($products->Memo_Price,2, '.', ''),
+                      'short_description'=>$products->Clarity_Description
+                  ];
+                  $shapeId = 0;
+                  $colorId = 0;
+                  $shape = Shape::where('name','Like','%'.$products->Shape.'%')->count();
+                
+                  if($shape == 0){
+                      $newshape = new Shape();
+                      $newshape->name = $products->Shape;
+                      $newshape->save();
+                      $shapeId = $newshape->id;
+                  } 
+                  $color = Color::where('name','Like','%'.$products->Color.'%')->count();
+                
+                  if($color == 0) {
+                      $newColor = new Color();
+                      $newColor->name = $products->Color;
+                      $newColor->code = '#0000FF';
+                      $newColor->save();
+                      $colorId = $newColor->id;
+                  } 
+                  $attributes[$key]=[
+                      "Weight",
+                      "Clarity",
+                      "Cut_Grade",
+                      "Polish",
+                      "Symmetry",
+                      "Fluorescence_Intensity",
+                  ];
+                
+                  foreach($attributes[$key] as $attribute) {
+                    $checkattribute = Attribute::where("name",'Like','%'.$attribute.'%')->count();
+                  
+                    if($checkattribute == 0) {
+                      $newAttribute = new Attribute();
+                      $newAttribute->name = $attribute;
+                      $newAttribute->save();
+                    } 
+                  }
+                
+                  $productsdetails = Product::where('variant_SKU','=',$products->Stock_No)->count();
+                  if($productsdetails == 0) {
+                      $newproducts = new Product();
+                      $newproducts->variant_SKU = $products->Stock_No;
+                      $newproducts->type = $products->Diamond_Type;
+                      $newproducts->cost_per_item = $products->Buy_Price;
+                      $newproducts->seo_title = $products->Shape.''.$products->Stock_No;
+                      $newproducts->image_src = $products->ImageLink;
+                      $newproducts->body =$products->Video_HTML;
+                      $newproducts->variant_inventory_qty = 100;
+                      $newproducts->shape = $shapeId;
+                      $newproducts->color = $colorId;
+                      $newproducts->published = 'TRUE';
+                      $newproducts->IsApi = '1';
+                      $newproducts->save();
+                  }
+                  
+              }
+              return redirect('admin/products')->with('success','Product Import Successfully');
+           } catch(\Exception $ex){
+             return response()->json(["message"=>$ex->getMessage()]);
+           }
+         }
+         public function getProducts()
+         {
+             $curl_handle = curl_init();
+             $url = "https://belgiumdia.com/api/DeveloperAPI?APIKEY=5247fe848a82a2de2a9c218b7b0f91c55d5fc2afd595";
+             // Set the curl URL option
+             curl_setopt($curl_handle, CURLOPT_URL, $url);
+     
+             // This option will return data as a string instead of direct output
+             curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, true);
+     
+             // Execute curl & store data in a variable
+             $curl_data = curl_exec($curl_handle);
+             curl_close($curl_handle);
+             // Decode JSON into PHP array
+             $data = json_decode($curl_data);
+             return $data->Stock;
+         }
              
-    
 }

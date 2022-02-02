@@ -198,7 +198,7 @@ Home
                             <div class="custom-row product_row1">
                                 
                                 @foreach ($products as $item)
-                                @php $price = price_rang($item->id); @endphp
+                                @php $price = price_rang($item->id);  @endphp
                                 <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">
@@ -217,8 +217,9 @@ Home
                                                 {{$item->type}}
                                             </div>
                                             <h3><a href="{{route('product',[Crypt::encryptString($item->id)])}}">{{$item->seo_title}}</a></h3>
-                                            <span class="old_price">${{number_format($price['old_price'],2)}}</span>
-                                            <span class="current_price">${{number_format($price['current_price'],2)}}</span>
+                                            
+                                            <span class="old_price">${{isset($price['old_price']) ? number_format($price['old_price'],2): 0.00}}</span>
+                                            <span class="current_price">${{isset($price['old_price']) ?number_format($price['current_price'],2): 0.00}}</span>
                                             <div class="product_hover">
                                                 <!-- <div class="product_ratings">
                                                     <ul>
@@ -283,7 +284,7 @@ Home
                         <div class="product_container bottom">
                             <div class="custom-row product_row1">
                                 @foreach($purchased_product as $item)
-                                @php $price = price_rang($item->id); @endphp
+                                @php $price = price_rang($item->id);  @endphp
                                 <div class="custom-col-5">
                                     <div class="single_product">
                                         <div class="product_thumb">

@@ -204,6 +204,7 @@
                                         <nav>
                                             <ul>
                                                 <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                                                <li class="active"><a href="{{ url('products/list/all') }}">All</a></li>
                                                
                                                 @foreach ($menu as $menus)
                                                     @if (isset($menus['isMega']) && $menus['isMega'] == 1)

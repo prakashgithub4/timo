@@ -62,16 +62,25 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="exampleInputEmail1">Slug</label>
                                     <input type="text" name="slug" class="form-control" id="slug" placeholder="Slug"
                                         value="{{ isset($getProduct) ? $getProduct->slug : '' }}">
                                     @error('Slug')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
+                                    <label for="exampleInputEmail1">Slug</label>
+                                    <input type="text" name="slug" class="form-control" id="slug" placeholder="Slug"
+                                        value="{{ isset($getProduct) ? $getProduct->slug : '' }}">
+                                    @error('Slug')
+                                        <span>{{ $message }}</span>
+                                    @enderror
+                                </div> --}}
+
+                                {{-- <div class="form-group">
                                     <label for="body">Body</label>
                                     <textarea name="body" id="body" class="form-control" required>
                                                             {{ isset($getProduct) ? $getProduct->body : '' }}
@@ -79,7 +88,7 @@
                                     @error('body')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="body">Description</label>
@@ -91,14 +100,14 @@
                                     @enderror
                                 </div>
 
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <label for="exampleInputEmail1">Vendor</label>
                                     <input type="text" name="vendor" class="form-control" id="vendor" placeholder="Vendor"
                                         value="{{ isset($getProduct) ? $getProduct->vendor : '' }}" required>
                                     @error('vendor')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="exampleInputEmail1">Type</label>
@@ -110,13 +119,22 @@
                                 </div>
 
                                 <div class="form-group">
+                                    <label for="exampleInputEmail1">Quantity</label>
+                                    <input type="text" name="qty" class="form-control" id="type" placeholder="Type"
+                                        value="{{ isset($getProduct) ? $getProduct->variant_inventory_qty : '' }}" required>
+                                    @error('qty')
+                                        <span>{{ $message }}</span>
+                                    @enderror
+                                </div>
+
+                                {{-- <div class="form-group">
                                     <label for="exampleInputEmail1">Tags</label>
                                     <input type="text" name="tags" class="form-control" id="tags" placeholder="Tags"
                                         value="{{ isset($getProduct) ? $getProduct->tags : '' }}">
                                     @error('tags')
                                         <span>{{ $message }}</span>
                                     @enderror
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group">
                                     <label for="cms_category">Publish Status</label>
@@ -133,7 +151,7 @@
                                 <?php $attribute_value = json_decode($getProduct->attribute_values); ?>
                                 <div >
                                     <label for="cms_category">Attribute</label>
-                                    <select name="attribute" id="attribute" class="form-control" multiple
+                                    <select name="attribute_ids[]" id="attribute" class="form-control" multiple
                                         onchange="get_attribute(this)">
                                         <option disabled value="">--- Select ---</option>
                                         @foreach ($attributes as $key => $attr)
@@ -262,7 +280,7 @@
                 if (item.selected) {
                     let names = $(item).attr('name_attr');
                     html += `<div class="form-group col-12">
-                                       <input type ="hidden" name ="attribute_id[]" value ="${item.value}"/>
+                                      <input type ="hidden" name ="attribute_id[]" value ="${item.value}"/>
                                       <label>${names}</label>  <input type="text" class="form-control" name="attribute_value[]" value=""/>
                                 </div>`
                 }
@@ -327,7 +345,6 @@
 					);
 				}
 
-<<<<<<< HEAD
                 formData.append('TotalImages', ins);
                 formData.append('id', id);
 
@@ -364,27 +381,6 @@
                 });
             }
 				
-=======
-            formData.append('TotalImages', ins);
-            formData.append('id', id);
-
-            $.ajax({
-                type: 'POST',
-                url: "{{ url('admin/product/upload') }}",
-                data: formData,
-                cache: false,
-                contentType: false,
-                processData: false,
-                headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
-                success: (data) => {
-                    alert('Images has been uploaded');
-                     window.location.reload();
-                },
-                error: function(data) {
-                    console.log(data);
-                }
-            });
->>>>>>> master
         });
     </script>
     <script>

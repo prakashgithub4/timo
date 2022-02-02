@@ -86,6 +86,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'App\Http\Controllers\admin', 
   Route::get('product/ispurchased', 'ProductController@changeispurchasestatus')->name('admin.ispurchase');
   Route::post('product/shipping/cost', 'ProductController@productshippingcost')->name('admin.shipping.cost');
 
+  Route::get('product/import-from-api','ProductController@importProductApi')->name('admin.import.api.products');
+
   Route::get('product/attributes/','ProductController@loadproductattribute')->name('admin.product.attribute');
   Route::get('product/remove/attribute/{id}','ProductController@removeproductattribute')->name('admin.productattribute.remove');
 

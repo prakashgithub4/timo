@@ -432,8 +432,8 @@ Product Details
                                                 {{-- <a href="#">Potato chips</a> --}}
                                             </div>
                                             <h3><a href="{{route('product',[Crypt::encryptString($products->id)])}}">{{$products->seo_title}}</a></h3>
-                                            <span class="old_price">${{number_format($price['old_price'],2)}}</span>
-                                            <span class="current_price">${{number_format($price['current_price'],2)}}</span>
+                                            <span class="old_price">${{isset($price['old_price'])?number_format($price['old_price'],2): 0}}</span>
+                                            <span class="current_price">${{isset($price['current_price'])?number_format($price['current_price'],2):0}}</span>
                                             <div class="product_hover">
                                                 <div class="product_ratings">
                                                     <ul>
