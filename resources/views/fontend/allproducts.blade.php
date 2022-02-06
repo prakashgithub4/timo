@@ -11,7 +11,7 @@ Product List
                 <div class="col-12">
                     
                     <div class="row" id ="products">  
-                                         
+                        <span>Loadin....</span>
                     </div>
                     <div class="shop_toolbar t_bottom">
                         <div class="pagination">
@@ -52,17 +52,19 @@ Product List
        
        
     }
+    var count = 1;
     function createHtml(data)
     {
         
        var html = ``;
        $.each(data.data,function(index,value){
-
+         if(value)
+         {
         html += `<div class="col-lg-3 col-md-4 col-sm-6">
                         
                         <div class="single_product">
                             <div class="product_thumb">
-                                <a class="primary_img" href="#"><img src="${value.image_src}" alt=""></a>
+                                <a class="primary_img" href="${value.detailUrl}"><img src="${value.image_src}" alt="${value.seo_title}"></a>
                                 {{-- <div class="quick_button">
                                     <a  href="javascript:void(0)" > quick view</a>
                                 </div> --}}
@@ -70,39 +72,65 @@ Product List
                             <div class="product_content">
                                 <div class="tag_cate">
                                     <!-- <a href="#">Clothing,</a> -->
-                                    <a href="javascript:void(0)">${value.seo_title}</a>
+                                    <a href="${value.detailUrl}" >${value.seo_title}</a>
                                 </div>
-                                <h3><a href="#">${value.seo_title}</a></h3>
+                                <h3><a href="${value.detailUrl}">${value.type}</a></h3>
                                 <div class="price_box">
-                                    <span class="old_price">${value.old_price}</span>
-                                    <span class="current_price">${value.current_price}</span>
+                                    <span class="old_price"> ${value.old_price}</span>
+                                    <span class="current_price"> ${value.current_price}</span>
                                 </div>
                                 <div class="product_hover">
                                     <div class="product_ratings">
-                                        <ul>
-                                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
-                                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
-                                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
-                                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
-                                            <li><a href="#"><i class="ion-ios-star-outline"></i></a></li>
-                                        </ul>
+                                        
                                     </div>
                                     <div class="product_desc">
                                         <p>${(value.short_description==null)?'':value.short_description}</p>
                                     </div>
-                                    
+                                    <div class="action_links">
+                            
+                                           <ul>
+                                            <li><a href="javascript:addwishlist(${value.id})"  title="${(value.product_wish_list_count > 0) ? 'Added to Wishlist':'Add Wishlist'}" class="${(value.product_wish_list_count > 0) ? 'added_btn':''} wish_${value.id}"><span
+                                                                    class="icon icon-Heart"></span></a></li>
+                                                        <li  class="add_to_cart "><a  class="${(value.isCart > 0) ? 'added_btn' : ''} cart_${value.id}" href="javascript:add_to_cart(${value.id})"  title="${(value.isCart > 0) ? 'Go to Cart':'Add to cart'}">add to 
+                                                                cart</a></li>
+                                                        <li><a href="javascript:compair(${value.id})"  title="${(value.isCompare > 0) ? 'Compared' :'Compare'}" class="${(value.isCompare > 0) ? 'added_btn' :''} compare_${value.isCompare}"><i
+                                                                    class="ion-ios-settings-strong"></i></a></li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div> `;
+                }
        });
        
       
        $("#products").html(html);
        var pagination = `<ul>`;
-       for(let i = 1; i<= data.num_of_pages; i++)
+       var start = 1;
+       var end = data.num_of_pages;
+       if(count > 1){
+        pagination +=`<li><a href="javascript:getPagedata(${start})">&lt;&lt;</a></li>`;
+       }
+       if(count > 1)
        {
-        pagination +=` <li><a href="javascript:void(0)" onclick="getPagedata(${i})">${i}</a></li>`;
+        pagination +=`<li class="next"><a href="javascript:getPagedata(${count - 1})">Prev</a></li>`
+       }
+       if(count > end)
+       {
+         count = count;
+       }
+       else
+       {
+        count = count + 1;
+       }
+       for(let i = count-1; i< count; i++)
+       {
+        pagination +=` <li id="paging_${i}" class=${(count==i)?'current':''}><a href="javascript:void(0)" onclick="getPagedata(${i})">${i}</a></li>`;
+       }
+       if(end > 1 && count< end)
+       {
+        pagination +=`<li class="next"><a href="javascript:getPagedata(${count + 1})">next</a></li><li><a href="javascript:getPagedata(${end})">&gt;&gt;</a></li></ul></div>`;
        }
        pagination +="</ul>";
        $(".pagination").html(pagination);
@@ -118,6 +146,7 @@ Product List
             data:{page_no:page_no}
         });
         console.log(response);
+        count = page_no;
         createHtml(response)
         }
         catch(error){
@@ -130,15 +159,4 @@ Product List
 
 
 
-{{-- 
-    <div class="action_links">
-                            
-    <ul>
-    <li><a href="wishlist.html" data-placement="top" title="Add to Wishlist" data-toggle="tooltip"><span class="icon icon-Heart"></span></a></li>
-    <li class="add_to_cart"><a href="cart.html" title="add to cart">add to cart</a></li>
-    <li><a href="compare.html" title="compare"><i class="ion-ios-settings-strong"></i></a></li>
-   </ul>
-   
-                                    </div>
-   --}}
     

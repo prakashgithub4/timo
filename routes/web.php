@@ -307,6 +307,7 @@ Route::group(['namespace' => 'App\Http\Controllers\fontend'], function () {
   /** products with api  */
   Route::get('products/list/all','ApiProductController@index');
   Route::get('product/list/ajax','ApiProductController@productlist')->name('product.ajax.list');
+  Route::get('product/details/{stock_no}','ApiProductController@getProductDetail')->name('api.product.details');
 
   /** Product Menu Detail */
   Route::get('menu-details/{menu_id?}','FilterController@product_menu_details')->name('menu.details');

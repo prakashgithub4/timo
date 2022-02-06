@@ -25,12 +25,25 @@ class ApiProductController extends Controller
     }
 
     public function productlist(Request $request)
-    {
-        $product = Product::where('published','=','TRUE')->get();
+    {   
+        $querystring = $request->query();
+        $page =isset($querystring['page_no']) ?(int)$querystring['page_no'] : 1;
+        $offset = ($page) * $this->pagesize;
+        $product = Product::where('published','=','TRUE');
+        $product = $product->orderBy('id','DESC');
+        $product = $product->offset($offset);
+        $product = $product->take($this->pagesize);
+        $product = $product->get();
          foreach($product as $key=>$products)
          {
             $price = price_rang($products->id);
             $result []=[
+                'id'=>$products->id,
+                'type'=>$products->type,
+                'product_wish_list_count'=>$products->product_wish_list_count,
+                'isCart'=>$products->isCart,
+                'isCompare'=>$products->isCompare,
+                'detailUrl'=>route('product',[\Crypt::encryptString($products->id)]),
                 'stock_no'=> encrypt($products->variant_SKU),
                 'image_src'=>$products->image_src,
                 'seo_title'=>$products->seo_title,
@@ -39,14 +52,11 @@ class ApiProductController extends Controller
                 'short_description'=>$products->Clarity_Description
             ];
         }
-
-         $result3 = $result;
-         $querystring = $request->query();
-         $page =!empty($querystring['page_no']) ?(int)$querystring['page_no'] : 1;
-         $offset = ($page - 1) * $this->pagesize;
-         $total_num_of_page[] = ceil(count($result3)/$this->pagesize);
-         $pagination = array_slice($result3, $offset, $this->pagesize);
-         return response()->json(['stat'=>true,'data'=>$pagination,'num_of_pages'=>$total_num_of_page,'current_page'=>$page]);
+      
+        // $result3 = $result;  
+         $total_num_of_page = ceil(count($result)/$this->pagesize);
+       //  $pagination = array_slice($result, $offset, $this->pagesize);
+         return response()->json(['stat'=>true,'data'=>$result,'num_of_pages'=>count($product),'current_page'=>$page]);
     
 }
     public function getProducts()

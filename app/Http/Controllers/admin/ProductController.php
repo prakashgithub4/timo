@@ -554,7 +554,7 @@ class ProductController extends Controller
                   { 
                        $name1 = $images->getClientOriginalName();
                        $ext = explode('.',$name1)[1];
-                       $name = "pem_".time().".".$ext;
+                       $name = "pem_".$key.".".$ext;
                        if($ext == 'jpg' || $ext == 'jpeg' || $ext == 'png')
                        {
                          $path = public_path().'/uploads/'.$product->seo_title;

@@ -24,13 +24,12 @@ class ProductController extends Controller
       $attribute_array = [];
       $product_image_array =[];
       $related_images = [];
-      $product = Product::select('products.id','products.type','products.body','products.seo_title','products.color','products.image_src','products.seo_description','products.attribute_values','products.long_description','colors.name as cname','sizes.size','shapes.name as sname')
+      $product = Product::select('products.id','products.type','products.body','products.seo_title','products.color','products.image_src','products.seo_description','products.attribute_values','products.long_description','colors.name as cname','sizes.size','shapes.name as sname','products.IsApi')
       ->leftJoin('colors','colors.id','=','products.color')
       ->leftJoin('sizes','sizes.id','=','products.size')
       ->leftJoin('shapes','shapes.id','=','products.shape')
       ->where('products.id',$product_id)
       ->first();
-      
      
       $attribute_array[] =['value' =>$product->cname,'name'=>'Color'];
       $attribute_array[] =['value'=>$product->sname,'name'=>'Shape'];
@@ -40,15 +39,17 @@ class ProductController extends Controller
        {
           foreach($product_attribute_values as $key=>$attributes)
           {
-            $attribute = Attribute::where('id',$attributes->attribute_id)->first();
-            $attribute_array[] = [
-              'name' =>$attribute->name,
-              'value'=>$attributes->value,
-              'key'=>$key+1
-            ];
-          }
+            if(isset($attributes->attribute_id)){
+                $attribute = Attribute::where('id','=',$attributes->attribute_id)->first();
+                $attribute_array[] = [
+                  'name' =>$attribute->name,
+                  'value'=>$attributes->value,
+                  'key'=>$key+1
+                ];
+              }
+            }
        }
-
+    
        $attribute_data =  PA::select('attributes.name as name','product_attribute_mapping.attribute_values as value')
        ->leftjoin('attributes', 'product_attribute_mapping.aid', '=', 'attributes.id')
        ->leftjoin('products', 'product_attribute_mapping.pid', '=', 'products.id')

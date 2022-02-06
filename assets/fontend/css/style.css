@@ -12326,3 +12326,111 @@ button.clicked:before {
   text-align: center;
   padding: 70px 0px;
 }
+
+
+
+.dento-contact-area {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+.dento-contact-area .google-maps {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 470px;
+    margin-bottom: 80px;
+}
+@media only screen and (max-width: 767px) {
+    .dento-contact-area .google-maps {
+        height: 280px;
+    }
+}
+.dento-contact-area .google-maps iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+.contact-information-t {
+    position: relative;
+    z-index: 1;
+    padding: 56px 50px;
+    background-color: #e02423;
+    border-radius: 3px;
+}
+@media only screen and (max-width: 767px) {
+    .contact-information-t {
+        margin-bottom: 100px;
+    }
+}
+.contact-information-t h5 {
+    color: #fff;
+    font-size: 20px;
+}
+.contact-information-t p {
+    color: #fff;
+    margin-bottom: 38px;
+    font-size: 15px;
+}
+.contact-form {
+    position: relative;
+    z-index: 1;
+}
+.contact-form .form-control {
+    width: 100%;
+    height: 46px;
+    padding: 0 15px;
+    font-size: 13px;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+.contact-form .form-control:focus {
+    box-shadow: none;
+    border-color: #e02423;
+}
+.contact-form textarea.form-control {
+    height: 110px;
+    padding: 15px;
+}
+.section-heading {
+    position: relative;
+    z-index: 1;
+    margin-bottom: 50px;
+}
+.section-heading h2 {
+    font-size: 36px;
+    text-transform: capitalize;
+    margin-bottom: 20px;
+}
+.section-heading .line {
+    width: 70px;
+    height: 4px;
+    background-color: #e02423;
+}
+.dento-btn {
+    position: relative;
+    z-index: 1;
+    min-width: 170px;
+    height: 46px;
+    line-height: 42px;
+    font-size: 14px;
+    font-weight: 600;
+    display: inline-block;
+    padding: 0 20px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+    border-radius: 2px;
+    background-color: #e02423;
+    -webkit-transition: all 500ms;
+    -o-transition: all 500ms;
+    transition: all 500ms;
+    border: 2px solid #e02423;
+    line-height: 20px;
+}
+.dento-btn.active, .dento-btn:focus, .dento-btn:hover {
+    box-shadow: none;
+    background-color: transparent;
+    color: #e02423;
+}
