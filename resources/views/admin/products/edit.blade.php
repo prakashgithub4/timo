@@ -197,7 +197,7 @@
                                                 @endforeach
 
                                                 <a href="{{ url('admin/remove/thresixty/' . $getProduct->id) }}"
-                                                    class="btn btn-danger" style="height:35px;margin-left:10px;"><i class="fas fa-trash"></i></a>
+                                                    class="btn btn-danger" style="height:35px;margin-left:10px;" onclick="IsRemove()"><i class="fas fa-trash"></i></a>
                                             </div>
                                            
                                         </div>
@@ -288,6 +288,16 @@
             $('#attribute_value').html(html);
         }
     </script>
+    <script>
+        function IsRemove(){
+            let remove = confirm("Are you sure want to remove images ?");
+            if(remove) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
     <!-- /.content -->
 @endsection
 @section('script')
@@ -325,7 +335,6 @@
             </tr>`;
             })
             $("#attr_table").html(html);
-            console.log(response.data)
 
         }
 
@@ -361,7 +370,7 @@
                         
                         $.dialog({
                             title: 'Success!',
-                            content: content,
+                            content: 'Image Uploaded Successfully',
                         });
 
                         if(data.status != false){
