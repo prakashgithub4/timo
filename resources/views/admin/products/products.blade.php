@@ -39,7 +39,7 @@
                     <div class="card-body">
                         <label><a href="{{ route('admin.product.add') }}" class="btn btn-success">Add</a></label>
                         <label><a href="{{ route('admin.products.export') }}" class="btn btn-info">Export</a></label>
-                        <label><a  href="{{route('admin.import.api.products')}}" class="btn btn-info">Import</a></label>
+                        <label><a  href="{{route('admin.import.api.products')}}" class="btn btn-info">Import <i class="fas fa-download"></i></a></label>
                         <table id="example2" class="table table-bordered table-hover">
                             <thead>
                                 <tr>

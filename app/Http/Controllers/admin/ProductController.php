@@ -30,6 +30,7 @@ class ProductController extends Controller
   {
     $this->middleware('admin');
     $this->product = $product;
+    ini_set('max_execution_time', 0);
   }
 
   public function add()
@@ -589,80 +590,281 @@ class ProductController extends Controller
 
          }
          
-         public function importProductApi() {
-           try{
-               $response = $this->getProducts();
-               foreach($response as $key=>$products)
-               {
-                $result []=[
-                      'stock_no'=> encrypt($products->Stock_No),
-                      'image_src'=>$products->ImageLink,
-                      'seo_title'=>$products->Diamond_Type,
-                      'current_price'=>number_format($products->Buy_Price, 2, '.', ''),
-                      'old_price'=>number_format($products->Memo_Price,2, '.', ''),
-                      'short_description'=>$products->Clarity_Description
-                  ];
-                  $shapeId = 0;
-                  $colorId = 0;
-                  $shape = Shape::where('name','Like','%'.$products->Shape.'%')->count();
-                
-                  if($shape == 0){
-                      $newshape = new Shape();
-                      $newshape->name = $products->Shape;
-                      $newshape->save();
-                      $shapeId = $newshape->id;
-                  } 
-                  $color = Color::where('name','Like','%'.$products->Color.'%')->count();
-                
-                  if($color == 0) {
-                      $newColor = new Color();
-                      $newColor->name = $products->Color;
-                      $newColor->code = '#0000FF';
-                      $newColor->save();
-                      $colorId = $newColor->id;
-                  } 
-                  $attributes[$key]=[
-                      "Weight",
-                      "Clarity",
-                      "Cut_Grade",
-                      "Polish",
-                      "Symmetry",
-                      "Fluorescence_Intensity",
-                  ];
-                
-                  foreach($attributes[$key] as $attribute) {
-                    $checkattribute = Attribute::where("name",'Like','%'.$attribute.'%')->count();
+        //  public function importProductApi() {
+        //    try{
+        //        $response = $this->getProducts();
+        //        $result = [];
+        //        $result ['attributes'] = ['Weight','Clarity','Cut Grade','Polish','Symmetry','Fluorescence Intensity'];
+        //        $attributeId = 0;
+        //        $shapeId = 0;
+        //        $colorId = 0;
+        //        $product_id = 0;
+
+        //        if($response!=null) {
+
+               
+        //        foreach($response as $key=>$products)
+        //        {
+             
+        //           $productsdetails = Product::where('variant_SKU','=',$products->Stock_No)->count();
                   
-                    if($checkattribute == 0) {
-                      $newAttribute = new Attribute();
-                      $newAttribute->name = $attribute;
-                      $newAttribute->save();
-                    } 
-                  }
-                
-                  $productsdetails = Product::where('variant_SKU','=',$products->Stock_No)->count();
-                  if($productsdetails == 0) {
-                      $newproducts = new Product();
-                      $newproducts->variant_SKU = $products->Stock_No;
-                      $newproducts->type = $products->Diamond_Type;
-                      $newproducts->cost_per_item = $products->Buy_Price;
-                      $newproducts->seo_title = $products->Shape.''.$products->Stock_No;
-                      $newproducts->image_src = $products->ImageLink;
-                      $newproducts->body =$products->Video_HTML;
-                      $newproducts->variant_inventory_qty = 100;
-                      $newproducts->shape = $shapeId;
-                      $newproducts->color = $colorId;
-                      $newproducts->published = 'TRUE';
-                      $newproducts->IsApi = '1';
-                      $newproducts->save();
-                  }
+        //           if($productsdetails == 0) {
+        //             $result ['product'][] = [
+        //               'variant_SKU' => $products->Stock_No, 
+        //               'type' => $products->Diamond_Type, 
+        //               'cost_per_item' => $products->Buy_Price,
+        //               'seo_title'=>$products->Shape.''.$products->Stock_No,
+        //               'image_src'=>$products->ImageLink,
+        //               'body'=>$products->Video_HTML,
+        //               'variant_inventory_qty'=>100,
+        //               'Clarity' =>$products->Clarity,
+        //               'Cut_Grade' =>$products->Cut_Grade,
+        //               'Polish'=>$products->Polish,
+        //               'Symmetry'=>$products->Symmetry,
+        //               'Fluorescence_Intensity'=>$products->Fluorescence_Intensity,
+        //               'Weight'=>$products->Weight,
+        //               'Shape'=>
+        //               'IsApi'=>'1',
+
+        //             ];
+        //             //   $newproducts = new Product();
+        //             //   $newproducts->variant_SKU = $products->Stock_No;
+        //             //   $newproducts->type = $products->Diamond_Type;
+        //             //   $newproducts->cost_per_item = $products->Buy_Price;
+        //             //   $newproducts->seo_title = $products->Shape.''.$products->Stock_No;
+        //             //   $newproducts->image_src = $products->ImageLink;
+        //             //   $newproducts->body =$products->Video_HTML;
+        //             //   $newproducts->variant_inventory_qty = 100;
+        //             //   //$newproducts->shape = $shapeId;
+        //             //  // $newproducts->color = $colorId;
+        //             //   $newproducts->published = 'TRUE';
+        //             //   $newproducts->IsApi = '1';
+        //             //   $newproducts->save();
                   
+                    
+
+        //             //   foreach($result ['attributes'] as $attribute) {
+        //             //     $attributecheck = Attribute::where('name','Like','%'.$attribute.'%')->count();
+        //             //     if($attributecheck <= 0) {
+        //             //       $add_attribute = new Attribute();
+        //             //       $add_attribute->name = $attribute;
+        //             //       $add_attribute->userId = \Auth::user()->id;
+        //             //       $add_attribute->save();
+        //             //       $attributeId = $add_attribute->id;
+        //             //     } else {
+        //             //       $add_attribute = Attribute::where('name','Like','%'.$attribute.'%')->first();
+        //             //       $attributeId = $add_attribute->id;
+        //             //     } 
+        //             //   }
+  
+        //             //  $result ['attributes_values'][] = [
+        //             //   'Stock_No'=>$products->Stock_No,
+        //             //   'Weight'=>$products->Weight,
+        //             //   'Clarity'=>$products->Clarity,
+        //             //   'Cut_Grade'=>$products->Cut_Grade,
+        //             //   'Polish'=>$products->Polish,
+        //             //   'Symmetry'=>$products->Symmetry,
+        //             //   'Fluorescence_Intensity'=>$products->Fluorescence_Intensity,
+        //             // ];
+        //             // foreach($result ['attributes_values'] as $attributes) {
+        //             //   if(isset($attributes['Weight'])){
+        //             //     $productAttributeMap = new PAMapping();
+        //             //     $productAttributeMap->attribute_values = $attributes['Weight'];
+        //             //     $productAttributeMap->aid = $attributeId;
+        //             //     $productAttributeMap->pid = $product_id;
+        //             //     $productAttributeMap->save();
+        //             //   }
+        //             //   if(isset($attributes['Clarity'])){
+        //             //     $productAttributeMap = new PAMapping();
+        //             //     $productAttributeMap->attribute_values = $attributes['Clarity'];
+        //             //     $productAttributeMap->aid = $attributeId;
+        //             //     $productAttributeMap->pid = $product_id;
+        //             //     $productAttributeMap->save();
+        //             //   }
+        //             //   if(isset($attributes['Cut_Grade'])){
+        //             //     $productAttributeMap = new PAMapping();
+        //             //     $productAttributeMap->attribute_values = $attributes['Cut_Grade'];
+        //             //     $productAttributeMap->aid = $attributeId;
+        //             //     $productAttributeMap->pid = $product_id;
+        //             //     $productAttributeMap->save();
+        //             //   }
+        //             //   if(isset($attributes['Symmetry'])){
+        //             //     $productAttributeMap = new PAMapping();
+        //             //     $productAttributeMap->attribute_values = $attributes['Polish'];
+        //             //     $productAttributeMap->aid = $attributeId;
+        //             //     $productAttributeMap->pid = $product_id;
+        //             //     $productAttributeMap->save();
+        //             //   }
+        //             //   if(isset($attributes['Fluorescence_Intensity'])){
+        //             //     $productAttributeMap = new PAMapping();
+        //             //     $productAttributeMap->attribute_values = $attributes['Polish'];
+        //             //     $productAttributeMap->aid = $attributeId;
+        //             //     $productAttributeMap->pid = $product_id;
+        //             //     $productAttributeMap->save();
+        //             //   }
+        //              } 
+        //              if(count($result ['product']) <= 10) {
+        //                Product::insert($result ['product']);
+        //              }
+                   
+                  
+        //           }
+        //           return redirect('admin/products')->with('success','Maximum Request Limit is exceed');
+        //       }
+        //       return redirect('admin/products')->with('success','Product Import Successfully');
+             
+            
+             
+        //    } catch(\Exception $ex){
+        //      return response()->json(["message"=>$ex->getMessage()]);
+        //    }
+        //  }
+        
+        public function importProductApi() {
+          session_start();
+          try{
+            
+              $response =[];
+              $local = [];
+              $shapeId = 0;
+              $colorId = 0;
+              $attributeId = 0;
+              $product_id = 0;
+         
+              if(isset($_SESSION['products']))
+              {
+                  $response =  $_SESSION['products'];
               }
-              return redirect('admin/products')->with('success','Product Import Successfully');
-           } catch(\Exception $ex){
-             return response()->json(["message"=>$ex->getMessage()]);
-           }
-         }
+              else{
+                  $response_data = $this->getProducts();
+                  $_SESSION['products'] = $response_data;
+                  $response =  $_SESSION['products'];
+              }
+             $limit  = 20;
+             $page = 1;
+             $totalProducts = count($response);
+           //  $totalPages = ceil($totalProducts/$limit);
+             $offset =( $page < 0 ) ? $offset = 0: ($page - 1) * $limit;
+             //$page = max($page, 1);
+           //  $page = min($page, $totalPages);
+             $response2 = array_slice($response,$offset,$limit);
+           // echo"<pre>"; print_r(count($response2)); exit;
+           //  $totalProducts = count($response);
+           $attributes=[
+            "Weight",
+            "Clarity",
+            "Cut Grade",
+            "Polish",
+            "Symmetry",
+            "Fluorescence Intensity",
+        ];
+      
+              foreach($response2 as $key=>$products)
+              {
+               $result []=[
+                     'stock_no'=> encrypt($products->Stock_No),
+                     'image_src'=>$products->ImageLink,
+                     'seo_title'=>$products->Diamond_Type,
+                     'current_price'=>number_format($products->Buy_Price, 2, '.', ''),
+                     'old_price'=>number_format($products->Memo_Price,2, '.', ''),
+                     'short_description'=>$products->Clarity_Description
+                 ];
+                 
+                 $shape = Shape::where('name','Like','%'.$products->Shape.'%')->count();
+                 if($shape == 0){
+                     $newshape = new Shape();
+                     $newshape->name = $products->Shape;
+                     $newshape->save();
+                     $shapeId = $newshape->id;
+                 } 
+                 $color = Color::where('name','Like','%'.$products->Color.'%')->count();
+               
+                 if($color == 0) {
+                     $newColor = new Color();
+                     $newColor->name = $products->Color;
+                     $newColor->code = '#0000FF';
+                     $newColor->save();
+                     $colorId = $newColor->id;
+                 } 
+                
+                 
+                 foreach($attributes as $attribute) {
+                 
+                   $checkattribute = Attribute::where("name",'Like','%'.$attribute.'%')->count();
+                   if($checkattribute <= 0) {
+                     $newAttribute = new Attribute();
+                     $newAttribute->name = $attribute;
+                     $newAttribute->save();
+                     $attributeId =  $newAttribute->id;
+                   } else {
+                    $checkattribute = new Attribute();
+                    $checkattribute->name = $attribute;
+                    $checkattribute->save();
+                    $attributeId =  $checkattribute->id;
+                   }
+                 }
+              
+               
+                 $productsdetails = Product::where('variant_SKU','=',$products->Stock_No)->count();
+                 if($productsdetails == 0) {
+                     $newproducts = new Product();
+                     $newproducts->variant_SKU = $products->Stock_No;
+                     $newproducts->type = $products->Diamond_Type;
+                     $newproducts->cost_per_item = $products->Buy_Price;
+                     $newproducts->seo_title = $products->Shape.''.$products->Stock_No;
+                     $newproducts->image_src = $products->ImageLink;
+                     $newproducts->body =$products->Video_HTML;
+                     $newproducts->variant_inventory_qty = 100;
+                     $newproducts->shape = $shapeId;
+                     $newproducts->color = $colorId;
+                     $newproducts->published = 'TRUE';
+                     $newproducts->IsApi = '1';
+                     $newproducts->save();
+                     $product_id = $newproducts->id;
+                 }
+                //$checkproduct = PAMapping::where('pid','=', $product_id)->first();
+                if($products->Clarity) {
+                 $neproductAttribut = new PAMapping();
+                 $neproductAttribut->pid = $product_id;
+                 $neproductAttribut->aid = $attributeId;
+                 $neproductAttribut->attribute_values = $products->Clarity;
+                 $neproductAttribut->save();
+                }
+                if($products->Cut_Grade) {
+                 $neproductAttribut = new PAMapping();
+                 $neproductAttribut->pid = $product_id;
+                 $neproductAttribut->aid = $attributeId;
+                 $neproductAttribut->attribute_values = $products->Cut_Grade;
+                 $neproductAttribut->save();
+                }
+                if($products->Polish) {
+                 $neproductAttribut = new PAMapping();
+                 $neproductAttribut->pid = $product_id;
+                 $neproductAttribut->aid = $attributeId;
+                 $neproductAttribut->attribute_values = $products->Polish;
+                 $neproductAttribut->save();
+                }
+                if($products->Symmetry) {
+                 $neproductAttribut = new PAMapping();
+                 $neproductAttribut->pid = $product_id;
+                 $neproductAttribut->aid = $attributeId;
+                 $neproductAttribut->attribute_values = $products->Symmetry;
+                 $neproductAttribut->save();
+                }
+                if($products->Fluorescence_Intensity) {
+                 $neproductAttribut = new PAMapping();
+                 $neproductAttribut->pid = $product_id;
+                 $neproductAttribut->aid = $attributeId;
+                 $neproductAttribut->attribute_values = $products->Fluorescence_Intensity;
+                 $neproductAttribut->save();
+                }
+                 
+             }
+             return redirect('admin/products')->with('success','Product Import Successfully');
+          } catch(\Exception $ex){
+            return response()->json(["message"=>$ex->getMessage()]);
+          }
+        }
          public function getProducts()
          {
              $curl_handle = curl_init();
